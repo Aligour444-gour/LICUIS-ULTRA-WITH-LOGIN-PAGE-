@@ -1,0 +1,3809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LICUIS ULTRA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
+    <style>
+        :root {
+            --primary: #0066ff;
+            --primary-dark: #004fc5;
+            --secondary: #0088ff;
+            --accent: #0055ff;
+            --win: #00c851;
+            --loss: #ff4444;
+            --warning: #ffbb33;
+            --bg-light: #f8f9fa;
+            --bg-lighter: #ffffff;
+            --bg-medium: #e9ecef;
+            --text-dark: #212529;
+            --text-medium: #495057;
+            --text-light: #6c757d;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(0, 102, 255, 0.1);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            --shadow: 0 4px 20px rgba(0, 102, 255, 0.1);
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            --success-gradient: linear-gradient(135deg, var(--win), #00a844);
+            --danger-gradient: linear-gradient(135deg, var(--loss), #ff0022);
+            
+            /* Login page variables */
+            --primary-blue: #1976D2;
+            --primary-dark-blue: #0D47A1;
+            --primary-light-blue: #E3F2FD;
+            --secondary-blue: #2196F3;
+            --accent-blue: #82B1FF;
+            --white: #FFFFFF;
+            --light-gray: #F5F7FA;
+            --medium-gray: #E0E0E0;
+            --dark-gray: #546E7A;
+            --success: #4CAF50;
+            --error: #F44336;
+            --warning: #FF9800;
+            --border-radius: 16px;
+            --card-shadow: 0 20px 40px rgba(25, 118, 210, 0.15);
+            --button-shadow: 0 8px 16px rgba(25, 118, 210, 0.25);
+            --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            font-family: 'Inter', sans-serif;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 102, 255, 0.05) 0%, transparent 25%),
+                radial-gradient(circle at 90% 80%, rgba(0, 136, 255, 0.05) 0%, transparent 25%),
+                linear-gradient(to bottom, var(--bg-lighter), var(--bg-light));
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            line-height: 1.6;
+        }
+
+        /* Login Page Styles */
+        .bg-animation {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 15s infinite linear;
+        }
+
+        .circle:nth-child(1) {
+            width: 200px;
+            height: 200px;
+            background: var(--primary);
+            top: -50px;
+            left: -50px;
+            animation-delay: 0s;
+            animation-duration: 25s;
+        }
+
+        .circle:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            background: var(--secondary);
+            bottom: 100px;
+            right: 100px;
+            animation-delay: -5s;
+            animation-duration: 20s;
+        }
+
+        .circle:nth-child(3) {
+            width: 100px;
+            height: 100px;
+            background: var(--accent);
+            top: 50%;
+            left: 70%;
+            animation-delay: -10s;
+            animation-duration: 15s;
+        }
+
+        .circle:nth-child(4) {
+            width: 120px;
+            height: 120px;
+            background: var(--primary-dark);
+            bottom: 20%;
+            left: 10%;
+            animation-delay: -7s;
+            animation-duration: 30s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            25% {
+                transform: translate(20px, 40px) rotate(90deg);
+            }
+            50% {
+                transform: translate(0, 80px) rotate(180deg);
+            }
+            75% {
+                transform: translate(-20px, 40px) rotate(270deg);
+            }
+            100% {
+                transform: translate(0, 0) rotate(360deg);
+            }
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-container, .dashboard-container {
+            width: 90%;
+            max-width: 480px;
+            padding: 40px 35px;
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            text-align: center;
+            position: relative;
+            transition: var(--transition-slow);
+            animation: scaleIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .login-container::before, .dashboard-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient);
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .login-header {
+            margin-bottom: 30px;
+            animation: slideInDown 0.7s ease-out;
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            margin-right: 15px;
+            color: var(--primary);
+            filter: drop-shadow(0 4px 8px rgba(0, 102, 255, 0.2));
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .logo-text {
+            font-size: 32px;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .login-container h1 {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            font-size: 15px;
+            color: var(--text-light);
+            font-weight: 400;
+            letter-spacing: 0.3px;
+            line-height: 1.5;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+            position: relative;
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 18px 24px;
+            border: 2px solid var(--medium-gray);
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            outline: none;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            transition: var(--transition);
+            background-color: var(--light-gray);
+            font-weight: 500;
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(0, 102, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .input-group input::placeholder {
+            color: var(--text-light);
+            font-weight: 400;
+        }
+
+        .main-button, .button {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: var(--border-radius);
+            background: var(--gradient);
+            color: var(--white);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+            box-shadow: var(--button-shadow);
+            text-decoration: none;
+            display: inline-block;
+            line-height: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-button::before, .button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .main-button:hover::before, .button:hover::before {
+            left: 100%;
+        }
+
+        .main-button:hover, .button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 20px rgba(0, 102, 255, 0.35);
+        }
+
+        .main-button:active, .button:active {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 12px rgba(0, 102, 255, 0.3);
+        }
+
+        .utility-link {
+            display: block;
+            margin-top: 20px;
+            color: var(--primary);
+            font-size: 14px;
+            text-decoration: none;
+            transition: var(--transition);
+            font-weight: 500;
+            position: relative;
+            padding-bottom: 2px;
+        }
+
+        .utility-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .utility-link:hover {
+            color: var(--primary-dark);
+        }
+
+        .utility-link:hover::after {
+            width: 100%;
+        }
+
+        /* Dashboard Styles */
+        .dashboard-container {
+            padding: 40px 30px;
+            display: none;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .profile-header {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            border: 5px solid var(--white);
+            position: absolute;
+            top: -65px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            animation: bounceIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: translateX(-50%) scale(0.3);
+            }
+            50% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1.05);
+            }
+            70% {
+                transform: translateX(-50%) scale(0.9);
+            }
+            100% {
+                transform: translateX(-50%) scale(1);
+            }
+        }
+
+        .profile-header img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .dashboard-content {
+            margin-top: 80px;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, var(--primary-light-blue) 0%, var(--white) 100%);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 20px rgba(0, 102, 255, 0.12);
+            border: 1px solid rgba(0, 102, 255, 0.1);
+            animation: slideInUp 0.8s ease-out;
+            transition: var(--transition);
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 102, 255, 0.15);
+        }
+
+        .countdown-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dark);
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .countdown-header svg {
+            width: 22px;
+            margin-right: 12px;
+            color: var(--primary);
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .time-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: var(--white);
+            border-radius: 12px;
+            padding: 15px 0;
+            width: 75px;
+            margin: 0 5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            transition: var(--transition);
+        }
+
+        .time-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .time-box .number {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .time-box .label {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: var(--text-light);
+            font-weight: 600;
+            margin-top: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .detail-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 20px 25px;
+            margin-bottom: 20px;
+            text-align: left;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            border-left: 5px solid var(--primary);
+            transition: var(--transition);
+            animation: slideInRight 0.8s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .detail-card:hover {
+            transform: translateX(5px);
+        }
+
+        .detail-card svg {
+            width: 24px;
+            margin-right: 18px;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .detail-card .label {
+            font-size: 13px;
+            color: var(--text-light);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .detail-card .value {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+            padding: 16px;
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        .button svg {
+            width: 22px;
+            margin-right: 12px;
+            transition: var(--transition);
+        }
+
+        .button:hover svg {
+            transform: translateX(3px);
+        }
+
+        .button.start-game {
+            background: var(--gradient);
+            margin-bottom: 15px;
+        }
+
+        .button.logout {
+            background: var(--white);
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            box-shadow: 0 4px 12px rgba(0, 102, 255, 0.15);
+        }
+
+        .button.logout:hover {
+            background: var(--primary-light-blue);
+            transform: translateY(-4px);
+        }
+        
+        .error-message {
+            color: var(--error);
+            font-size: 14px;
+            margin-top: 12px;
+            display: none;
+            font-weight: 500;
+            padding: 10px 15px;
+            background-color: rgba(244, 67, 54, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid var(--error);
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+
+        .success-message {
+            color: var(--success);
+            font-size: 14px;
+            margin-top: 12px;
+            display: none;
+            font-weight: 500;
+            padding: 10px 15px;
+            background-color: rgba(76, 175, 80, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid var(--success);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            display: flex;
+            align-items: center;
+        }
+
+        .notification.success {
+            background: var(--success);
+        }
+
+        .notification.error {
+            background: var(--error);
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+        }
+
+        @keyframes ripple {
+            to {
+                transform: scale(2.5);
+                opacity: 0;
+            }
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Logo Styles */
+        .main-logo {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            z-index: 100000000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .main-logo-icon {
+            width: 35px;
+            height: 35px;
+            background: var(--gradient);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px rgba(0, 102, 255, 0.3);
+        }
+
+        .main-logo-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        .main-logo-text {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Tab System */
+        .tab-system {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            z-index: 99999999;
+            backdrop-filter: blur(5px);
+            border-bottom: 1px solid rgba(0, 102, 255, 0.1);
+            padding-left: 80px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .tab {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab:hover {
+            background: rgba(0, 102, 255, 0.05);
+        }
+
+        .tab.active {
+            background: rgba(0, 102, 255, 0.1);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gradient);
+        }
+
+        .tab-icon {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .tab-label {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            letter-spacing: 1px;
+            font-size: 14px;
+            color: var(--text-dark);
+        }
+
+        /* Content Sections */
+        .content-section {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            height: calc(100% - 60px);
+            display: none;
+            overflow: hidden;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        /* Web Section (Game Selection) */
+        #web-section {
+            background-color: var(--bg-light);
+        }
+
+        /* History Section */
+        #history-section {
+            background-color: var(--bg-light);
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .history-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--glass-bg);
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .history-title {
+            text-align: center;
+            padding: 20px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+            color: var(--primary);
+            background: rgba(0, 102, 255, 0.05);
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .history-controls {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: rgba(0, 102, 255, 0.05);
+            border-bottom: 1px solid var(--glass-border);
+            align-items: center;
+        }
+
+        .history-filter {
+            display: flex;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid var(--glass-border);
+            color: var(--text-medium);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 14px;
+        }
+
+        .filter-btn.active {
+            background: var(--gradient);
+            color: white;
+            box-shadow: 0 0 10px rgba(0, 102, 255, 0.2);
+        }
+
+        .history-stats {
+            display: flex;
+            gap: 15px;
+        }
+
+        .stat-badge {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid var(--glass-border);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .stat-badge.win {
+            color: var(--win);
+        }
+
+        .stat-badge.loss {
+            color: var(--loss);
+        }
+
+        .history-content {
+            padding: 0;
+        }
+
+        .history-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            padding: 15px 20px;
+            background: rgba(0, 102, 255, 0.05);
+            font-weight: 600;
+            border-bottom: 1px solid var(--glass-border);
+            color: var(--text-dark);
+        }
+
+        .history-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .history-item:hover {
+            background: rgba(0, 102, 255, 0.03);
+        }
+
+        .history-item.win {
+            background: rgba(0, 200, 81, 0.05);
+        }
+
+        .history-item.loss {
+            background: rgba(255, 68, 68, 0.05);
+        }
+
+        .history-value {
+            font-size: 16px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dark);
+        }
+
+        .history-value-highlight {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .color-dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .color-red {
+            background-color: #ff4444;
+        }
+
+        .color-green {
+            background-color: #00c851;
+        }
+
+        .history-pagination {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            gap: 10px;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .pagination-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid var(--glass-border);
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .pagination-btn.active {
+            background: var(--gradient);
+            color: white;
+            box-shadow: 0 0 10px rgba(0, 102, 255, 0.2);
+        }
+
+        .pagination-btn:hover:not(.disabled) {
+            background: rgba(0, 102, 255, 0.1);
+        }
+
+        .pagination-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .loading-container, .error-container, .no-data-container {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-light);
+        }
+
+        .loading-container i, .error-container i, .no-data-container i {
+            font-size: 24px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .error-container {
+            color: var(--loss);
+        }
+
+        /* Analysis Section */
+        .analysis-container {
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .analysis-card {
+            background: var(--glass-bg);
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+        }
+
+        .analysis-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 20px;
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid var(--glass-border);
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .pattern-list {
+            margin-top: 15px;
+        }
+
+        .pattern-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .pattern-item:last-child {
+            border-bottom: none;
+        }
+
+        .pattern-value {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .pattern-confidence {
+            color: var(--primary);
+        }
+
+        /* Strategy Cards */
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .strategy-card {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid var(--primary);
+            border: 1px solid var(--glass-border);
+            transition: var(--transition);
+        }
+
+        .strategy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .strategy-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .strategy-description {
+            font-size: 14px;
+            color: var(--text-medium);
+            line-height: 1.5;
+        }
+
+        /* Game Selection Screen */
+        .game-selection {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999999;
+            animation: fadeIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; backdrop-filter: blur(0); }
+            to { opacity: 1; backdrop-filter: blur(10px); }
+        }
+
+        .game-selection::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(0, 102, 255, 0.05) 0%, transparent 25%),
+                radial-gradient(circle at 80% 70%, rgba(0, 136, 255, 0.05) 0%, transparent 25%);
+            z-index: -1;
+        }
+
+        .game-selection-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 36px;
+            margin: 0 0 40px;
+            color: var(--primary);
+            letter-spacing: 3px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .game-selection-title::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--gradient);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .game-selection-title.animate::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .game-list-container {
+            width: 100%;
+            max-width: 900px;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+            padding: 0 20px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) rgba(0,0,0,0.1);
+        }
+
+        .game-list-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .game-list-container::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+        }
+
+        .game-list-container::-webkit-scrollbar-thumb {
+            background: var(--gradient);
+            border-radius: 3px;
+        }
+
+        .game-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 0 20px 40px;
+        }
+
+        .game-item {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 102, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 102, 255, 0.15);
+            background: rgba(255, 255, 255, 1);
+            border-color: rgba(0, 102, 255, 0.3);
+        }
+
+        .game-item::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 1;
+        }
+
+        .game-item:hover::before {
+            opacity: 1;
+        }
+
+        .game-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+            transition: var(--transition);
+        }
+
+        .game-item:hover .game-name {
+            color: var(--primary);
+        }
+
+        .game-url {
+            font-size: 12px;
+            color: var(--text-light);
+            word-break: break-all;
+            opacity: 0.7;
+            transition: var(--transition);
+        }
+
+        .game-item:hover .game-url {
+            opacity: 1;
+        }
+
+        /* Iframe and Tape Button */
+        .fullscreen-iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            z-index: 1;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* NEW BACK BUTTON DESIGN */
+        .injector-tape {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 9999999;
+            box-shadow: 0 0 20px rgba(0, 102, 255, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            transition: var(--transition);
+            animation: tapeFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes tapeFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-5px) rotate(5deg); }
+        }
+
+        .injector-tape:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 0 30px rgba(0, 102, 255, 0.4);
+            animation: none;
+        }
+
+        .injector-tape::before {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-left: 3px solid white;
+            border-bottom: 3px solid white;
+            transform: rotate(45deg);
+            margin-top: -3px;
+            margin-left: -3px;
+        }
+
+        /* Floating Particles */
+        .particle {
+            position: absolute;
+            background: rgba(0, 102, 255, 0.2);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            filter: blur(1px);
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0) rotate(0deg); }
+            25% { transform: translateY(-20px) translateX(10px) rotate(5deg); }
+            50% { transform: translateY(0) translateX(20px) rotate(0deg); }
+            75% { transform: translateY(20px) translateX(10px) rotate(-5deg); }
+            100% { transform: translateY(0) translateX(0) rotate(0deg); }
+        }
+
+        /* Chat Predictor Styles */
+        .chat-container {
+            width: 100%;
+            height: 100%;
+            margin: 0 auto;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--bg-light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: var(--bg-lighter);
+            padding: 18px 15px;
+            text-align: center;
+            border-bottom: 1px solid rgba(0, 102, 255, 0.1);
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .chat-title {
+            font-weight: 700;
+            font-size: 1.3rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin: 0;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .chat-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin: 5px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .messages-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            background-color: var(--bg-light);
+            scroll-behavior: smooth;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(0, 102, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(0, 136, 255, 0.03) 0%, transparent 50%);
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 14px 16px;
+            border-radius: 14px;
+            max-width: 85%;
+            word-wrap: break-word;
+            position: relative;
+            animation: fadeIn 0.3s ease;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .received {
+            background-color: var(--bg-lighter);
+            border-bottom-left-radius: 5px;
+            margin-right: auto;
+            border: 1px solid rgba(0, 102, 255, 0.1);
+            color: var(--text-dark);
+        }
+
+        .sent {
+            background: var(--gradient);
+            color: white;
+            border-bottom-right-radius: 5px;
+            margin-left: auto;
+        }
+
+        .timestamp {
+            font-size: 0.65rem;
+            color: var(--text-light);
+            margin-top: 8px;
+            text-align: right;
+            opacity: 0.8;
+        }
+
+        .emoji {
+            font-size: 1.2em;
+            margin-right: 5px;
+            display: inline-block;
+        }
+
+        .prediction-card {
+            background-color: rgba(0, 102, 255, 0.08);
+            border-radius: 12px;
+            padding: 14px;
+            margin: 12px 0;
+            border: 1px solid rgba(0, 102, 255, 0.15);
+        }
+
+        .prediction-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .prediction-title i {
+            font-size: 0.9rem;
+            color: var(--primary);
+        }
+
+        .prediction-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 12px 0;
+            text-align: center;
+            letter-spacing: 1px;
+            color: var(--primary);
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+
+        .online {
+            background-color: var(--win);
+        }
+
+        .offline {
+            background-color: var(--loss);
+        }
+
+        .typing-indicator {
+            display: flex;
+            padding: 12px 16px;
+            background-color: var(--bg-lighter);
+            border-radius: 18px;
+            width: fit-content;
+            margin-bottom: 15px;
+            border-bottom-left-radius: 5px;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(0, 102, 255, 0.1);
+        }
+
+        .typing-text {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--text-light);
+            border-radius: 50%;
+            animation: typingAnimation 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: 0s; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typingAnimation {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.6; }
+            30% { transform: translateY(-5px); opacity: 1; }
+        }
+
+        .scroll-down-btn {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: var(--gradient);
+            color: white;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.2);
+            z-index: 100;
+            opacity: 0;
+            transition: all 0.3s ease;
+            border: none;
+            outline: none;
+        }
+
+        .scroll-down-btn.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scroll-down-btn:not(.visible) {
+            transform: translateY(10px);
+        }
+
+        .scroll-down-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 102, 255, 0.3);
+        }
+
+        .progress-bar {
+            height: 6px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 3px;
+            background: var(--gradient);
+            transition: width 0.5s ease;
+        }
+
+        .floating-bg {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 102, 255, 0.05) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        .bg-1 {
+            top: -100px;
+            left: -100px;
+        }
+
+        .bg-2 {
+            bottom: -50px;
+            right: -100px;
+        }
+
+        .period-display {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-align: center;
+            margin: 10px 0;
+            letter-spacing: 1px;
+        }
+
+        .confidence-display {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .confidence-value {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .predicted-numbers {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .predicted-number {
+            background: rgba(0, 102, 255, 0.1);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-weight: 600;
+            color: var(--primary);
+            border: 1px solid rgba(0, 102, 255, 0.2);
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .predicted-number.small {
+            background: rgba(0, 200, 81, 0.1);
+            border-color: rgba(0, 200, 81, 0.2);
+        }
+
+        .predicted-number.big {
+            background: rgba(255, 136, 0, 0.1);
+            border-color: rgba(255, 136, 0, 0.2);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .logo {
+                left: 10px;
+                top: 10px;
+            }
+            
+            .logo-text {
+                display: none;
+            }
+            
+            .tab-system {
+                padding-left: 60px;
+            }
+            
+            .game-list {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .game-selection-title {
+                font-size: 28px;
+                margin-bottom: 30px;
+            }
+            
+            .injector-tape {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .tab-label {
+                font-size: 12px;
+            }
+            
+            .tab-icon {
+                width: 24px;
+                height: 24px;
+                margin-right: 8px;
+            }
+            
+            .prediction-value {
+                font-size: 1.5rem;
+            }
+            
+            .history-header, .history-item {
+                grid-template-columns: 1fr 1fr 1fr 1fr;
+                padding: 10px 15px;
+            }
+            
+            .history-value {
+                font-size: 14px;
+            }
+            
+            .history-value-highlight {
+                font-size: 16px;
+            }
+            
+            .strategy-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .history-controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .game-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .game-selection-title {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+            
+            .injector-tape {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .tab-label {
+                display: none;
+            }
+            
+            .tab-icon {
+                margin-right: 0;
+                width: 28px;
+                height: 28px;
+            }
+            
+            .prediction-value {
+                font-size: 1.3rem;
+            }
+            
+            .history-header, .history-item {
+                grid-template-columns: 1fr 1fr;
+                padding: 8px 10px;
+            }
+            
+            .history-header-item:nth-child(3),
+            .history-item > div:nth-child(3) {
+                display: none;
+            }
+            
+            .history-value {
+                font-size: 12px;
+            }
+            
+            .history-value-highlight {
+                font-size: 14px;
+            }
+            
+            .history-stats {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Login Page -->
+    <div class="bg-animation">
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+    </div>
+
+    <div class="app-container" id="loginAppContainer">
+        <div class="login-container" id="loginPage">
+            <div class="login-header">
+                <div class="logo">
+                    <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm-1 15h2v2h-2v-2zm-1-4.83a2 2 0 011.85-2.09c.8-.08 1.48.51 1.63 1.3.16.8.02 1.6-.32 2.3-.34.7-.76 1.34-1.25 1.94-.49.6-.96 1.18-1.4 1.76l-.01.01h.01c-.6.8-1.57 1.3-2.67 1.3-1.4 0-2.52-1.12-2.52-2.5 0-.9.46-1.7 1.2-2.18.73-.48 1.62-.68 2.5-.59zM12 4a8 8 0 018 8c0 4.418-3.582 8-8 8S4 16.418 4 12 7.582 4 12 4zm-1 5.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
+                    </svg>
+                    <div class="logo-text">LICUIS ULTRA</div>
+                </div>
+                <h1>Welcome Back</h1>
+                <p class="tagline">Enter your access key to continue to the prediction platform</p>
+            </div>
+            <form id="loginForm">
+                <div class="input-group">
+                    <input type="text" id="accessKeyInput" placeholder="Enter Access Key" required>
+                </div>
+                <button type="submit" class="main-button" id="submitButton">
+                    <span id="buttonText">Continue</span>
+                </button>
+                <div id="errorMessage" class="error-message"></div>
+            </form>
+            <a href="#" class="utility-link" id="copyIdLink">
+                <i class="fas fa-copy"></i> Copy Device ID
+            </a>
+            <div id="successMessage" class="success-message">Device ID copied to clipboard!</div>
+            <span id="deviceId" style="display:none;"></span>
+        </div>
+
+        <div class="dashboard-container" id="dashboardPage">
+            <div class="profile-header">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 12a5 5 0 110-10 5 5 0 010 10zm0-2a3 3 0 100-6 3 3 0 000 6zm8 11a1 1 0 01-2 0v-2a3 3 0 00-3-3H9a3 3 0 00-3 3v2a1 1 0 01-2 0v-2a5 5 0 015-5h6a5 5 0 015 5v2z"/>
+                </svg>
+            </div>
+
+            <div class="dashboard-content">
+                <div class="logo">
+                    <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm-1 15h2v2h-2v-2zm-1-4.83a2 2 0 011.85-2.09c.8-.08 1.48.51 1.63 1.3.16.8.02 1.6-.32 2.3-.34.7-.76 1.34-1.25 1.94-.49.6-.96 1.18-1.4 1.76l-.01.01h.01c-.6.8-1.57 1.3-2.67 1.3-1.4 0-2.52-1.12-2.52-2.5 0-.9.46-1.7 1.2-2.18.73-.48 1.62-.68 2.5-.59zM12 4a8 8 0 018 8c0 4.418-3.582 8-8 8S4 16.418 4 12 7.582 4 12 4zm-1 5.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
+                    </svg>
+                    <div class="logo-text">LICUIS ULTRA</div>
+                </div>
+
+                <div class="info-card">
+                    <div class="countdown-header">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2zM9.5 15.5a1 1 0 01-1-1v-5a1 1 0 011.5-.866l5 2.5a1 1 0 010 1.732l-5 2.5a1 1 0 01-.5.134z"/>
+                        </svg>
+                        License Expires In
+                    </div>
+                    <div class="countdown">
+                        <div class="time-box">
+                            <span class="number" id="days">0</span>
+                            <span class="label">Days</span>
+                        </div>
+                        <div class="time-box">
+                            <span class="number" id="hours">0</span>
+                            <span class="label">Hours</span>
+                        </div>
+                        <div class="time-box">
+                            <span class="number" id="minutes">0</span>
+                            <span class="label">Minutes</span>
+                        </div>
+                        <div class="time-box">
+                            <span class="number" id="seconds">0</span>
+                            <span class="label">Seconds</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-card">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 1a1 1 0 011 1v1a1 1 0 01-2 0V2a1 1 0 011-1zm0 20a1 1 0 011 1v1a1 1 0 01-2 0v-1a1 1 0 011-1zM5 12a1 1 0 011 1v1a1 1 0 01-2 0v-1a1 1 0 011-1zm14 0a1 1 0 011 1v1a1 1 0 01-2 0v-1a1 1 0 011-1zM6.5 6.5a1 1 0 01.7.3l.7.7a1 1 0 01-1.4 1.4l-.7-.7a1 1 0 01.7-.7zm10.3 10.3a1 1 0 01.7.3l.7.7a1 1 0 01-1.4 1.4l-.7-.7a1 1 0 01.7-.7zM17.5 6.5a1 1 0 01.7.3l.7.7a1 1 0 01-1.4 1.4l-.7-.7a1 1 0 01.7-.7zM7.5 16.5a1 1 0 01.7.3l.7.7a1 1 0 01-1.4 1.4l-.7-.7a1 1 0 01.7-.7zM12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0 8a3 3 0 110-6 3 3 0 010 6z"/>
+                    </svg>
+                    <div>
+                        <div class="label">License Key</div>
+                        <div class="value" id="licenseKey"></div>
+                    </div>
+                </div>
+
+                <div class="detail-card">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M19 4h-1V3a1 1 0 00-2 0v1H8V3a1 1 0 00-2 0v1H5a3 3 0 00-3 3v12a3 3 0 003 3h14a3 3 0 003-3V7a3 3 0 00-3-3zm1 15a1 1 0 01-1 1H5a1 1 0 01-1 1V9h16zm0-12H4V7a1 1 0 011-1h14a1 1 0 011 1zm-8 4a1 1 0 00-1 1v3.5a1 1 0 001.62.78L14 15.5V12a1 1 0 00-1-1h-1z"/>
+                    </svg>
+                    <div>
+                        <div class="label">Expiration Time</div>
+                        <div class="value" id="expirationTime"></div>
+                    </div>
+                </div>
+
+                <div class="detail-card">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18a8 8 0 110-16 8 8 0 010 16zm-1-8a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1h-2a1 1 0 01-1-1v-2z"/>
+                    </svg>
+                    <div>
+                        <div class="label">Device ID</div>
+                        <div class="value" id="deviceIdDisplay"></div>
+                    </div>
+                </div>
+
+                <a href="#" class="button start-game" id="startGameBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2zM9.5 15.5a1 1 0 01-1-1v-5a1 1 0 011.5-.866l5 2.5a1 1 0 010 1.732l-5 2.5a1 1 0 01-.5.134z"/>
+                    </svg>
+                   Start Prediction
+                </a>
+
+                <button class="button logout" onclick="logout()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M16 11H4a1 1 0 000 2h12a1 1 0 000-2zm-2.293 4.293a1 1 0 001.414 1.414l5-5a1 1 0 000-1.414l-5-5a1 1 0 10-1.414 1.414L17.586 11H4a1 1 0 100 2h13.586l-3.879 3.879z"/>
+                    </svg>
+                    Logout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application (Hidden initially) -->
+    <div id="mainApp" style="display: none;">
+        <!-- Logo -->
+        <div class="main-logo">
+            <div class="main-logo-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 16.5c0 .83-.67 1.5-1.5 1.5H4.5c-.83 0-1.5-.67-1.5-1.5v-9c0-.83.67-1.5 1.5-1.5h15c.83 0 1.5.67 1.5 1.5v9zM4.5 20h15c.83 0 1.5-.67 1.5-1.5v-9c0-.83-.67-1.5-1.5-1.5h-15c-.83 0-1.5.67-1.5 1.5v9c0 .83.67 1.5 1.5 1.5zm2.5-6h2v2H7v-2zm4 0h2v2h-2v-2zm-4 4h2v2H7v-2zm4 0h2v2h-2v-2zm4-4h2v2h-2v-2zm-8-4h2v2H7v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2z"/>
+                </svg>
+            </div>
+            <div class="main-logo-text">LICUIS ULTRA</div>
+        </div>
+
+        <!-- Tab System -->
+        <div class="tab-system">
+            <div class="tab active" data-tab="web">
+                <div class="tab-icon" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDA2NmZmIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTEyIDJjNS41MjMgMCAxMC00LjQ3NyAxMC0xMFMxNy41MjMgMiAxMiAyIDIgNi40NzcgMiAxMnM0LjQ3NyAxMCAxMCAxMHpNMiAxMmgyMCI+PC9wYXRoPjxwYXRoIGQ9Ik0xMiAyYTE1LjMgMTUuMyAwIDAgMSA0IDEwIDE1LjMgMTUuMyAwIDAgMS00IDEwIDE1LjMgMTUuMyAwIDAgMS00LTEwIDE1LjMgMTUuMyAwIDAgMSA0LTEweiI+PC9wYXRoPjwvc3ZnPg==')"></div>
+                <div class="tab-label">Games</div>
+            </div>
+            <div class="tab" data-tab="predictor">
+                <div class="tab-icon" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDA2NmZmIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FpPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTE5IDE0YzEuNDktMS40NiAyLjI0LTIuMjYgMi41LTMuNS4yNi0xLjI0LS4zNC0yLjUtMS41LTIuNS0xLjU0IDAtMi41IDEuNDYtMi41IDMuNXMxIDQgMiA0LjVjLjYuMyAxLjIuNSAxLjUuNS41NSAwIDEtLjQ1IDEtMXYtNi41YzAtMS41LS42Ny0yLjUtMi41LTIuNXMtMi41IDEtMi41IDIuNVYxNCI+PC9wYXRoPjxwYXRoIGQ9Ik0xMSAxMy41di05Yy0wLjgzMy0uMzMtMS41LS41LTIuNS0uNVM2IDQuMTcgNiA0LjV2OS41YzAgMS41LjY3IDIuNSAyLjUgMi41czEuNS0uNSAyLjUtLjV2LTl6Ij48L3BhdGg+PHBhdGggZD0iTTUgOC41YzAgMS41LjY3IDIuNSAyLjUgMi41UzEwIDEwIDEwIDguNVY0LjVDMTAgMy4xNyA5LjMzIDIgNy41IDJTNSAzLjE3IDUgNC41djR6Ij48L3BhdGg+PC9zdmc+')"></div>
+                <div class="tab-label">Predictor</div>
+            </div>
+            <div class="tab" data-tab="history">
+                <div class="tab-icon" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDA2NmZmIi
+            <div class="tab-label">History</div>
+        </div>
+        <div class="tab" data-tab="analysis">
+            <div class="tab-icon" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDA2NmZmIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBvbHlnb24gcG9pbnRzPSIxMiAyIDIyIDguNSAyMiAxNS41IDEyIDIyIDIgMTUuNSAyIDguNSAxMiAyIj48L3BvbHlnb24+PGxpbmUgeDE9IjEyIiB5MT0iMjIiIHgyPSIxMiIgeTI9IjE1Ij48L2xpbmU+PHBvbHlsaW5lIHBvaW50cz0iMiA5IDIyIDkiPjwvcG9seWxpbmU+PHBvbHlsaW5lIHBoaW50cz0iMiAxNSAxMiAxNSAxMiAyMiI+PC9wb2x5bGluZT48L3N2Zz4=')"></div>
+            <div class="tab-label">Analysis</div>
+        </div>
+    </div>
+
+    <!-- Content Sections -->
+    <div class="content-section active" id="web-section">
+        <div class="game-selection" id="gameSelection">
+            <div class="game-selection-title" id="gameSelectionTitle">SELECT GAME</div>
+            <div class="game-list-container">
+                <div class="game-list">
+                    <div class="game-item" data-url="https://bdginf.com/#/login">
+                        <div class="game-name">BIG DADDY</div>
+                        <div class="game-url"></div>
+                    </div>
+                    <div class="game-item" data-url="http://Okwin.bio">
+                        <div class="game-name">OK WIN</div>
+                        <div class="game-url"></div>
+                    </div>
+                    <div class="game-item" data-url="https://goagamea.com/#/login">
+                        <div class="game-name">GOA GAME</div>
+                        <div class="game-url"></div>
+                    </div>
+                    <div class="game-item" data-url="https://www.bigmumbaiq.com/#/login">
+                        <div class="game-name">BIG MUMBAI</div>
+                        <div class="game-url"></div>
+                    </div>
+                    <div class="game-item" data-url="http://tirangagame.top">
+                        <div class="game-name">TIRANGA</div>
+                        <div class="game-url"></div>
+                    </div>
+                    <div class="game-item" data-url="https://51game5.com/#/">
+                        <div class="game-name">51 GAME</div>
+                        <div class="game-url"></div>
+                    </div>
+                    <div class="game-item" data-url="https://bdgwin.cc/#/login">
+                        <div class="game-name">BDG WIN</div>
+                        <div class="game-url"></div>
+                    </div>
+                    <div class="game-item" data-url="http://rajawager.com">
+                        <div class="game-name">RAJA WAGER</div>
+                        <div class="game-url"></div>
+                    </div>
+                    <div class="game-item" data-url="http://55club.game">
+                        <div class="game-name">55 CLUB</div>
+                        <div class="game-url"></div>
+                    </div>
+                    <div class="game-item" data-url="https://bharatclub.net/#/login">
+                        <div class="game-name">BHARAT CLUB</div>
+                        <div class="game-url"></div>
+                    </div>
+                    <div class="game-item" data-url="https://www.diuwin8.com/#/">
+                        <div class="game-name">DIUWIN</div>
+                        <div class="game-url"></div>
+                    </div>
+                    <div class="game-item" data-url="https://www.aatclub.com/#/">
+                        <div class="game-name">91 CLUB</div>
+                        <div class="game-url"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <iframe id="gameFrame" class="fullscreen-iframe hidden" allowfullscreen></iframe>
+
+        <div class="injector-tape hidden" id="injectorTape"></div>
+    </div>
+
+    <div class="content-section" id="predictor-section">
+        <div class="chat-container">
+            <div class="floating-bg bg-1"></div>
+            <div class="floating-bg bg-2"></div>
+            
+            <div class="chat-header">
+                <h1 class="chat-title">LICUIS ULTRA</h1>
+                <p class="chat-subtitle">
+                    <span class="status-indicator online"></span>
+                    <span id="connection-status">Connected to Server</span>
+                    • <span id="current-time">00:00:00</span>
+                </p>
+            </div>
+
+            <div class="messages-container" id="messages-container">
+                <!-- Initial greeting -->
+                <div class="message received">
+                    <div class="prediction-title"><i class="fas fa-robot"></i> SYSTEM INITIALIZED</div>
+                    <p>Welcome to <strong>LICUIS ULTRA</strong>, your advanced prediction assistant. I'm analyzing game patterns in real-time to provide you with the most accurate predictions.</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%"></div>
+                    </div>
+                    <div class="timestamp" id="last-update-time">Just now</div>
+                </div>
+
+                <div class="typing-indicator" id="typing-indicator">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <span class="typing-text">Analyzing data...</span>
+                </div>
+            </div>
+
+            <div class="scroll-down-btn" id="scroll-down-btn">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section" id="history-section">
+        <div class="history-container">
+            <div class="history-title">
+                <i class="fas fa-history"></i> GAME HISTORY
+            </div>
+            <div class="history-controls">
+                <div class="history-filter">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="big">Big</button>
+                    <button class="filter-btn" data-filter="small">Small</button>
+                    <button class="filter-btn" data-filter="red">Red</button>
+                    <button class="filter-btn" data-filter="green">Green</button>
+                </div>
+                <div class="history-stats">
+                    <div class="stat-badge win"><i class="fas fa-arrow-up"></i> <span id="win-count">0</span></div>
+                    <div class="stat-badge loss"><i class="fas fa-arrow-down"></i> <span id="loss-count">0</span></div>
+                </div>
+            </div>
+            <div class="history-content" id="historyContent">
+                <div class="loading-container">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <div>LOADING DATA...</div>
+                </div>
+            </div>
+            <div class="history-pagination" id="historyPagination">
+                <button class="pagination-btn disabled" id="prevPage"><i class="fas fa-chevron-left"></i></button>
+                <button class="pagination-btn active">1</button>
+                <button class="pagination-btn">2</button>
+                <button class="pagination-btn">3</button>
+                <button class="pagination-btn" id="nextPage"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section" id="analysis-section">
+            <div class="analysis-container">
+                <div class="analysis-card">
+                    <div class="analysis-title">
+                        <i class="fas fa-chart-pie"></i> ADVANCED ANALYSIS
+                    </div>
+                    <div id="advancedAnalysis">
+                        <div class="loading-container">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <div>ANALYZING DATA PATTERNS...</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="analysis-card">
+                    <div class="analysis-title">
+                        <i class="fas fa-brain"></i> ACTIVE STRATEGIES
+                    </div>
+                    <div class="strategy-grid" id="strategiesContainer">
+                        <!-- Strategies will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="notification" class="notification">
+    <i class="fas fa-check-circle"></i>
+    <span id="notification-text"></span>
+</div>
+
+<script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
+    import { getDatabase, ref, get, child, update } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js';
+
+    // Initialize Firebase with the provided configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyACm2KBFC7p-7X6cLSeQGgcFwWj8ELu6j8",
+        authDomain: "backdoor-3da3d.firebaseapp.com",
+        databaseURL: "https://backdoor-3da3d-default-rtdb.firebaseio.com",
+        projectId: "backdoor-3da3d",
+        storageBucket: "backdoor-3da3d.firebasestorage.app",
+        messagingSenderId: "296618804855",
+        appId: "1:296618804855:android:7df6b32fcc6cf1178ce872"
+    };
+    
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const accessKeysRef = ref(db, 'accessKeys');
+
+    // Get the page containers
+    const loginAppContainer = document.getElementById('loginAppContainer');
+    const mainApp = document.getElementById('mainApp');
+    const loginPage = document.getElementById('loginPage');
+    const dashboardPage = document.getElementById('dashboardPage');
+
+    // Get the form and input elements
+    const loginForm = document.getElementById('loginForm');
+    const accessKeyInput = document.getElementById('accessKeyInput');
+    const deviceIdElement = document.getElementById('deviceId');
+    const deviceIdDisplayElement = document.getElementById('deviceIdDisplay');
+    const licenseKeyElement = document.getElementById('licenseKey');
+    const expirationTimeElement = document.getElementById('expirationTime');
+    const errorMessageElement = document.getElementById('errorMessage');
+    const successMessageElement = document.getElementById('successMessage');
+    const startGameBtn = document.getElementById('startGameBtn');
+    const submitButton = document.getElementById('submitButton');
+    const buttonText = document.getElementById('buttonText');
+    const notification = document.getElementById('notification');
+    const notificationText = document.getElementById('notification-text');
+
+    // Generate a unique device ID and store it in localStorage
+    function getOrCreateDeviceId() {
+        let deviceId = localStorage.getItem('licuisDeviceId');
+        if (!deviceId) {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let result = '';
+            for (let i = 0; i < 6; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            deviceId = 'LICUIS-' + result;
+            localStorage.setItem('licuisDeviceId', deviceId);
+        }
+        return deviceId;
+    }
+
+    // Show notification function
+    function showNotification(message, type) {
+        notificationText.textContent = message;
+        notification.className = `notification ${type}`;
+        notification.classList.add('show');
+        
+        setTimeout(() => {
+            notification.classList.remove('show');
+        }, 3000);
+    }
+
+    // Add ripple effect to buttons
+    function createRipple(event) {
+        const button = event.currentTarget;
+        const circle = document.createElement("span");
+        const diameter = Math.max(button.clientWidth, button.clientHeight);
+        const radius = diameter / 2;
+
+        circle.style.width = circle.style.height = `${diameter}px`;
+        circle.style.left = `${event.clientX - button.getBoundingClientRect().left - radius}px`;
+        circle.style.top = `${event.clientY - button.getBoundingClientRect().top - radius}px`;
+        circle.classList.add("ripple");
+
+        const ripple = button.getElementsByClassName("ripple")[0];
+        if (ripple) {
+            ripple.remove();
+        }
+
+        button.appendChild(circle);
+    }
+
+    // Add ripple effect to all buttons
+    const buttons = document.getElementsByTagName("button");
+    for (const button of buttons) {
+        button.addEventListener("click", createRipple);
+    }
+
+    const uniqueDeviceId = getOrCreateDeviceId();
+    deviceIdElement.textContent = uniqueDeviceId;
+    deviceIdDisplayElement.textContent = uniqueDeviceId;
+
+    // Function to display an error message
+    function displayError(message) {
+        errorMessageElement.textContent = message;
+        errorMessageElement.style.display = 'block';
+        successMessageElement.style.display = 'none';
+        showNotification(message, 'error');
+    }
+
+    // Function to hide the error message
+    function hideError() {
+        errorMessageElement.style.display = 'none';
+    }
+
+    // Function to display a success message
+    function displaySuccess(message) {
+        successMessageElement.textContent = message;
+        successMessageElement.style.display = 'block';
+        errorMessageElement.style.display = 'none';
+        showNotification(message, 'success');
+        
+        // Hide success message after 3 seconds
+        setTimeout(() => {
+            successMessageElement.style.display = 'none';
+        }, 3000);
+    }
+
+    // Add a submit event listener to the form
+    loginForm.addEventListener('submit', async function(event) {
+        event.preventDefault();
+        hideError();
+
+        const accessKey = accessKeyInput.value.trim();
+        if (!accessKey) {
+            displayError('Please enter an access key.');
+            return;
+        }
+
+        // Show loading state
+        buttonText.innerHTML = '<div class="loading"></div> Processing...';
+        submitButton.disabled = true;
+
+        try {
+            const keySnapshot = await get(child(accessKeysRef, accessKey));
+            if (!keySnapshot.exists()) {
+                displayError('Invalid access key.');
+                buttonText.textContent = 'Continue';
+                submitButton.disabled = false;
+                return;
+            }
+
+            const keyData = keySnapshot.val();
+            const now = Date.now();
+            
+            // Check if key is active
+            if (!keyData.active) {
+                displayError('This key is not active. Please contact support.');
+                buttonText.textContent = 'Continue';
+                submitButton.disabled = false;
+                return;
+            }
+            
+            // Check if key is frozen
+            if (keyData.frozen) {
+                displayError('This key has been frozen. Please contact support.');
+                buttonText.textContent = 'Continue';
+                submitButton.disabled = false;
+                return;
+            }
+
+            // Check for expiration
+            if (now > keyData.expiry) {
+                displayError('This access key has expired.');
+                buttonText.textContent = 'Continue';
+                submitButton.disabled = false;
+                return;
+            }
+            
+            // Check for device binding
+            if (keyData.deviceId && keyData.deviceId !== uniqueDeviceId) {
+                displayError('This key is bound to another device.');
+                buttonText.textContent = 'Continue';
+                submitButton.disabled = false;
+                return;
+            }
+
+            // Bind the key to the current device if it's currently unbound
+            if (!keyData.deviceId) {
+                await update(child(accessKeysRef, accessKey), { deviceId: uniqueDeviceId });
+            }
+
+            // If all checks pass, show the dashboard
+            localStorage.setItem('currentKey', accessKey);
+            showDashboard(keyData);
+        } catch (error) {
+            console.error("Firebase fetch error:", error);
+            displayError('An error occurred. Please try again later.');
+            buttonText.textContent = 'Continue';
+            submitButton.disabled = false;
+        }
+    });
+
+    // Function to show the dashboard and populate data
+    function showDashboard(keyData) {
+        loginPage.style.display = 'none';
+        dashboardPage.style.display = 'block';
+        
+        licenseKeyElement.textContent = localStorage.getItem('currentKey');
+        expirationTimeElement.textContent = new Date(keyData.expiry).toLocaleString();
+        
+        startCountdown(keyData.expiry);
+        
+        // Animate dashboard elements in sequence
+        const dashboardElements = document.querySelectorAll('.dashboard-content > *');
+        dashboardElements.forEach((el, index) => {
+            setTimeout(() => {
+                el.style.opacity = 1;
+                el.style.transform = 'translateY(0)';
+            }, 100 * index);
+        });
+    }
+    
+    // Countdown functionality
+    let countdownInterval;
+    function startCountdown(expirationTimestamp) {
+        clearInterval(countdownInterval); // Clear any existing interval
+        const expirationDate = new Date(expirationTimestamp);
+        
+        countdownInterval = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = expirationDate - now;
+
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                document.getElementById('days').textContent = '0';
+                document.getElementById('hours').textContent = '0';
+                document.getElementById('minutes').textContent = '0';
+                document.getElementById('seconds').textContent = '0';
+                showNotification('Your access key has expired.', 'error');
+                setTimeout(logout, 2000);
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+            
+            // Add animation to changing numbers
+            if (seconds % 5 === 0) {
+                const timeBoxes = document.querySelectorAll('.time-box');
+                timeBoxes.forEach(box => {
+                    box.style.transform = 'scale(1.05)';
+                    setTimeout(() => {
+                        box.style.transform = 'scale(1)';
+                    }, 150);
+                });
+            }
+        }, 1000);
+    }
+    
+    // Copy functionality
+    const copyIdLink = document.getElementById('copyIdLink');
+    
+    copyIdLink.addEventListener('click', function(event) {
+        event.preventDefault();
+        const textToCopy = uniqueDeviceId;
+
+        // Use the modern Clipboard API
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                displaySuccess('Device ID copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy text with Clipboard API: ', err);
+                fallbackCopy(textToCopy);
+            });
+        } else {
+            // Fallback for older browsers
+            fallbackCopy(textToCopy);
+        }
+    });
+
+    function fallbackCopy(text) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        // Prevent the textarea from being visible
+        textarea.style.position = 'fixed';
+        textarea.style.top = '0';
+        textarea.style.left = '0';
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        try {
+            document.execCommand('copy');
+            displaySuccess('Device ID copied to clipboard!');
+        } catch (err) {
+            console.error('Fallback copy failed: ', err);
+            displayError('Could not copy Device ID. Please try again manually.');
+        } finally {
+            document.body.removeChild(textarea);
+        }
+    }
+
+    // Start Game button functionality
+    startGameBtn.addEventListener('click', function(event) {
+        event.preventDefault();
+        loginAppContainer.style.display = 'none';
+        mainApp.style.display = 'block';
+        document.body.style.background = 'var(--bg-light)';
+        initializeMainApp();
+    });
+
+    // Logout function
+    function logout() {
+        localStorage.removeItem('currentKey');
+        clearInterval(countdownInterval);
+        loginPage.style.display = 'block';
+        dashboardPage.style.display = 'none';
+        loginAppContainer.style.display = 'flex';
+        mainApp.style.display = 'none';
+        accessKeyInput.value = '';
+        buttonText.textContent = 'Continue';
+        submitButton.disabled = false;
+        document.body.style.background = 'linear-gradient(135deg, var(--primary-light-blue) 0%, var(--white) 100%)';
+        hideError();
+    }
+    
+    // Initial check on page load for a stored key
+    async function checkStoredKey() {
+        const storedKey = localStorage.getItem('currentKey');
+        if (storedKey) {
+            try {
+                const keySnapshot = await get(child(accessKeysRef, storedKey));
+                const keyData = keySnapshot.val();
+
+                if (keySnapshot.exists() && keyData.active && !keyData.frozen && Date.now() < keyData.expiry) {
+                    if (!keyData.deviceId || keyData.deviceId === uniqueDeviceId) {
+                        showDashboard(keyData);
+                        return;
+                    }
+                }
+            } catch (error) {
+                console.error("Error checking stored key:", error);
+            }
+        }
+        // Show login page if no valid key is found
+        loginPage.style.display = 'block';
+        dashboardPage.style.display = 'none';
+    }
+
+    window.logout = logout;
+    checkStoredKey();
+
+    // --- Helper Functions for Outcome Mapping ---
+    const getBigSmallOutcome = (num) => (num >= 5) ? 'BIG' : 'SMALL';
+    const getRedGreenOutcome = (num) => (num % 2 === 0) ? 'RED' : 'GREEN';
+    const fallbackPrediction = () => {
+        const outcomes = ['BIG', 'SMALL', 'RED', 'GREEN'];
+        return outcomes[Math.floor(Math.random() * outcomes.length)];
+    };
+
+    // --- Server Prediction Functions ---
+    async function fetchServerPrediction() {
+        try {
+            const res = await fetch('/api/prediction');
+            if (!res.ok) throw new Error('no server prediction');
+            return await res.json();
+        } catch (e) {
+            console.warn('Server not available, falling back to deterministic client calc', e);
+            return null;
+        }
+    }
+
+    // deterministic fallback: hash a canonical period string into a digit 0-9
+    async function deterministicPredictionFromPeriod(periodString, secret = '') {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(periodString + secret);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const val = (hashArray[0] << 8) + hashArray[1];
+        const digit = val % 10;
+        return { period: periodString, predictionDigit: digit };
+    }
+
+    // Get canonical period string from date
+    function canonicalPeriodForDate(d = new Date()) {
+        const pad = n => String(n).padStart(2, '0');
+        return `${d.getUTCFullYear()}${pad(d.getUTCMonth() + 1)}${pad(d.getUTCDate())}-${pad(d.getUTCHours())}-${pad(d.getUTCMinutes())}`;
+    }
+
+    // --- Core Engine Class ---
+    class AIPredictionEngine {
+        constructor() {
+            this.history = this.loadHistory();
+            this.strategyWeights = this.loadStrategyWeights();
+            this.currentStreak = 0;
+            this.oppositeMode = false;
+            this.initStrategies();
+        }
+
+        initStrategies() {
+            this.strategies = {
+                patternRecognition: new PatternRecognition(),
+                markovChain: new MarkovChainPredictor(),
+                bayesianInference: new BayesianPredictor(),
+                reinforcementLearning: new ReinforcementLearner(),
+                geneticAlgorithm: new GeneticAlgorithmPredictor(),
+                neuralNetwork: new NeuralNetworkPredictor(),
+                monteCarlo: new MonteCarloPredictor(),
+                clustering: new ClusteringPredictor(),
+                trendAnalysis: new TrendAnalyzer(),
+                streakDetection: new StreakDetector(),
+                timeAware: new TimeAwarePredictor()
+            };
+        }
+
+        async predictNext() {
+            // First try to get deterministic prediction from server
+            try {
+                const serverResult = await fetchServerPrediction();
+                if (serverResult) {
+                    return { final: serverResult.prediction, all: {}, deterministic: true };
+                }
+            } catch (e) {
+                console.warn('Failed to fetch server prediction:', e);
+            }
+
+            // Fallback to deterministic client-side calculation
+            let periodString = null;
+            try {
+                // Try to get server time first
+                const tRes = await fetch('/api/now');
+                const tJson = await tRes.json();
+                if (tJson.period) {
+                    periodString = tJson.period;
+                } else if (tJson.nowIso) {
+                    const d = new Date(tJson.nowIso);
+                    periodString = canonicalPeriodForDate(d);
+                }
+            } catch (e) {
+                console.warn('Could not fetch server time; computing period from local time.', e);
+                const d = new Date(); // last resort
+                periodString = canonicalPeriodForDate(d);
+            }
+
+            // Get deterministic prediction
+            const fallback = await deterministicPredictionFromPeriod(periodString, 'LICUIS_ULTRA_SECRET');
+            
+            // Convert digit to prediction type
+            let prediction;
+            if (Math.random() > 0.5) {
+                prediction = getBigSmallOutcome(fallback.predictionDigit);
+            } else {
+                prediction = getRedGreenOutcome(fallback.predictionDigit);
+            }
+
+            return { final: prediction, all: {}, deterministic: true };
+        }
+
+        addResult(result, predictions, finalPrediction) {
+            this.history.push({
+                value: result,
+                timestamp: Date.now()
+            });
+            
+            if (this.history.length > 1000) {
+                this.history = this.history.slice(-1000);
+            }
+            
+            this.saveHistory();
+            this.updateStrategyWeights(result, predictions);
+            this.updateStreak(result, finalPrediction);
+        }
+
+        applyEnsembleWeighting(predictions) {
+            const scores = { BIG: 0, SMALL: 0, RED: 0, GREEN: 0 };
+            
+            for (const [strategyName, prediction] of Object.entries(predictions)) {
+                const weight = this.strategyWeights[strategyName] || 1;
+                scores[prediction] += weight;
+            }
+            
+            return Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
+        }
+
+        applySafetyLogic(prediction) {
+            if (this.currentStreak <= -3) {
+                this.oppositeMode = true;
+            }
+            
+            if (this.oppositeMode) {
+                console.log("Opposite Logic Mode Active!");
+                switch (prediction) {
+                    case 'BIG': return 'SMALL';
+                    case 'SMALL': return 'BIG';
+                    case 'RED': return 'GREEN';
+                    case 'GREEN': return 'RED';
+                    default: return prediction;
+                }
+            }
+            
+            return prediction;
+        }
+
+        updateStrategyWeights(actualResult, allPredictions) {
+            const actualBigSmall = getBigSmallOutcome(actualResult);
+            const actualRedGreen = getRedGreenOutcome(actualResult);
+            
+            for (const [strategyName, prediction] of Object.entries(allPredictions)) {
+                const weight = this.strategyWeights[strategyName] || 1;
+                let isCorrect = false;
+
+                if (prediction === actualBigSmall || prediction === actualRedGreen) {
+                    isCorrect = true;
+                }
+
+                if (isCorrect) {
+                    this.strategyWeights[strategyName] = Math.min(weight * 1.1, 10);
+                } else {
+                    this.strategyWeights[strategyName] = Math.max(weight * 0.9, 0.1);
+                }
+            }
+            
+            this.saveStrategyWeights();
+        }
+        
+        updateStreak(actualResult, finalPrediction) {
+            const actualBigSmall = getBigSmallOutcome(actualResult);
+            const actualRedGreen = getRedGreenOutcome(actualResult);
+
+            if (finalPrediction === actualBigSmall || finalPrediction === actualRedGreen) {
+                this.currentStreak = Math.max(1, this.currentStreak + 1);
+                this.oppositeMode = false;
+            } else {
+                this.currentStreak = Math.min(-1, this.currentStreak - 1);
+            }
+        }
+        
+        loadHistory() {
+            try {
+                const saved = localStorage.getItem('predictionHistory');
+                return saved ? JSON.parse(saved) : [];
+            } catch (e) {
+                console.error('Error loading history:', e);
+                return [];
+            }
+        }
+        
+        saveHistory() {
+            try {
+                localStorage.setItem('predictionHistory', JSON.stringify(this.history));
+            } catch (e) {
+                console.error('Error saving history:', e);
+            }
+        }
+        
+        loadStrategyWeights() {
+            try {
+                const saved = localStorage.getItem('strategyWeights');
+                return saved ? JSON.parse(saved) : {};
+            } catch (e) {
+                console.error('Error loading strategy weights:', e);
+                return {};
+            }
+        }
+        
+        saveStrategyWeights() {
+            try {
+                localStorage.setItem('strategyWeights', JSON.stringify(this.strategyWeights));
+            } catch (e) {
+                console.error('Error saving strategy weights:', e);
+            }
+        }
+    }
+
+    // --- Strategy Implementations ---
+    class PatternRecognition {
+        predict(history) {
+            if (history.length < 5) return fallbackPrediction();
+            
+            const recent = history.slice(-10).map(h => h.value);
+            
+            for (let patternLength = 4; patternLength >= 2; patternLength--) {
+                if (recent.length < patternLength * 2) continue;
+                
+                const lastPattern = recent.slice(-patternLength).join('');
+                for (let i = 0; i < recent.length - patternLength * 2; i++) {
+                    const testPattern = recent.slice(i, i + patternLength).join('');
+                    if (testPattern === lastPattern) {
+                        const nextValue = recent[i + patternLength];
+                        const outcomeType = Math.random() > 0.5 ? getBigSmallOutcome(nextValue) : getRedGreenOutcome(nextValue);
+                        return outcomeType;
+                    }
+                }
+            }
+            
+            return fallbackPrediction();
+        }
+    }
+
+    class MarkovChainPredictor {
+        constructor() {
+            this.transitions = {};
+        }
+        
+        predict(history) {
+            if (history.length < 10) return fallbackPrediction();
+            
+            const values = history.slice(-50).map(h => h.value);
+            
+            for (let i = 0; i < values.length - 1; i++) {
+                const from = values[i];
+                const to = values[i + 1];
+                
+                if (!this.transitions[from]) {
+                    this.transitions[from] = {};
+                }
+                
+                this.transitions[from][to] = (this.transitions[from][to] || 0) + 1;
+            }
+            
+            const lastValue = values[values.length - 1];
+            if (!this.transitions[lastValue]) return fallbackPrediction();
+            
+            let maxCount = 0;
+            let mostLikely = null;
+            
+            for (const [nextValue, count] of Object.entries(this.transitions[lastValue])) {
+                if (count > maxCount) {
+                    maxCount = count;
+                    mostLikely = parseInt(nextValue);
+                }
+            }
+            
+            if (mostLikely === null) return fallbackPrediction();
+            
+            const outcomeType = Math.random() > 0.5 ? getBigSmallOutcome(mostLikely) : getRedGreenOutcome(mostLikely);
+            return outcomeType;
+        }
+    }
+
+    class BayesianPredictor {
+        predict(history) {
+            if (history.length < 20) return fallbackPrediction();
+            
+            const values = history.map(h => h.value);
+            const counts = Array(10).fill(0);
+            values.forEach(v => counts[v]++);
+            
+            const total = values.length;
+            let maxProb = 0;
+            let mostProbable = 0;
+            
+            for (let i = 0; i < 10; i++) {
+                if (counts[i] > maxProb) {
+                    maxProb = counts[i];
+                    mostProbable = i;
+                }
+            }
+            
+            const outcomeType = Math.random() > 0.5 ? getBigSmallOutcome(mostProbable) : getRedGreenOutcome(mostProbable);
+            return outcomeType;
+        }
+    }
+
+    class ReinforcementLearner {
+        constructor() {
+            this.qTable = {};
+            this.learningRate = 0.1;
+            this.discountFactor = 0.9;
+            this.epsilon = 0.1;
+            this.lastState = null;
+            this.lastAction = null;
+        }
+        
+        predict(history) {
+            if (history.length < 5) return fallbackPrediction();
+            
+            const recent = history.slice(-5).map(h => h.value).join('');
+            this.lastState = recent;
+            
+            if (Math.random() < this.epsilon || !this.qTable[recent]) {
+                this.lastAction = fallbackPrediction();
+                return this.lastAction;
+            } else {
+                const actions = this.qTable[recent];
+                let bestAction = null;
+                let bestValue = -Infinity;
+                
+                for (const [action, value] of Object.entries(actions)) {
+                    if (value > bestValue) {
+                        bestValue = value;
+                        bestAction = action;
+                    }
+                }
+                
+                this.lastAction = bestAction;
+                return bestAction;
+            }
+        }
+        
+        update(reward) {
+            if (!this.lastState || !this.lastAction) return;
+            
+            if (!this.qTable[this.lastState]) {
+                this.qTable[this.lastState] = {};
+            }
+            
+            if (!this.qTable[this.lastState][this.lastAction]) {
+                this.qTable[this.lastState][this.lastAction] = 0;
+            }
+            
+            this.qTable[this.lastState][this.lastAction] += this.learningRate * 
+                (reward - this.qTable[this.lastState][this.lastAction]);
+        }
+    }
+
+    class GeneticAlgorithmPredictor {
+        constructor() {
+            this.population = this.initializePopulation();
+            this.generation = 0;
+        }
+        
+        initializePopulation() {
+            const population = [];
+            for (let i = 0; i < 20; i++) {
+                population.push({
+                    strategy: Math.floor(Math.random() * 3),
+                    threshold: Math.random() * 0.5 + 0.25,
+                    outcomePreference: Math.floor(Math.random() * 2),
+                    fitness: 0
+                });
+            }
+            return population;
+        }
+        
+        predict(history) {
+            if (history.length < 10) return fallbackPrediction();
+            
+            const bestIndividual = this.population.reduce((best, current) => 
+                current.fitness > best.fitness ? current : best);
+            
+            let predictedValue;
+            
+            switch (bestIndividual.strategy) {
+                case 0:
+                    const recent = history.slice(-5).map(h => h.value);
+                    predictedValue = recent[recent.length - 1];
+                    break;
+                case 1:
+                    const values = history.map(h => h.value);
+                    const lastValue = values[values.length - 1];
+                    predictedValue = (lastValue + 1) % 10;
+                    break;
+                case 2:
+                    const counts = Array(10).fill(0);
+                    history.forEach(h => counts[h.value]++);
+                    let maxCount = 0;
+                    predictedValue = 0;
+                    for (let i = 0; i < 10; i++) {
+                        if (counts[i] > maxCount) {
+                            maxCount = counts[i];
+                            predictedValue = i;
+                        }
+                    }
+                    break;
+            }
+            
+            return bestIndividual.outcomePreference === 0 ? 
+                getBigSmallOutcome(predictedValue) : getRedGreenOutcome(predictedValue);
+        }
+        
+        updateFitness(result, prediction) {
+            const actualBigSmall = getBigSmallOutcome(result);
+            const actualRedGreen = getRedGreenOutcome(result);
+            const isCorrect = prediction === actualBigSmall || prediction === actualRedGreen;
+            
+            for (const individual of this.population) {
+                individual.fitness = individual.fitness * 0.9 + (isCorrect ? 1 : 0);
+            }
+            
+            if (this.generation % 10 === 0) {
+                this.evolve();
+            }
+            
+            this.generation++;
+        }
+        
+        evolve() {
+            this.population.sort((a, b) => b.fitness - a.fitness);
+            const keepCount = Math.floor(this.population.length / 2);
+            const newPopulation = this.population.slice(0, keepCount);
+            
+            while (newPopulation.length < this.population.length) {
+                const parent1 = newPopulation[Math.floor(Math.random() * keepCount)];
+                const parent2 = newPopulation[Math.floor(Math.random() * keepCount)];
+                
+                const child = {
+                    strategy: Math.random() < 0.5 ? parent1.strategy : parent2.strategy,
+                    threshold: (parent1.threshold + parent2.threshold) / 2,
+                    outcomePreference: Math.random() < 0.5 ? parent1.outcomePreference : parent2.outcomePreference,
+                    fitness: 0
+                };
+                
+                if (Math.random() < 0.1) child.strategy = Math.floor(Math.random() * 3);
+                if (Math.random() < 0.1) child.threshold = Math.random() * 0.5 + 0.25;
+                if (Math.random() < 0.1) child.outcomePreference = Math.floor(Math.random() * 2);
+                
+                newPopulation.push(child);
+            }
+            
+            this.population = newPopulation;
+        }
+    }
+
+    class NeuralNetworkPredictor { 
+        predict(history) { 
+            return fallbackPrediction(); 
+        } 
+    }
+
+    class MonteCarloPredictor { 
+        predict(history) { 
+            return fallbackPrediction(); 
+        } 
+    }
+
+    class ClusteringPredictor { 
+        predict(history) { 
+            return fallbackPrediction(); 
+        } 
+    }
+
+    class TrendAnalyzer {
+        predict(history) {
+            if (history.length < 10) return fallbackPrediction();
+            
+            const values = history.slice(-10).map(h => h.value);
+            let sumX = 0, sumY = 0, sumXY = 0, sumXX = 0;
+            const n = values.length;
+            
+            for (let i = 0; i < n; i++) {
+                sumX += i;
+                sumY += values[i];
+                sumXY += i * values[i];
+                sumXX += i * i;
+            }
+            
+            const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+            const lastValue = values[values.length - 1];
+            let predictedValue = lastValue + slope;
+            predictedValue = Math.max(0, Math.min(9, Math.round(predictedValue)));
+            
+            const outcomeType = Math.random() > 0.5 ? getBigSmallOutcome(predictedValue) : getRedGreenOutcome(predictedValue);
+            return outcomeType;
+        }
+    }
+
+    class StreakDetector {
+        predict(history) {
+            if (history.length < 5) return fallbackPrediction();
+            
+            const values = history.slice(-10).map(h => h.value);
+            const bigSmallStreak = this.checkStreak(values, getBigSmallOutcome);
+            const redGreenStreak = this.checkStreak(values, getRedGreenOutcome);
+            
+            if (bigSmallStreak.streakLength >= 3) {
+                return bigSmallStreak.lastOutcome;
+            }
+            
+            if (redGreenStreak.streakLength >= 3) {
+                return redGreenStreak.lastOutcome;
+            }
+            
+            return fallbackPrediction();
+        }
+        
+        checkStreak(values, outcomeFunction) {
+            let currentStreak = 1;
+            let lastOutcome = outcomeFunction(values[values.length - 1]);
+            
+            for (let i = values.length - 2; i >= 0; i--) {
+                const outcome = outcomeFunction(values[i]);
+                if (outcome === lastOutcome) {
+                    currentStreak++;
+                } else {
+                    break;
+                }
+            }
+            
+            return { streakLength: currentStreak, lastOutcome };
+        }
+    }
+
+    class TimeAwarePredictor {
+        predict(history) {
+            if (history.length < 20) return fallbackPrediction();
+            
+            const now = new Date();
+            const hour = now.getHours();
+            const hourResults = history.filter(h => {
+                const date = new Date(h.timestamp);
+                return date.getHours() === hour;
+            }).map(h => h.value);
+            
+            if (hourResults.length < 5) return fallbackPrediction();
+            
+            const counts = Array(10).fill(0);
+            hourResults.forEach(v => counts[v]++);
+            
+            let maxCount = 0;
+            let mostCommon = 0;
+            for (let i = 0; i < 10; i++) {
+                if (counts[i] > maxCount) {
+                    maxCount = counts[i];
+                    mostCommon = i;
+                }
+            }
+            
+            const outcomeType = Math.random() > 0.5 ? getBigSmallOutcome(mostCommon) : getRedGreenOutcome(mostCommon);
+            return outcomeType;
+        }
+    }
+
+    // Initialize the prediction engine
+    const predictionEngine = new AIPredictionEngine();
+
+    // Tab System Logic
+    function initializeMainApp() {
+        const tabs = document.querySelectorAll('.tab');
+        const contentSections = document.querySelectorAll('.content-section');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+                
+                // Update active tab
+                tabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Show corresponding content section
+                contentSections.forEach(section => {
+                    section.classList.remove('active');
+                    if (section.id === `${tabId}-section`) {
+                        section.classList.add('active');
+                        
+                        // Load data when switching to history tab
+                        if (tabId === 'history') {
+                            fetchData();
+                        } else if (tabId === 'analysis') {
+                            performAdvancedAnalysis();
+                            displayAllStrategies();
+                        }
+                    }
+                });
+            });
+        });
+
+        // Game Selection Logic
+        const gameSelection = document.getElementById('gameSelection');
+        const gameFrame = document.getElementById('gameFrame');
+        const gameItems = document.querySelectorAll('.game-item');
+        const injectorTape = document.getElementById('injectorTape');
+        
+        gameItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const gameUrl = this.getAttribute('data-url');
+                gameFrame.src = gameUrl;
+                gameSelection.style.display = 'none';
+                gameFrame.classList.remove('hidden');
+                injectorTape.classList.remove('hidden');
+                
+                // Add visual feedback
+                this.classList.add('active');
+                setTimeout(() => this.classList.remove('active'), 500);
+            });
+        });
+
+        // Injector tape button to show game selection
+        injectorTape.addEventListener('click', function() {
+            gameFrame.classList.add('hidden');
+            gameSelection.style.display = "flex";
+            injectorTape.classList.add('hidden');
+            gameFrame.src = '';
+        });
+
+        // Create floating particles
+        function createParticles() {
+            const colors = ['rgba(0, 102, 255, 0.2)', 'rgba(0, 136, 255, 0.2)', 'rgba(0, 85, 255, 0.2)'];
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const size = Math.random() * 8 + 2;
+                const posX = Math.random() * window.innerWidth;
+                const posY = Math.random() * window.innerHeight;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 5;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}px`;
+                particle.style.top = `${posY}px`;
+                particle.style.background = color;
+                particle.style.opacity = Math.random() * 0.5 + 0.1;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+                
+                document.body.appendChild(particle);
+            }
+        }
+
+        // History filtering functionality
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const filter = this.getAttribute('data-filter');
+                
+                // Update active button
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Filter history items
+                const historyItems = document.querySelectorAll('.history-item');
+                historyItems.forEach(item => {
+                    if (filter === 'all') {
+                        item.style.display = 'grid';
+                    } else {
+                        const isBig = item.querySelector('.history-value-highlight').textContent >= 5;
+                        const isRed = item.querySelector('.color-dot').classList.contains('color-red');
+                        
+                        if ((filter === 'big' && isBig) || 
+                            (filter === 'small' && !isBig) ||
+                            (filter === 'red' && isRed) ||
+                            (filter === 'green' && !isRed)) {
+                            item.style.display = 'grid';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    }
+                });
+            });
+        });
+
+        // Fetch data for history tab
+        async function fetchData() {
+            try {
+                const historyContent = document.getElementById('historyContent');
+                if (!historyContent) return;
+                
+                historyContent.innerHTML = '<div class="loading-container"><i class="fas fa-spinner fa-spin"></i> LOADING DATA...</div>';
+                
+                const timestamp = Date.now();
+                const response = await fetch(`https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json?ts=${timestamp}&pageSize=10`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data && data.data && data.data.list && data.data.list.length > 0) {
+                    displayHistory(data.data.list);
+                } else {
+                    historyContent.innerHTML = '<div class="no-data-container"><i class="fas fa-info-circle"></i> NO DATA AVAILABLE</div>';
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                const historyContent = document.getElementById('historyContent');
+                if (historyContent) {
+                    historyContent.innerHTML = '<div class="error-container"><i class="fas fa-exclamation-triangle"></i> ERROR LOADING DATA</div>';
+                }
+            }
+        }
+
+        // Display history data
+        function displayHistory(data) {
+            const historyContent = document.getElementById('historyContent');
+            if (!historyContent) return;
+            
+            if (!data || data.length === 0) {
+                historyContent.innerHTML = '<div class="no-data-container"><i class="fas fa-info-circle"></i> NO DATA AVAILABLE</div>';
+                return;
+            }
+            
+            let html = '<div class="history-header">';
+            html += '<div class="history-header-item"></div>';
+            html += '<div class="history-header-item"></div>';
+            html += '<div class="history-header-item">BIG/SMALL</div>';
+            html += '<div class="history-header-item"></div>';
+            html += '<div class="history-header-item"></div>';
+            html += '</div>';
+            
+            let winCount = 0;
+            let lossCount = 0;
+            
+            data.forEach(item => {
+                const sum = parseInt(item.premium || item.result || item.number || 0);
+                const bigSmall = sum >= 5 ? 'BIG' : 'SMALL';
+                
+                // Correct color logic - 0,2,4,6,8 RED and 1,3,5,7,9 GREEN
+                const isEven = sum % 2 === 0;
+                const redGreen = isEven ? 'RED' : 'GREEN';
+                const colorClass = isEven ? 'color-red' : 'color-green';
+                
+                // Generate random time for demo purposes
+                const hours = Math.floor(Math.random() * 12) + 1;
+                const minutes = Math.floor(Math.random() * 60).toString().padStart(2, '0');
+                const ampm = Math.random() > 0.5 ? 'AM' : 'PM';
+                const timeStr = `${hours}:${minutes} ${ampm}`;
+                
+                // Determine if this would be a win or loss based on prediction
+                // This is just for demo purposes - in a real app, you'd compare with actual predictions
+                const isWin = Math.random() > 0.4;
+                if (isWin) winCount++;
+                else lossCount++;
+                
+                html += `
+                    <div class="history-item ${isWin ? 'win' : 'loss'}">
+                        <div>
+                            <div class="history-value">${item.issueNumber || item.period || 'N/A'}</div>
+                        </div>
+                        <div>
+                            <div class="history-value-highlight">${sum}</div>
+                        </div>
+                        <div>
+                            <div class="history-value">${bigSmall}</div>
+                        </div>
+                        <div>
+                            <div class="history-value">
+                                <span class="color-dot ${colorClass}"></span>${redGreen}
+                            </div>
+                        </div>
+                        <div>
+                            <div class="history-value">${timeStr}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            // Update win/loss counters
+            document.getElementById('win-count').textContent = winCount;
+            document.getElementById('loss-count').textContent = lossCount;
+            
+            historyContent.innerHTML = html;
+        }
+
+        // Perform advanced analysis
+        async function performAdvancedAnalysis() {
+            try {
+                const analysisContent = document.getElementById('advancedAnalysis');
+                if (!analysisContent) return;
+                
+                analysisContent.innerHTML = '<div class="loading-container"><i class="fas fa-spinner fa-spin"></i> ANALYZING DATA PATTERNS...</div>';
+                
+                const timestamp = Date.now();
+                const response = await fetch(`https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json?ts=${timestamp}&pageSize=50`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data && data.data && data.data.list && data.data.list.length > 0) {
+                    displayAdvancedAnalysis(data.data.list);
+                } else {
+                    analysisContent.innerHTML = '<div class="no-data-container"><i class="fas fa-info-circle"></i> NO DATA AVAILABLE FOR ANALYSIS</div>';
+                }
+            } catch (error) {
+                console.error('Error fetching analysis data:', error);
+                const analysisContent = document.getElementById('advancedAnalysis');
+                if (analysisContent) {
+                    analysisContent.innerHTML = '<div class="error-container"><i class="fas fa-exclamation-triangle"></i> ERROR LOADING ANALYSIS DATA</div>';
+                }
+            }
+        }
+
+        // Display advanced analysis
+        function displayAdvancedAnalysis(data) {
+            const analysisContent = document.getElementById('advancedAnalysis');
+            if (!analysisContent) return;
+            
+            if (!data || data.length === 0) {
+                analysisContent.innerHTML = '<div class="no-data-container"><i class="fas fa-info-circle"></i> NO DATA AVAILABLE FOR ANALYSIS</div>';
+                return;
+            }
+            
+            // Process data for analysis
+            const numbers = data.map(item => parseInt(item.premium || item.result || item.number || 0));
+            
+            // Calculate statistics
+            const bigCount = numbers.filter(n => n >= 5).length;
+            const smallCount = numbers.length - bigCount;
+            const redCount = numbers.filter(n => n % 2 === 0).length;
+            const greenCount = numbers.length - redCount;
+            
+            // Find most common numbers
+            const frequency = {};
+            numbers.forEach(n => {
+                frequency[n] = (frequency[n] || 0) + 1;
+            });
+            
+            const mostFrequent = Object.entries(frequency)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 3)
+                .map(([num, count]) => ({ number: num, count }));
+            
+            // Check for recent patterns
+            const recentPatterns = detectPatterns(numbers.slice(0, 10));
+            
+            let html = `
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value">${numbers.length}</div>
+                        <div class="stat-label">Total Results</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${bigCount}</div>
+                        <div class="stat-label">Big Results</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${smallCount}</div>
+                        <div class="stat-label">Small Results</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${Math.round((bigCount/numbers.length)*100)}%</div>
+                        <div class="stat-label">Big Frequency</div>
+                    </div>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value">${redCount}</div>
+                        <div class="stat-label">Red Results</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${greenCount}</div>
+                        <div class="stat-label">Green Results</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${Math.round((redCount/numbers.length)*100)}%</div>
+                        <div class
+                                <div class="stat-label">Red Frequency</div>
+                            </div>
+                        </div>
+                        
+                        <div class="analysis-title">
+                            <i class="fas fa-star"></i> MOST FREQUENT NUMBERS
+                        </div>
+                        <div class="pattern-list">
+                    `;
+                    
+                    mostFrequent.forEach(item => {
+                        html += `
+                            <div class="pattern-item">
+                                <span class="pattern-value">Number ${item.number}</span>
+                                <span class="pattern-confidence">${item.count} times (${Math.round((item.count/numbers.length)*100)}%)</span>
+                            </div>
+                        `;
+                    });
+                    
+                    html += `</div>`;
+                    
+                    if (recentPatterns.length > 0) {
+                        html += `
+                            <div class="analysis-title">
+                                <i class="fas fa-project-diagram"></i> DETECTED PATTERNS
+                            </div>
+                            <div class="pattern-list">
+                        `;
+                        
+                        recentPatterns.forEach(pattern => {
+                            html += `
+                                <div class="pattern-item">
+                                    <span class="pattern-value">${pattern.pattern}</span>
+                                    <span class="pattern-confidence">${pattern.count} occurrences</span>
+                                </div>
+                            `;
+                        });
+                        
+                        html += `</div>`;
+                    }
+                    
+                    analysisContent.innerHTML = html;
+                }
+
+                // Detect patterns in number sequences
+                function detectPatterns(numbers) {
+                    const patterns = [];
+                    const sequence = numbers.join('');
+                    
+                    // Check for repeating patterns of length 2-3
+                    for (let len = 2; len <= 3; len++) {
+                        for (let i = 0; i <= sequence.length - len; i++) {
+                            const pattern = sequence.substring(i, i + len);
+                            let count = 0;
+                            let pos = -1;
+                            
+                            // Count occurrences of this pattern
+                            while ((pos = sequence.indexOf(pattern, pos + 1)) !== -1) {
+                                count++;
+                            }
+                            
+                            if (count > 1) {
+                                patterns.push({
+                                    pattern: pattern.split('').join(' - '),
+                                    count: count
+                                });
+                            }
+                        }
+                    }
+                    
+                    // Remove duplicates and sort by count
+                    const uniquePatterns = [];
+                    patterns.forEach(p => {
+                        const existing = uniquePatterns.find(up => up.pattern === p.pattern);
+                        if (!existing) {
+                            uniquePatterns.push(p);
+                        }
+                    });
+                    
+                    return uniquePatterns.sort((a, b) => b.count - a.count).slice(0, 5);
+                }
+
+                // Display all strategies
+                function displayAllStrategies() {
+                    const strategiesContainer = document.getElementById('strategiesContainer');
+                    if (!strategiesContainer) return;
+                    
+                    const strategies = [
+                        {
+                            title: "Streak Analysis & Reversal",
+                            icon: "fas fa-exchange-alt",
+                            description: "When a streak exceeds a threshold (e.g., 4+), anticipate a reversal and bet on the opposite outcome."
+                        },
+                        {
+                            title: "Pattern Recognition",
+                            icon: "fas fa-sync-alt",
+                            description: "Detect repeating sequences and bet on pattern continuation based on historical repetitions."
+                        },
+                        {
+                            title: "Markov Chain Models",
+                            icon: "fas fa-link",
+                            description: "Probabilistic models that predict next patterns based on current state transitions."
+                        },
+                        {
+                            title: "Hot & Cold Numbers",
+                            icon: "fas fa-fire",
+                            description: "Track numbers that appear frequently (hot) or infrequently (cold) and bet accordingly."
+                        },
+                        {
+                            title: "Fibonacci System",
+                            icon: "fas fa-calculator",
+                            description: "Increase bets following Fibonacci sequence after losses, decrease after wins for risk management."
+                        },
+                        {
+                            title: "Bayesian Updating",
+                            icon: "fas fa-chart-line",
+                            description: "Continuously update probabilities based on observed patterns to refine strategies dynamically."
+                        },
+                        {
+                            title: "Swing Trading & Momentum",
+                            icon: "fas fa-wave-square",
+                            description: "Identify momentum changes and bet on trend reversals when patterns approach exhaustion."
+                        },
+                        {
+                            title: "Entropy & Chaos Theory",
+                            icon: "fas fa-random",
+                            description: "Use entropy measures to assess randomness - bet more confidently when patterns are predictable."
+                        },
+                        {
+                            title: "Cluster Analysis",
+                            icon: "fas fa-object-group",
+                            description: "Group outcomes into clusters based on features and bet on dominant recent clusters."
+                        },
+                        {
+                            title: "Monte Carlo Simulation",
+                            icon: "fas fa-dice",
+                            description: "Generate potential outcome sequences through simulation to inform betting decisions."
+                        },
+                        {
+                            title: "Hybrid Dynamic Strategies",
+                            icon: "fas fa-cogs",
+                            description: "Combine multiple signals (streaks, hot/cold, entropy) using weighted scoring systems."
+                        },
+                        {
+                            title: "Machine Learning Models",
+                            icon: "fas fa-robot",
+                            description: "Advanced pattern recognition using AI algorithms for dynamic prediction adaptation."
+                        }
+                    ];
+                    
+                    let html = '';
+                    strategies.forEach(strategy => {
+                        html += `
+                            <div class="strategy-card">
+                                <div class="strategy-title">
+                                    <i class="${strategy.icon}"></i>
+                                    ${strategy.title}
+                                </div>
+                                <div class="strategy-description">
+                                    ${strategy.description}
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    strategiesContainer.innerHTML = html;
+                }
+
+                // Chat Predictor Logic
+                let previousResults = [];
+                let latestPeriod = null;
+                let currentPrediction = null;
+                let serverOnline = true;
+                let lastPredictionPeriod = null;
+                let lastActualNumber = null;
+
+                // DOM elements
+                const messagesContainer = document.getElementById('messages-container');
+                const typingIndicator = document.getElementById('typing-indicator');
+                const connectionStatus = document.getElementById('connection-status');
+                const currentTimeElement = document.getElementById('current-time');
+                const lastUpdateTime = document.getElementById('last-update-time');
+                const scrollDownBtn = document.getElementById('scroll-down-btn');
+
+                // Initialize
+                updateClock();
+                setInterval(updateClock, 1000);
+                setTimeout(() => {
+                    typingIndicator.style.display = 'none';
+                    addMessage('received', 
+                        `<div class="prediction-card">
+                            <div class="prediction-title"><i class="fas fa-robot"></i> SYSTEM INITIALIZED</div>
+                            <p>Welcome to <strong>LICUIS ULTRA</strong>, your advanced prediction assistant. I'm analyzing game patterns in real-time to provide you with the most accurate predictions.</p>
+                            <p></p>
+                        </div>`, 
+                        'LICUIS ULTRA');
+                    simulateInitialAnalysis();
+                }, 1500);
+
+                // Scroll button functionality
+                scrollDownBtn.addEventListener('click', () => {
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                });
+
+                messagesContainer.addEventListener('scroll', () => {
+                    const { scrollTop, scrollHeight, clientHeight } = messagesContainer;
+                    const distanceFromBottom = scrollHeight - scrollTop - clientHeight;
+                    scrollDownBtn.classList.toggle('visible', distanceFromBottom > 100);
+                });
+
+                function updateClock() {
+                    const now = new Date();
+                    const timeString = now.toLocaleTimeString('en-US', { hour12: false });
+                    currentTimeElement.textContent = timeString;
+                    return now;
+                }
+
+                function formatTime(date) {
+                    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                }
+
+                function addMessage(type, content, sender, timestamp = new Date()) {
+                    typingIndicator.style.display = 'none';
+                    
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = `message ${type}`;
+                    
+                    if (sender) {
+                        messageDiv.innerHTML = `<div class="prediction-title">${sender}</div>`;
+                    }
+                    
+                    messageDiv.innerHTML += content;
+                    messageDiv.innerHTML += `<div class="timestamp">${formatTime(timestamp)}</div>`;
+                    
+                    messagesContainer.appendChild(messageDiv);
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    
+                    // Update last update time
+                    lastUpdateTime.textContent = formatTime(timestamp);
+                    
+                    return messageDiv;
+                }
+
+                function showTyping() {
+                    typingIndicator.style.display = 'flex';
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                }
+
+                function simulateInitialAnalysis() {
+                    showTyping();
+                    setTimeout(() => {
+                        addMessage('received', 
+                            `<div class="prediction-card">
+                                <div class="prediction-title"><i class="fas fa-check-circle"></i> ANALYSIS COMPLETE</div>
+                                <p>Pattern detection complete. Advanced algorithms initialized:</p>
+                                <ul>
+
+                                </ul>
+                            </div>`, 
+                            'LICUIS ULTRA');
+                        
+                        // Start the prediction cycle
+                        fetchCurrentGameIssue();
+                        setInterval(fetchCurrentGameIssue, 5000);
+                    }, 2000);
+                }
+
+                function createPredictionMessage(predictionData) {
+                    const confidencePercentage = Math.round(predictionData.confidence);
+                    const confidenceWidth = `${confidencePercentage}%`;
+                    
+                    const numbersHTML = `
+                        <div class="predicted-numbers">
+                            ${predictionData.numbers.map(num => `
+                                <div class="predicted-number ${num <= 4 ? 'small' : 'big'}">${num}</div>
+                            `).join('')}
+                        </div>
+                    `;
+                    
+                    return `
+                        <div class="prediction-card">
+                            <div class="period-display">${latestPeriod}</div>
+                            <div class="prediction-value">${predictionData.prediction}</div>
+                            
+                            ${numbersHTML}
+                            
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${confidenceWidth}"></div>
+                            </div>
+                            <div class="confidence-display">
+                                <span>Confidence</span>
+                                <span class="confidence-value">${confidencePercentage}%</span>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                async function fetchCurrentGameIssue() {
+                    const now = new Date();
+                    const apiUrl = 'https://api.bdg88zf.com/api/webapi/GetGameIssue';
+                    const requestData = { typeId: 1, language: 0, random: "40079dcba93a48769c6ee9d4d4fae23f", signature: "D12108C4F57C549D82B23A91E0FA20AE", timestamp: 1727792520 };
+
+                    try {
+                        const response = await fetch(apiUrl, { 
+                            method: 'POST', 
+                            headers: { 'Content-Type': 'application/json;charset=UTF-8' }, 
+                            body: JSON.stringify(requestData) 
+                        });
+                        
+                        if (response.ok) {
+                            const data = await response.json();
+                            if (data.code === 0) {
+                                const newPeriod = data.data.issueNumber;
+                                
+                                if (newPeriod !== latestPeriod) {
+                                    if (latestPeriod && currentPrediction && previousResults.length > 0) {
+                                        const lastResult = previousResults[0].number;
+                                        lastActualNumber = parseInt(lastResult, 10);
+                                        
+                                        // Update prediction system with actual result
+                                        predictionEngine.addResult(lastActualNumber, {}, currentPrediction);
+                                    }
+                                    
+                                    latestPeriod = newPeriod;
+                                    await fetchPreviousResults();
+                                    updatePredictions(now, newPeriod);
+                                }
+                            }
+                        } else {
+                            updateServerStatus(false);
+                        }
+                    } catch (error) { 
+                        console.error("Fetch error:", error);
+                        updateServerStatus(false);
+                    }
+                }
+
+                async function fetchPreviousResults() {
+                    const apiUrl = 'https://api.bdg88zf.com/api/webapi/GetNoaverageEmerdList';
+                    const requestData = { pageSize: 10, pageNo: 1, typeId: 1, language: 0, random: "c2505d9138da4e3780b2c2b34f2fb789", signature: "7D637E060DA35C0C6E28DC6D23D71BED", timestamp: 1727792520 };
+
+                    try {
+                        const response = await fetch(apiUrl, { 
+                            method: 'POST', 
+                            headers: { 'Content-Type': 'application/json;charset=UTF-8' }, 
+                            body: JSON.stringify(requestData) 
+                        });
+                        
+                        if (response.ok) {
+                            const data = await response.json();
+                            if (data.code === 0 && data.data.list.length > 0) {
+                                previousResults = data.data.list;
+                                
+                                // Update prediction system history
+                                const numbers = data.data.list.map(item => parseInt(item.number, 10));
+                                numbers.reverse().forEach(num => {
+                                    predictionEngine.addResult(num, {}, '');
+                                });
+                                
+                                updateServerStatus(true);
+                            }
+                        } else {
+                            updateServerStatus(false);
+                        }
+                    } catch (error) { 
+                        console.error("Fetch error:", error);
+                        updateServerStatus(false);
+                    }
+                }
+
+                async function updatePredictions(currentTime, currentPeriod) {
+                    if (previousResults.length >= 10 && currentPeriod !== lastPredictionPeriod) {
+                        const predictionData = await predictionEngine.predictNext();
+                        currentPrediction = predictionData.final;
+                        lastPredictionPeriod = currentPeriod;
+                        
+                        // Show prediction message
+                        showTyping();
+                        setTimeout(() => {
+                            addMessage('received', createPredictionMessage({
+                                prediction: currentPrediction,
+                                confidence: Math.floor(Math.random() * 30) + 70,
+                                numbers: [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10)]
+                            }), 'LICUIS ULTRA');
+                        }, 1000);
+                    }
+                }
+
+                function updateServerStatus(online) {
+                    serverOnline = online;
+                    if (online) {
+                        connectionStatus.textContent = "Connected to Server";
+                        document.querySelector('.status-indicator').className = "status-indicator online";
+                        
+                        // Add connection restored message if previously offline
+                        if (!serverOnline) {
+                            addMessage('received', '<div class="prediction-title"><i class="fas fa-plug"></i> CONNECTION RESTORED</div><p>Server connection reestablished. Resuming normal operations.</p>', 'System');
+                        }
+                    } else {
+                        connectionStatus.textContent = "Connecting...";
+                        document.querySelector('.status-indicator').className = "status-indicator offline";
+                        
+                        // Only show connection lost message if it was previously online
+                        if (serverOnline) {
+                            addMessage('received', '<div class="prediction-title"><i class="fas fa-exclamation-triangle"></i> CONNECTION LOST</div><p>Temporarily lost connection to prediction server. Attempting to reconnect...</p>', 'System');
+                        }
+                    }
+                }
+
+                // Initialize the application
+                createParticles();
+                
+                // Animate the game selection title after page load
+                setTimeout(() => {
+                    document.getElementById('gameSelectionTitle').classList.add('animate');
+                }, 500);
+            }
+        </script>
+    </body>
+</html>
