@@ -391,6 +391,10 @@
             position: relative;
             z-index: 10;
         }
+        
+        .chat-header:hover {
+            background-color: rgba(20, 25, 35, 1);
+        }
 
         .chat-title {
             font-weight: 700;
@@ -469,6 +473,13 @@
             padding: 14px;
             margin: 12px 0;
             border: 1px solid rgba(0, 240, 255, 0.15);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .prediction-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 240, 255, 0.1);
         }
 
         .prediction-title {
@@ -488,7 +499,8 @@
         }
 
         .prediction-value {
-            font-size: 1.8rem;
+            font-size: 2.2rem;
+            font-family: 'Orbitron', sans-serif;
             font-weight: 700;
             margin: 12px 0;
             text-align: center;
@@ -620,12 +632,14 @@
         }
 
         .period-display {
-            font-size: 1rem;
+            font-size: 1.2rem;
+            font-family: 'Orbitron', sans-serif;
             font-weight: 600;
             color: var(--primary);
             text-align: center;
             margin: 10px 0;
             letter-spacing: 1px;
+            text-shadow: 0 0 5px rgba(0, 240, 255, 0.2);
         }
 
         .confidence-display {
@@ -777,7 +791,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <!-- Tab System -->
     <div class="tab-system">
         <div class="tab active" data-tab="web">
             <div class="tab-icon" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik0xMiAyMmM1LjUyMyAwIDEwLTQuNDc3IDEwLTEwUzE3LjUyMyAyIDEyIDIgMiA2LjQ3NyAyIDEyczQuNDc3IDEwIDEwIDEwek0yIDEyaDIwIj48L3BhdGg+PHBhdGggZD0iTTEyIDJhMTUuMyAxNS4zIDAgMCAxIDQgMTAgMTUuMyAxNS4zIDAgMCAxLTQgMTAgMTUuMyAxNS4zIDAgMCAxLTQtMTAgMTUuMyAxNS4zIDAgMCAxIDQtMTB6Ij48L3BhdGg+PC9zdmc+')"></div>
@@ -789,7 +802,6 @@
         </div>
     </div>
 
-    <!-- Content Sections -->
     <div class="content-section active" id="web-section">
         <div class="game-selection" id="gameSelection">
             <div class="game-selection-title" id="gameSelectionTitle">SELECT GAME</div>
@@ -867,7 +879,6 @@
             </div>
 
             <div class="messages-container" id="messages-container">
-                <!-- Initial greeting -->
                 <div class="message received">
                     <div class="prediction-title"><i class="fas fa-robot"></i> SYSTEM INITIALIZED</div>
                     <p>Welcome to <strong>LICUIS ULTRA</strong>, your advanced prediction assistant. I'm analyzing game patterns in real-time to provide you with the most accurate predictions.</p>
@@ -1202,16 +1213,21 @@
                 const layer3 = predictStrict(periodNumber);
                 
                 // Consensus decision
+                let finalPrediction;
                 if (layer1 === layer2 && layer2 === layer3) {
-                    return layer1; // Strong consensus
+                    finalPrediction = layer1; // Strong consensus
+                } else {
+                    // Fallback to weighted decision
+                    const votes = [layer1, layer2, layer3];
+                    const bigVotes = votes.filter(v => v === "BIG").length;
+                    
+                    if (bigVotes >= 2) finalPrediction = "BIG";
+                    else finalPrediction = "SMALL";
                 }
                 
-                // Fallback to weighted decision
-                const votes = [layer1, layer2, layer3];
-                const bigVotes = votes.filter(v => v === "BIG").length;
-                
-                if (bigVotes >= 2) return "BIG";
-                return "SMALL";
+                // FIX: Return the opposite prediction as requested by the user
+                const reversedPrediction = finalPrediction === "BIG" ? "SMALL" : "BIG";
+                return reversedPrediction;
             }
 
             // =============================================
@@ -1742,6 +1758,10 @@
                 const finalColor = votes.Red > votes.Green ? 'Red' : 'Green';
                 const finalSize = votes.Big > votes.Small ? 'Big' : 'Small';
                 
+                // FIX: Return the opposite prediction as requested by the user
+                const oppositeColor = finalColor === 'Red' ? 'Green' : 'Red';
+                const oppositeSize = finalSize === 'Big' ? 'Small' : 'Big';
+
                 // Confidence calculation (normalized to 0-100)
                 const totalVotes = votes.Red + votes.Green;
                 const colorConfidence = (Math.max(votes.Red, votes.Green) / totalVotes) * 100;
@@ -1749,7 +1769,7 @@
                 const overallConfidence = (colorConfidence * 0.7 + sizeConfidence * 0.3);
                 
                 return {
-                    prediction: `${finalColor} - ${finalSize}`,
+                    prediction: `${oppositeColor} - ${oppositeSize}`,
                     confidence: overallConfidence.toFixed(2),
                     detailed: predictions,
                     votes
