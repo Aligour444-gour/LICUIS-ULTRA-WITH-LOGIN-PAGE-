@@ -971,7 +971,7 @@
             }
 
             // =============================================
-            // ENHANCED PREDICTION SYSTEM WITH INFINITY ACCURACY
+            // COMBINED PREDICTION SYSTEM
             // =============================================
             
             // Global prediction state with enhanced tracking
@@ -1212,6 +1212,548 @@
                 
                 if (bigVotes >= 2) return "BIG";
                 return "SMALL";
+            }
+
+            // =============================================
+            // ULTRA-WINNING PREDICTION ENGINE 2.0 (Wingo / Color Game)
+            // =============================================
+            
+            const gameHistory = []; // Stores past results [{number, color, period}]
+            const PREDICTION_MEMORY = 7; // How many predictions to remember for accuracy
+
+            // Advanced statistical models
+            const advancedModels = {
+                markovChains: {},
+                fibonacciLevels: [],
+                chaosPatterns: []
+            };
+
+            function updateAdvancedModels(result) {
+                // Markov Chain updates
+                if (gameHistory.length > 0) {
+                    const prevState = gameHistory[gameHistory.length-1].color + gameHistory[gameHistory.length-1].number % 3;
+                    const currentState = result.color + result.number % 3;
+                    if (!advancedModels.markovChains[prevState]) {
+                        advancedModels.markovChains[prevState] = {};
+                    }
+                    advancedModels.markovChains[prevState][currentState] = 
+                        (advancedModels.markovChains[prevState][currentState] || 0) + 1;
+                }
+
+                // Fibonacci sequence detection
+                if (gameHistory.length >= 2) {
+                    const fibCheck = gameHistory[gameHistory.length-2].number + gameHistory[gameHistory.length-1].number;
+                    if (fibCheck === result.number) {
+                        advancedModels.fibonacciLevels.push(result.number);
+                    }
+                }
+
+                // Chaos theory patterns (Lorenz attractor inspired)
+                if (gameHistory.length >= 3) {
+                    const x = gameHistory[gameHistory.length-3].number;
+                    const y = gameHistory[gameHistory.length-2].number;
+                    const z = gameHistory[gameHistory.length-1].number;
+                    const sigma = 10, rho = 28, beta = 8/3;
+                    const dx = sigma*(y - x);
+                    const dy = x*(rho - z) - y;
+                    const dz = x*y - beta*z;
+                    advancedModels.chaosPatterns.push({
+                        x: x + dx*0.1,
+                        y: y + dy*0.1,
+                        z: z + dz*0.1
+                    });
+                }
+            }
+
+            // 1. Quantum Entanglement Detection (pattern clusters)
+            function quantumClusterAnalysis() {
+                if (gameHistory.length < 5) return null;
+                
+                const lastFive = gameHistory.slice(-5);
+                const clusterPatterns = {
+                    redQuantum: lastFive.filter(g => g.color === 'Red').length,
+                    greenQuantum: lastFive.filter(g => g.color === 'Green').length,
+                    numberSequence: lastFive.map(g => g.number).join('-')
+                };
+
+                // Known quantum patterns
+                if (clusterPatterns.numberSequence.match(/2-4-6-8-10/)) return 'Green';
+                if (clusterPatterns.numberSequence.match(/1-3-5-7-9/)) return 'Red';
+                if (clusterPatterns.redQuantum >= 4) return { action: 'betAgainst', color: 'Red' };
+                if (clusterPatterns.greenQuantum >= 4) return { action: 'betAgainst', color: 'Green' };
+
+                return null;
+            }
+
+            // 2. Neural Network Inspired Prediction
+            function neuralPatternDetection() {
+                if (gameHistory.length < 10) return null;
+                
+                // Input layer (last 3 results)
+                const input = gameHistory.slice(-3).map(g => ({
+                    color: g.color === 'Red' ? 1 : 0,
+                    number: g.number / 10,
+                    parity: g.number % 2
+                }));
+
+                // Hidden layer weights (simplified neural net)
+                const weights = {
+                    colorToColor: 0.7,
+                    numberToColor: 0.4,
+                    parityToColor: 0.5
+                };
+
+                // Calculate prediction
+                let redScore = 0;
+                redScore += input[0].color * weights.colorToColor;
+                redScore += (input[0].number + input[1].number) * weights.numberToColor;
+                redScore += input[2].parity * weights.parityToColor;
+
+                return redScore > 0.5 ? 'Red' : 'Green';
+            }
+
+            // 3. Advanced Streak Detection with Fibonacci Levels
+            function enhancedStreakDetection() {
+                if (gameHistory.length < 3) return null;
+                
+                const streaks = {
+                    color: { Red: 0, Green: 0 },
+                    size: { Big: 0, Small: 0 },
+                    parity: { Even: 0, Odd: 0 }
+                };
+
+                // Check last 7 periods for streaks
+                const checkPeriods = Math.min(7, gameHistory.length);
+
+                for (let i = gameHistory.length - 1; i >= gameHistory.length - checkPeriods; i--) {
+                    const g = gameHistory[i];
+                    
+                    // Color streak
+                    if (i === gameHistory.length - 1 || g.color === gameHistory[i+1].color) {
+                        streaks.color[g.color]++;
+                    }
+                    
+                    // Size streak
+                    const size = g.number <= 4 ? 'Small' : 'Big';
+                    if (i === gameHistory.length - 1 || size === (gameHistory[i+1].number <= 4 ? 'Small' : 'Big')) {
+                        streaks.size[size]++;
+                    }
+                    
+                    // Parity streak
+                    const parity = g.number % 2 === 0 ? 'Even' : 'Odd';
+                    if (i === gameHistory.length - 1 || parity === (gameHistory[i+1].number % 2 === 0 ? 'Even' : 'Odd')) {
+                        streaks.parity[parity]++;
+                    }
+                }
+
+                // Fibonacci streak thresholds
+                const fibThresholds = [3, 5, 8];
+                const results = {};
+                
+                for (const type in streaks) {
+                    for (const val in streaks[type]) {
+                        if (fibThresholds.includes(streaks[type][val])) {
+                            results[type] = { value: val, streak: streaks[type][val] };
+                        }
+                    }
+                }
+
+                return Object.keys(results).length > 0 ? results : null;
+            }
+
+            // 4. Chaos Theory Prediction
+            function chaosTheoryPrediction() {
+                if (advancedModels.chaosPatterns.length < 3) return null;
+                
+                const lastPattern = advancedModels.chaosPatterns[advancedModels.chaosPatterns.length-1];
+                const x = lastPattern.x % 10;
+                const y = lastPattern.y % 10;
+                const z = lastPattern.z % 10;
+                
+                const chaosNumber = Math.round((x + y + z) / 3);
+                return {
+                    number: chaosNumber,
+                    color: chaosNumber % 3 === 0 ? 'Red' : 'Green',
+                    size: chaosNumber <= 4 ? 'Small' : 'Big'
+                };
+            }
+
+            // 5. Bayesian Probability Update
+            function bayesianProbability() {
+                if (gameHistory.length < 5) return null;
+                
+                let redGivenRed = 0, greenGivenRed = 0;
+                let redGivenGreen = 0, greenGivenGreen = 0;
+                
+                for (let i = 1; i < gameHistory.length; i++) {
+                    const prev = gameHistory[i-1];
+                    const current = gameHistory[i];
+                    
+                    if (prev.color === 'Red') {
+                        if (current.color === 'Red') redGivenRed++;
+                        else greenGivenRed++;
+                    } else {
+                        if (current.color === 'Red') redGivenGreen++;
+                        else greenGivenGreen++;
+                    }
+                }
+                
+                const totalRedTransitions = redGivenRed + greenGivenRed;
+                const totalGreenTransitions = redGivenGreen + greenGivenGreen;
+                
+                const probRedGivenRed = totalRedTransitions > 0 ? redGivenRed / totalRedTransitions : 0.5;
+                const probGreenGivenRed = totalRedTransitions > 0 ? greenGivenRed / totalRedTransitions : 0.5;
+                const probRedGivenGreen = totalGreenTransitions > 0 ? redGivenGreen / totalGreenTransitions : 0.5;
+                const probGreenGivenGreen = totalGreenTransitions > 0 ? greenGivenGreen / totalGreenTransitions : 0.5;
+                
+                const lastColor = gameHistory[gameHistory.length-1].color;
+                return lastColor === 'Red' 
+                    ? { Red: probRedGivenRed, Green: probGreenGivenRed }
+                    : { Red: probRedGivenGreen, Green: probGreenGivenGreen };
+            }
+
+            // 6. Monte Carlo Simulation
+            function monteCarloSimulation() {
+                if (gameHistory.length < 10) return null;
+                
+                const simulations = 1000;
+                let redWins = 0, greenWins = 0;
+                let bigWins = 0, smallWins = 0;
+                
+                // Simplified Monte Carlo based on recent history
+                const recentHistory = gameHistory.slice(-10);
+                const transitionProbs = {
+                    redToRed: 0,
+                    redToGreen: 0,
+                    greenToRed: 0,
+                    greenToGreen: 0
+                };
+                
+                for (let i = 1; i < recentHistory.length; i++) {
+                    const prev = recentHistory[i-1];
+                    const current = recentHistory[i];
+                    
+                    if (prev.color === 'Red') {
+                        if (current.color === 'Red') transitionProbs.redToRed++;
+                        else transitionProbs.redToGreen++;
+                    } else {
+                        if (current.color === 'Red') transitionProbs.greenToRed++;
+                        else transitionProbs.greenToGreen++;
+                    }
+                }
+                
+                // Normalize probabilities
+                const totalRedTransitions = transitionProbs.redToRed + transitionProbs.redToGreen;
+                const totalGreenTransitions = transitionProbs.greenToRed + transitionProbs.greenToGreen;
+                
+                transitionProbs.redToRed /= totalRedTransitions;
+                transitionProbs.redToGreen /= totalRedTransitions;
+                transitionProbs.greenToRed /= totalGreenTransitions;
+                transitionProbs.greenToGreen /= totalGreenTransitions;
+                
+                // Run simulations
+                let currentColor = recentHistory[recentHistory.length-1].color;
+                for (let i = 0; i < simulations; i++) {
+                    const rand = Math.random();
+                    
+                    if (currentColor === 'Red') {
+                        if (rand < transitionProbs.redToRed) {
+                            redWins++;
+                            currentColor = 'Red';
+                        } else {
+                            greenWins++;
+                            currentColor = 'Green';
+                        }
+                    } else {
+                        if (rand < transitionProbs.greenToGreen) {
+                            greenWins++;
+                            currentColor = 'Green';
+                        } else {
+                            redWins++;
+                            currentColor = 'Red';
+                        }
+                    }
+                    
+                    // Also simulate big/small
+                    const randNum = Math.floor(Math.random() * 10) + 1;
+                    if (randNum <= 4) smallWins++; else bigWins++;
+                }
+                
+                return {
+                    color: redWins > greenWins ? 'Red' : 'Green',
+                    size: smallWins > bigWins ? 'Small' : 'Big',
+                    confidence: Math.max(redWins, greenWins) / simulations
+                };
+            }
+
+            // 7. Hidden Markov Model Prediction
+            function hiddenMarkovPrediction() {
+                if (Object.keys(advancedModels.markovChains).length < 5) return null;
+                
+                const lastState = gameHistory[gameHistory.length-1].color + 
+                                 gameHistory[gameHistory.length-1].number % 3;
+                
+                if (!advancedModels.markovChains[lastState]) return null;
+                
+                const possibleStates = Object.keys(advancedModels.markovChains[lastState]);
+                let totalTransitions = 0;
+                
+                for (const state of possibleStates) {
+                    totalTransitions += advancedModels.markovChains[lastState][state];
+                }
+                
+                let bestState = null;
+                let highestProb = 0;
+                
+                for (const state of possibleStates) {
+                    const prob = advancedModels.markovChains[lastState][state] / totalTransitions;
+                    if (prob > highestProb) {
+                        highestProb = prob;
+                        bestState = state;
+                    }
+                }
+                
+                if (!bestState) return null;
+                
+                return {
+                    color: bestState.startsWith('Red') ? 'Red' : 'Green',
+                    numberMod: parseInt(bestState.slice(-1))
+                };
+            }
+
+            // 8. Fibonacci Retracement Prediction
+            function fibonacciRetracement() {
+                if (gameHistory.length < 8) return null;
+                
+                const numbers = gameHistory.slice(-8).map(g => g.number);
+                const highest = Math.max(...numbers);
+                const lowest = Math.min(...numbers);
+                const diff = highest - lowest;
+                
+                const levels = {
+                    level23: Math.round(lowest + diff * 0.236),
+                    level38: Math.round(lowest + diff * 0.382),
+                    level50: Math.round(lowest + diff * 0.5),
+                    level61: Math.round(lowest + diff * 0.618)
+                };
+                
+                const lastNumber = gameHistory[gameHistory.length-1].number;
+                let prediction = null;
+                
+                if (lastNumber <= levels.level23) prediction = 'Strong reversal expected';
+                else if (lastNumber <= levels.level38) prediction = 'Moderate reversal expected';
+                else if (lastNumber <= levels.level61) prediction = 'Continue trend';
+                else prediction = 'Strong trend continuation';
+                
+                return {
+                    prediction,
+                    levels,
+                    suggestedBet: lastNumber <= levels.level50 ? 'Green' : 'Red'
+                };
+            }
+
+            // 9. Advanced Number Theory Prediction
+            function numberTheoryPrediction() {
+                if (gameHistory.length < 3) return null;
+                
+                const lastNumbers = gameHistory.slice(-3).map(g => g.number);
+                const sum = lastNumbers.reduce((a, b) => a + b, 0);
+                const product = lastNumbers.reduce((a, b) => a * b, 1);
+                
+                // Check for prime numbers
+                const isPrime = num => {
+                    for (let i = 2, s = Math.sqrt(num); i <= s; i++)
+                        if (num % i === 0) return false;
+                    return num > 1;
+                };
+                
+                const primeCount = lastNumbers.filter(n => isPrime(n)).length;
+                
+                // Check for perfect squares
+                const squareCount = lastNumbers.filter(n => Math.sqrt(n) % 1 === 0).length;
+                
+                // Prediction logic
+                let colorPrediction = null;
+                if (primeCount >= 2) colorPrediction = 'Green';
+                else if (squareCount >= 2) colorPrediction = 'Red';
+                else if (sum % 3 === 0) colorPrediction = 'Red';
+                else if (product % 4 === 0) colorPrediction = 'Green';
+                
+                let sizePrediction = null;
+                if (sum <= 10) sizePrediction = 'Small';
+                else if (sum >= 20) sizePrediction = 'Big';
+                else if (product <= 30) sizePrediction = 'Small';
+                else sizePrediction = 'Big';
+                
+                return {
+                    color: colorPrediction,
+                    size: sizePrediction,
+                    factors: { primeCount, squareCount, sum, product }
+                };
+            }
+
+            // 10. Time Series Analysis
+            function timeSeriesAnalysis() {
+                if (gameHistory.length < 15) return null;
+                
+                const numbers = gameHistory.map(g => g.number);
+                const colors = gameHistory.map(g => g.color === 'Red' ? 1 : 0);
+                
+                // Simple moving averages
+                const sma5 = [];
+                const sma10 = [];
+                
+                for (let i = 4; i < numbers.length; i++) {
+                    sma5.push(numbers.slice(i-4, i+1).reduce((a, b) => a + b, 0) / 5);
+                }
+                
+                for (let i = 9; i < numbers.length; i++) {
+                    sma10.push(numbers.slice(i-9, i+1).reduce((a, b) => a + b, 0) / 10);
+                }
+                
+                // Check for crossovers
+                let signal = null;
+                if (sma5.length >= 2 && sma10.length >= 2) {
+                    const lastSma5 = sma5[sma5.length-1];
+                    const prevSma5 = sma5[sma5.length-2];
+                    const lastSma10 = sma10[sma10.length-1];
+                    const prevSma10 = sma10[sma10.length-2];
+                    
+                    if (prevSma5 < prevSma10 && lastSma5 > lastSma10) {
+                        signal = 'Bullish (Red)';
+                    } else if (prevSma5 > prevSma10 && lastSma5 < lastSma10) {
+                        signal = 'Bearish (Green)';
+                    }
+                }
+                
+                // RSI calculation
+                const rsiPeriod = 14;
+                let gains = 0, losses = 0;
+                
+                if (colors.length >= rsiPeriod) {
+                    for (let i = colors.length - rsiPeriod; i < colors.length - 1; i++) {
+                        const change = colors[i+1] - colors[i];
+                        if (change > 0) gains += change;
+                        else losses -= change;
+                    }
+                    
+                    const avgGain = gains / rsiPeriod;
+                    const avgLoss = losses / rsiPeriod;
+                    const rs = avgGain / avgLoss;
+                    const rsi = 100 - (100 / (1 + rs));
+                    
+                    return {
+                        signal: signal || 'Neutral',
+                        rsi,
+                        action: rsi > 70 ? 'Overbought (Green)' : rsi < 30 ? 'Oversold (Red)' : 'Neutral',
+                        sma5: sma5.slice(-1)[0],
+                        sma10: sma10.slice(-1)[0]
+                    };
+                }
+                
+                return { signal };
+            }
+
+            // 🧠 Master Prediction Function
+            function ultraPredictionEngine() {
+                if (gameHistory.length < 3) {
+                    return {
+                        prediction: "Insufficient data",
+                        confidence: 0,
+                        suggestedBet: Math.random() < 0.5 ? 'Red' : 'Green'
+                    };
+                }
+                
+                // Collect all predictions
+                const predictions = {
+                    quantum: quantumClusterAnalysis(),
+                    neural: neuralPatternDetection(),
+                    streak: enhancedStreakDetection(),
+                    chaos: chaosTheoryPrediction(),
+                    bayesian: bayesianProbability(),
+                    monteCarlo: monteCarloSimulation(),
+                    markov: hiddenMarkovPrediction(),
+                    fibRetrace: fibonacciRetracement(),
+                    numberTheory: numberTheoryPrediction(),
+                    timeSeries: timeSeriesAnalysis()
+                };
+                
+                // Voting system
+                const votes = {
+                    Red: 0,
+                    Green: 0,
+                    Big: 0,
+                    Small: 0
+                };
+                
+                // Process each prediction
+                if (predictions.quantum) {
+                    if (predictions.quantum.action === 'betAgainst') {
+                        votes[predictions.quantum.color === 'Red' ? 'Green' : 'Red'] += 2;
+                    } else if (typeof predictions.quantum === 'string') {
+                        votes[predictions.quantum] += 1;
+                    }
+                }
+                
+                if (predictions.neural) votes[predictions.neural] += 1.5;
+                
+                if (predictions.streak) {
+                    for (const type in predictions.streak) {
+                        const val = predictions.streak[type].value;
+                        if (val === 'Red' || val === 'Green') {
+                            votes[val] += 1 + (predictions.streak[type].streak * 0.2);
+                        }
+                    }
+                }
+                
+                if (predictions.chaos) votes[predictions.chaos.color] += 1.2;
+                
+                if (predictions.bayesian) {
+                    votes.Red += predictions.bayesian.Red * 1.5;
+                    votes.Green += predictions.bayesian.Green * 1.5;
+                }
+                
+                if (predictions.monteCarlo) {
+                    votes[predictions.monteCarlo.color] += 2;
+                    votes[predictions.monteCarlo.size] += 1;
+                }
+                
+                if (predictions.markov) {
+                    votes[predictions.markov.color] += 1.3;
+                }
+                
+                if (predictions.fibRetrace) {
+                    votes[predictions.fibRetrace.suggestedBet] += 1.5;
+                }
+                
+                if (predictions.numberTheory) {
+                    if (predictions.numberTheory.color) votes[predictions.numberTheory.color] += 1;
+                    if (predictions.numberTheory.size) votes[predictions.numberTheory.size] += 1;
+                }
+                
+                if (predictions.timeSeries) {
+                    if (predictions.timeSeries.signal.includes('Red')) votes.Red += 1.2;
+                    if (predictions.timeSeries.signal.includes('Green')) votes.Green += 1.2;
+                    if (predictions.timeSeries.action.includes('Red')) votes.Red += 1;
+                    if (predictions.timeSeries.action.includes('Green')) votes.Green += 1;
+                }
+                
+                // Calculate final prediction
+                const finalColor = votes.Red > votes.Green ? 'Red' : 'Green';
+                const finalSize = votes.Big > votes.Small ? 'Big' : 'Small';
+                
+                // Confidence calculation (normalized to 0-100)
+                const totalVotes = votes.Red + votes.Green;
+                const colorConfidence = (Math.max(votes.Red, votes.Green) / totalVotes) * 100;
+                const sizeConfidence = (Math.max(votes.Big, votes.Small) / (votes.Big + votes.Small)) * 100;
+                const overallConfidence = (colorConfidence * 0.7 + sizeConfidence * 0.3);
+                
+                return {
+                    prediction: `${finalColor} - ${finalSize}`,
+                    confidence: overallConfidence.toFixed(2),
+                    detailed: predictions,
+                    votes
+                };
             }
 
             // =============================================
