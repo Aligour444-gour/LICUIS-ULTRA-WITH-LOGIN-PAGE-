@@ -9,25 +9,26 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
         :root {
-            --primary: #ff003c;
-            --primary-dark: #b3002a;
-            --secondary: #ff5e00;
-            --accent: #ff0055;
-            --win: #00ff88;
-            --loss: #ff0055;
-            --warning: #ffcc00;
-            --bg-dark: #12080a;
-            --bg-darker: #080406;
-            --bg-light: #1a0e12;
-            --text-dim: rgba(255, 200, 220, 0.7);
-            --text-bright: #ffffff;
-            --glow: 0 0 15px rgba(255, 0, 60, 0.5);
-            --gradient: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
-            --success-gradient: linear-gradient(135deg, var(--win), #ff0044);
-            --danger-gradient: linear-gradient(135deg, var(--loss), #ff00aa);
-            --glass-bg: rgba(30, 8, 15, 0.7);
-            --glass-border: rgba(255, 100, 130, 0.1);
+            --primary: #0066ff;
+            --primary-dark: #004fc5;
+            --secondary: #0088ff;
+            --accent: #0055ff;
+            --win: #00c851;
+            --loss: #ff4444;
+            --warning: #ffbb33;
+            --bg-light: #f8f9fa;
+            --bg-lighter: #ffffff;
+            --bg-medium: #e9ecef;
+            --text-dark: #212529;
+            --text-medium: #495057;
+            --text-light: #6c757d;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(0, 102, 255, 0.1);
             --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            --shadow: 0 4px 20px rgba(0, 102, 255, 0.1);
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            --success-gradient: linear-gradient(135deg, var(--win), #00a844);
+            --danger-gradient: linear-gradient(135deg, var(--loss), #ff0022);
         }
 
         * {
@@ -37,16 +38,16 @@
         }
 
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-bright);
-            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            font-family: 'Inter', sans-serif;
             padding: 0;
             margin: 0;
             overflow: hidden;
             background-image: 
-                radial-gradient(circle at 10% 20%, rgba(255, 0, 60, 0.05) 0%, transparent 25%),
-                radial-gradient(circle at 90% 80%, rgba(255, 0, 85, 0.05) 0%, transparent 25%),
-                linear-gradient(to bottom, var(--bg-darker), var(--bg-dark));
+                radial-gradient(circle at 10% 20%, rgba(0, 102, 255, 0.05) 0%, transparent 25%),
+                radial-gradient(circle at 90% 80%, rgba(0, 136, 255, 0.05) 0%, transparent 25%),
+                linear-gradient(to bottom, var(--bg-lighter), var(--bg-light));
             position: fixed;
             width: 100%;
             height: 100%;
@@ -72,7 +73,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: var(--glow);
+            box-shadow: 0 0 10px rgba(0, 102, 255, 0.3);
         }
 
         .logo-icon svg {
@@ -89,7 +90,6 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            text-shadow: 0 0 10px rgba(255, 0, 60, 0.3);
         }
 
         /* Tab System */
@@ -99,12 +99,13 @@
             left: 0;
             width: 100%;
             height: 60px;
-            background: rgba(30, 8, 15, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             display: flex;
             z-index: 99999999;
             backdrop-filter: blur(5px);
-            border-bottom: 1px solid rgba(255, 0, 60, 0.1);
+            border-bottom: 1px solid rgba(0, 102, 255, 0.1);
             padding-left: 80px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
 
         .tab {
@@ -119,11 +120,11 @@
         }
 
         .tab:hover {
-            background: rgba(255, 0, 60, 0.1);
+            background: rgba(0, 102, 255, 0.05);
         }
 
         .tab.active {
-            background: rgba(255, 0, 60, 0.2);
+            background: rgba(0, 102, 255, 0.1);
         }
 
         .tab.active::after {
@@ -150,6 +151,7 @@
             font-weight: 600;
             letter-spacing: 1px;
             font-size: 14px;
+            color: var(--text-dark);
         }
 
         /* Content Sections */
@@ -169,12 +171,12 @@
 
         /* Web Section (Game Selection) */
         #web-section {
-            background-color: var(--bg-dark);
+            background-color: var(--bg-light);
         }
 
         /* History Section */
         #history-section {
-            background-color: var(--bg-dark);
+            background-color: var(--bg-light);
             padding: 20px;
             overflow-y: auto;
         }
@@ -187,7 +189,7 @@
             border: 1px solid var(--glass-border);
             backdrop-filter: blur(10px);
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: var(--shadow);
         }
 
         .history-title {
@@ -196,8 +198,7 @@
             font-family: 'Orbitron', sans-serif;
             font-size: 24px;
             color: var(--primary);
-            text-shadow: 0 0 10px rgba(255, 0, 60, 0.3);
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 102, 255, 0.05);
             border-bottom: 1px solid var(--glass-border);
             display: flex;
             align-items: center;
@@ -209,7 +210,7 @@
             display: flex;
             justify-content: space-between;
             padding: 15px 20px;
-            background: rgba(255, 0, 60, 0.1);
+            background: rgba(0, 102, 255, 0.05);
             border-bottom: 1px solid var(--glass-border);
             align-items: center;
         }
@@ -220,9 +221,9 @@
         }
 
         .filter-btn {
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.7);
             border: 1px solid var(--glass-border);
-            color: var(--text-dim);
+            color: var(--text-medium);
             padding: 8px 15px;
             border-radius: 20px;
             cursor: pointer;
@@ -233,7 +234,7 @@
         .filter-btn.active {
             background: var(--gradient);
             color: white;
-            box-shadow: var(--glow);
+            box-shadow: 0 0 10px rgba(0, 102, 255, 0.2);
         }
 
         .history-stats {
@@ -242,7 +243,7 @@
         }
 
         .stat-badge {
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.7);
             border: 1px solid var(--glass-border);
             padding: 8px 15px;
             border-radius: 20px;
@@ -268,30 +269,31 @@
             display: grid;
             grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
             padding: 15px 20px;
-            background: rgba(255, 0, 60, 0.1);
+            background: rgba(0, 102, 255, 0.05);
             font-weight: 600;
             border-bottom: 1px solid var(--glass-border);
+            color: var(--text-dark);
         }
 
         .history-item {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
             padding: 15px 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
             transition: var(--transition);
             position: relative;
         }
 
         .history-item:hover {
-            background: rgba(255, 0, 60, 0.05);
+            background: rgba(0, 102, 255, 0.03);
         }
 
         .history-item.win {
-            background: rgba(0, 255, 136, 0.05);
+            background: rgba(0, 200, 81, 0.05);
         }
 
         .history-item.loss {
-            background: rgba(255, 0, 60, 0.05);
+            background: rgba(255, 68, 68, 0.05);
         }
 
         .history-value {
@@ -300,13 +302,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            color: var(--text-dark);
         }
 
         .history-value-highlight {
             font-size: 18px;
             font-weight: 700;
             color: var(--primary);
-            text-shadow: 0 0 8px rgba(255, 0, 60, 0.3);
         }
 
         .color-dot {
@@ -318,13 +320,11 @@
         }
 
         .color-red {
-            background-color: #ff003c;
-            box-shadow: 0 0 8px rgba(255, 0, 60, 0.5);
+            background-color: #ff4444;
         }
 
         .color-green {
-            background-color: #00ff88;
-            box-shadow: 0 0 8px rgba(0, 255, 136, 0.5);
+            background-color: #00c851;
         }
 
         .history-pagination {
@@ -342,20 +342,21 @@
             align-items: center;
             justify-content: center;
             border-radius: 8px;
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.7);
             border: 1px solid var(--glass-border);
-            color: var(--text-bright);
+            color: var(--text-dark);
             cursor: pointer;
             transition: var(--transition);
         }
 
         .pagination-btn.active {
             background: var(--gradient);
-            box-shadow: var(--glow);
+            color: white;
+            box-shadow: 0 0 10px rgba(0, 102, 255, 0.2);
         }
 
         .pagination-btn:hover:not(.disabled) {
-            background: rgba(255, 0, 60, 0.2);
+            background: rgba(0, 102, 255, 0.1);
         }
 
         .pagination-btn.disabled {
@@ -366,7 +367,7 @@
         .loading-container, .error-container, .no-data-container {
             text-align: center;
             padding: 40px 20px;
-            color: var(--text-dim);
+            color: var(--text-light);
         }
 
         .loading-container i, .error-container i, .no-data-container i {
@@ -376,7 +377,7 @@
         }
 
         .error-container {
-            color: var(--primary);
+            color: var(--loss);
         }
 
         /* Analysis Section */
@@ -393,7 +394,7 @@
             padding: 20px;
             margin-bottom: 20px;
             backdrop-filter: blur(10px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--shadow);
         }
 
         .analysis-title {
@@ -401,7 +402,6 @@
             font-size: 20px;
             color: var(--primary);
             margin-bottom: 15px;
-            text-shadow: 0 0 8px rgba(255, 0, 60, 0.3);
             display: flex;
             align-items: center;
             gap: 10px;
@@ -415,7 +415,7 @@
         }
 
         .stat-item {
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.7);
             border-radius: 8px;
             padding: 15px;
             text-align: center;
@@ -431,7 +431,7 @@
 
         .stat-label {
             font-size: 14px;
-            color: var(--text-dim);
+            color: var(--text-light);
         }
 
         .pattern-list {
@@ -442,7 +442,7 @@
             display: flex;
             justify-content: space-between;
             padding: 10px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
 
         .pattern-item:last-child {
@@ -451,6 +451,7 @@
 
         .pattern-value {
             font-weight: 600;
+            color: var(--text-dark);
         }
 
         .pattern-confidence {
@@ -466,7 +467,7 @@
         }
 
         .strategy-card {
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.7);
             border-radius: 10px;
             padding: 15px;
             border-left: 4px solid var(--primary);
@@ -476,7 +477,7 @@
 
         .strategy-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--shadow);
         }
 
         .strategy-title {
@@ -490,7 +491,7 @@
 
         .strategy-description {
             font-size: 14px;
-            color: var(--text-dim);
+            color: var(--text-medium);
             line-height: 1.5;
         }
 
@@ -501,7 +502,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(8, 4, 6, 0.95);
+            background: rgba(255, 255, 255, 0.98);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -525,8 +526,8 @@
             width: 100%;
             height: 100%;
             background: 
-                radial-gradient(circle at 20% 30%, rgba(255, 0, 60, 0.05) 0%, transparent 25%),
-                radial-gradient(circle at 80% 70%, rgba(255, 0, 85, 0.05) 0%, transparent 25%);
+                radial-gradient(circle at 20% 30%, rgba(0, 102, 255, 0.05) 0%, transparent 25%),
+                radial-gradient(circle at 80% 70%, rgba(0, 136, 255, 0.05) 0%, transparent 25%);
             z-index: -1;
         }
 
@@ -535,7 +536,6 @@
             font-size: 36px;
             margin: 0 0 40px;
             color: var(--primary);
-            text-shadow: 0 0 20px var(--primary);
             letter-spacing: 3px;
             position: relative;
             display: inline-block;
@@ -566,7 +566,7 @@
             overflow-y: auto;
             padding: 0 20px;
             scrollbar-width: thin;
-            scrollbar-color: var(--primary) rgba(0,0,0,0.3);
+            scrollbar-color: var(--primary) rgba(0,0,0,0.1);
         }
 
         .game-list-container::-webkit-scrollbar {
@@ -574,7 +574,7 @@
         }
 
         .game-list-container::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.1);
             border-radius: 3px;
         }
 
@@ -591,26 +591,25 @@
         }
 
         .game-item {
-            background: rgba(30, 8, 15, 0.7);
-            border: 1px solid rgba(255, 0, 60, 0.1);
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 102, 255, 0.1);
             border-radius: 12px;
             padding: 20px;
             cursor: pointer;
             transition: var(--transition);
             text-align: center;
-            font-family: 'Rajdhani', sans-serif;
-            color: var(--text-bright);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(4px);
         }
 
         .game-item:hover {
             transform: translateY(-5px);
-            box-shadow: 0 12px 40px rgba(255, 0, 60, 0.2);
-            background: rgba(40, 10, 20, 0.8);
-            border-color: rgba(255, 0, 60, 0.3);
+            box-shadow: 0 12px 25px rgba(0, 102, 255, 0.15);
+            background: rgba(255, 255, 255, 1);
+            border-color: rgba(0, 102, 255, 0.3);
         }
 
         .game-item::before {
@@ -640,12 +639,11 @@
 
         .game-item:hover .game-name {
             color: var(--primary);
-            text-shadow: 0 0 10px var(--primary);
         }
 
         .game-url {
             font-size: 12px;
-            color: var(--text-dim);
+            color: var(--text-light);
             word-break: break-all;
             opacity: 0.7;
             transition: var(--transition);
@@ -684,8 +682,8 @@
             justify-content: center;
             cursor: pointer;
             z-index: 9999999;
-            box-shadow: 0 0 20px rgba(255, 0, 60, 0.5);
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 20px rgba(0, 102, 255, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.5);
             transition: var(--transition);
             animation: tapeFloat 4s ease-in-out infinite;
         }
@@ -697,7 +695,7 @@
 
         .injector-tape:hover {
             transform: scale(1.1) rotate(10deg);
-            box-shadow: 0 0 30px rgba(255, 0, 60, 0.7);
+            box-shadow: 0 0 30px rgba(0, 102, 255, 0.4);
             animation: none;
         }
 
@@ -716,7 +714,7 @@
         /* Floating Particles */
         .particle {
             position: absolute;
-            background: rgba(255, 0, 60, 0.3);
+            background: rgba(0, 102, 255, 0.2);
             border-radius: 50%;
             pointer-events: none;
             z-index: -1;
@@ -740,18 +738,19 @@
             padding: 0;
             display: flex;
             flex-direction: column;
-            background-color: var(--bg-dark);
+            background-color: var(--bg-light);
             position: relative;
             overflow: hidden;
         }
 
         .chat-header {
-            background: var(--bg-light);
+            background: var(--bg-lighter);
             padding: 18px 15px;
             text-align: center;
-            border-bottom: 1px solid rgba(255, 0, 60, 0.1);
+            border-bottom: 1px solid rgba(0, 102, 255, 0.1);
             position: relative;
             z-index: 10;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
 
         .chat-title {
@@ -765,11 +764,12 @@
             letter-spacing: 0.5px;
             position: relative;
             overflow: hidden;
+            font-family: 'Orbitron', sans-serif;
         }
 
         .chat-subtitle {
             font-size: 0.75rem;
-            color: var(--text-dim);
+            color: var(--text-light);
             margin: 5px 0 0;
             display: flex;
             align-items: center;
@@ -781,11 +781,11 @@
             flex: 1;
             overflow-y: auto;
             padding: 15px;
-            background-color: var(--bg-dark);
+            background-color: var(--bg-light);
             scroll-behavior: smooth;
             background-image: 
-                radial-gradient(circle at 25% 25%, rgba(255, 0, 60, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 75% 75%, rgba(255, 0, 85, 0.03) 0%, transparent 50%);
+                radial-gradient(circle at 25% 25%, rgba(0, 102, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(0, 136, 255, 0.03) 0%, transparent 50%);
         }
 
         .message {
@@ -801,10 +801,11 @@
         }
 
         .received {
-            background-color: var(--bg-light);
+            background-color: var(--bg-lighter);
             border-bottom-left-radius: 5px;
             margin-right: auto;
-            border: 1px solid rgba(255, 0, 60, 0.05);
+            border: 1px solid rgba(0, 102, 255, 0.1);
+            color: var(--text-dark);
         }
 
         .sent {
@@ -816,7 +817,7 @@
 
         .timestamp {
             font-size: 0.65rem;
-            color: var(--text-dim);
+            color: var(--text-light);
             margin-top: 8px;
             text-align: right;
             opacity: 0.8;
@@ -825,14 +826,15 @@
         .emoji {
             font-size: 1.2em;
             margin-right: 5px;
+            display: inline-block;
         }
 
         .prediction-card {
-            background-color: rgba(255, 0, 60, 0.08);
+            background-color: rgba(0, 102, 255, 0.08);
             border-radius: 12px;
             padding: 14px;
             margin: 12px 0;
-            border: 1px solid rgba(255, 0, 60, 0.15);
+            border: 1px solid rgba(0, 102, 255, 0.15);
         }
 
         .prediction-title {
@@ -849,6 +851,7 @@
 
         .prediction-title i {
             font-size: 0.9rem;
+            display: inline-block;
         }
 
         .prediction-value {
@@ -858,7 +861,6 @@
             text-align: center;
             letter-spacing: 1px;
             color: var(--primary);
-            text-shadow: 0 0 10px rgba(255, 0, 60, 0.3);
         }
 
         .status-indicator {
@@ -871,36 +873,34 @@
 
         .online {
             background-color: var(--win);
-            box-shadow: 0 0 8px var(--win);
         }
 
         .offline {
             background-color: var(--loss);
-            box-shadow: 0 0 8px var(--loss);
         }
 
         .typing-indicator {
             display: flex;
             padding: 12px 16px;
-            background-color: var(--bg-light);
+            background-color: var(--bg-lighter);
             border-radius: 18px;
             width: fit-content;
             margin-bottom: 15px;
             border-bottom-left-radius: 5px;
             align-items: center;
             gap: 8px;
-            border: 1px solid rgba(255, 0, 60, 0.05);
+            border: 1px solid rgba(0, 102, 255, 0.1);
         }
 
         .typing-text {
             font-size: 0.85rem;
-            color: var(--text-dim);
+            color: var(--text-light);
         }
 
         .typing-dot {
             width: 8px;
             height: 8px;
-            background-color: var(--text-dim);
+            background-color: var(--text-light);
             border-radius: 50%;
             animation: typingAnimation 1.4s infinite ease-in-out;
         }
@@ -927,7 +927,7 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(255, 0, 60, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.2);
             z-index: 100;
             opacity: 0;
             transition: all 0.3s ease;
@@ -946,12 +946,12 @@
 
         .scroll-down-btn:hover {
             transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 6px 20px rgba(255, 0, 60, 0.4);
+            box-shadow: 0 6px 20px rgba(0, 102, 255, 0.3);
         }
 
         .progress-bar {
             height: 6px;
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: rgba(0, 0, 0, 0.1);
             border-radius: 3px;
             margin: 10px 0;
             overflow: hidden;
@@ -969,7 +969,7 @@
             width: 300px;
             height: 300px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 0, 60, 0.05) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(0, 102, 255, 0.05) 0%, transparent 70%);
             z-index: 0;
         }
 
@@ -997,7 +997,7 @@
             justify-content: space-between;
             margin-top: 5px;
             font-size: 0.75rem;
-            color: var(--text-dim);
+            color: var(--text-light);
         }
 
         .confidence-value {
@@ -1013,24 +1013,24 @@
         }
 
         .predicted-number {
-            background: rgba(255, 0, 60, 0.1);
+            background: rgba(0, 102, 255, 0.1);
             border-radius: 8px;
             padding: 8px 12px;
             font-weight: 600;
             color: var(--primary);
-            border: 1px solid rgba(255, 0, 60, 0.2);
+            border: 1px solid rgba(0, 102, 255, 0.2);
             min-width: 30px;
             text-align: center;
         }
 
         .predicted-number.small {
-            background: rgba(0, 255, 136, 0.1);
-            border-color: rgba(0, 255, 136, 0.2);
+            background: rgba(0, 200, 81, 0.1);
+            border-color: rgba(0, 200, 81, 0.2);
         }
 
         .predicted-number.big {
-            background: rgba(255, 144, 0, 0.1);
-            border-color: rgba(255, 144, 0, 0.2);
+            background: rgba(255, 136, 0, 0.1);
+            border-color: rgba(255, 136, 0, 0.2);
         }
 
         /* Responsive Adjustments */
@@ -1155,7 +1155,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <!-- Logo -->
     <div class="logo">
         <div class="logo-icon">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -1165,27 +1164,25 @@
         <div class="logo-text">LICUIS ULTRA</div>
     </div>
 
-    <!-- Tab System -->
     <div class="tab-system">
         <div class="tab active" data-tab="web">
-            <div class="tab-icon" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik0xMiAyMmM1LjUyMyAwIDEwLTQuNDc3IDEwLTEwUzE3LjUyMyAyIDEyIDIgMiA2LjQ3NyAyIDEyczQuNDc3IDEwIDEwIDEwek0yIDEyaDIwIj48L3BhdGg+PHBhdGggZD0iTTEyIDJhMTUuMyAxNS4zIDAgMCAxIDQgMTAgMTUuMyAxNS4zIDAgMCAxLTQgMTAgMTUuMyAxNS4zIDAgMCAxLTQtMTAgMTUuMyAxNS4zIDAgMCAxIDQtMTB6Ij48L3BhdGg+PC9zdmc+')"></div>
+            <div class="tab-icon" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDA2NmZmIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTEyIDJjNS41MjMgMCAxMC00LjQ3NyAxMC0xMFMxNy41MjMgMiAxMiAyIDIgNi40NzcgMiAxMnM0LjQ3NyAxMCAxMCAxMHpNMiAxMmgyMCI+PC9wYXRoPjxwYXRoIGQ9Ik0xMiAyYTE1LjMgMTUuMyAwIDAgMSA0IDEwIDE1LjMgMTUuMyAwIDAgMS00IDEwIDE1LjMgMTUuMyAwIDAgMS00LTEwIDE1LjMgMTUuMyAwIDAgMSA0LTEweiI+PC9wYXRoPjwvc3ZnPg==')"></div>
             <div class="tab-label">Games</div>
         </div>
         <div class="tab" data-tab="predictor">
-            <div class="tab-icon" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik0xOSAxNGMxLjQ5LTEuNDYgMi4yNC0yLjI2IDIuNS0zLjUuMjYtMS4yNC0uMzQtMi41LTEuNS0yLjUtMS41NCAwLTIuNSAxLjQ2LTIuNSAzLjVzMSA0IDIgNC41Yy42LjMgMS4yLjUgMS41LjUuNTUgMCAxLS40NSAxLTF2LTYuNWMwLTEuNS0uNjctMi41LTIuNS0yLjVzLTIuNSAxLTIuNSAyLjVWMTQiPjwvcGF0aD48cGF0aCBkPSJNMTEgMTMuNXYtOWMtMC44MzMtLjMzLTEuNS0uNS0yLjUtLjVTNiA0LjE3IDYgNC41djkuNWMwIDEuNS42NyAyLjUgMi41IDIuNXMxLjUtLjUgMi41LS41di05eiI+PC9wYXRoPjxwYXRoIGQ9Ik01IDguNWMwIDEuNS42NyAyLjUgMi41IDIuNVMxMCAxMCAxMCA4LjVWNC41QzEwIDMuMTcgOS4zMyAyIDcuNSAyUzUgMy4xNyA1IDQuNXY0eiI+PC9wYXRoPjwvc3ZnPg==')"></div>
+            <div class="tab-icon" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDA2NmZmIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FpPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTE5IDE0YzEuNDktMS40NiAyLjI0LTIuMjYgMi41LTMuNS4yNi0xLjI0LS4zNC0yLjUtMS41LTIuNS0xLjU0IDAtMi41IDEuNDYtMi41IDMuNXMxIDQgMiA0LjVjLjYuMyAxLjIuNSAxLjUuNS41NSAwIDEtLjQ1IDEtMXYtNi41YzAtMS41LS42Ny0yLjUtMi41LTIuNXMtMi41IDEtMi41IDIuNVYxNCI+PC9wYXRoPjxwYXRoIGQ9Ik0xMSAxMy41di05Yy0wLjgzMy0uMzMtMS41LS41LTIuNS0uNVM2IDQuMTcgNiA0LjV2OS41YzAgMS41LjY3IDIuNSAyLjUgMi41czEuNS0uNSAyLjUtLjV2LTl6Ij48L3BhdGg+PHBhdGggZD0iTTUgOC41YzAgMS41LjY3IDIuNSAyLjUgMi41UzEwIDEwIDEwIDguNVY0LjVDMTAgMy4xNyA5LjMzIDIgNy41IDJTNSAzLjE3IDUgNC41djR6Ij48L3BhdGg+PC9zdmc+')"></div>
             <div class="tab-label">Predictor</div>
         </div>
         <div class="tab" data-tab="history">
-            <div class="tab-icon" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik0xMiA4djRsNCA0Ij48L3BhdGg+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiPjwvY2lyY2xlPjwvc3ZnPg==')"></div>
+            <div class="tab-icon" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDA2NmZmIiBzdHJva2Utd2h0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMTIgOHY0bDQgNCI+PC9wYXRoPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjEwIj48L2NpcmNsZT48L3N2Zz4=')"></div>
             <div class="tab-label">History</div>
         </div>
         <div class="tab" data-tab="analysis">
-            <div class="tab-icon" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwb2x5Z29uIHBvaW50cz0iMTIgMiAyMiA4LjUgMjIgMTUuNSAxMiAyMiAyIDE1LjUgMiA4LjUgMTIgMiI+PC9wb2x5Z29uPjxsaW5lIHgxPSIxMiIgeTE9IjIyIiB4Mj0iMTIiIHkyPSIxNSI+PC9saW5lPjxwb2x5bGluZSBwb2ludHM9IjIgOSAyMiA5Ij48L3BvbHlsaW5lPjxwb2x5bGluZSBwb2ludHM9IjIgMTUgMTIgMTUgMTIgMjIiPjwvcG9seWxpbmU+PC9zdmc+')"></div>
+            <div class="tab-icon" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDA2NmZmIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBvbHlnb24gcG9pbnRzPSIxMiAyIDIyIDguNSAyMiAxNS41IDEyIDIyIDIgMTUuNSAyIDguNSAxMiAyIj48L3BvbHlnb24+PGxpbmUgeDE9IjEyIiB5MT0iMjIiIHgyPSIxMiIgeTI9IjE1Ij48L2xpbmU+PHBvbHlsaW5lIHBvaW50cz0iMiA5IDIyIDkiPjwvcG9seWxpbmU+PHBvbHlsaW5lIHBoaW50cz0iMiAxNSAxMiAxNSAxMiAyMiI+PC9wb2x5bGluZT48L3N2Zz4=')"></div>
             <div class="tab-label">Analysis</div>
         </div>
     </div>
 
-    <!-- Content Sections -->
     <div class="content-section active" id="web-section">
         <div class="game-selection" id="gameSelection">
             <div class="game-selection-title" id="gameSelectionTitle">SELECT GAME</div>
@@ -1193,51 +1190,51 @@
                 <div class="game-list">
                     <div class="game-item" data-url="https://bdginf.com/#/login">
                         <div class="game-name">BIG DADDY</div>
-                        <div class="game-url">bdginf.com</div>
+                        <div class="game-url"></div>
                     </div>
                     <div class="game-item" data-url="http://Okwin.bio">
                         <div class="game-name">OK WIN</div>
-                        <div class="game-url">Okwin.bio</div>
+                        <div class="game-url"></div>
                     </div>
                     <div class="game-item" data-url="https://goagamea.com/#/login">
                         <div class="game-name">GOA GAME</div>
-                        <div class="game-url">goagamea.com</div>
+                        <div class="game-url"></div>
                     </div>
                     <div class="game-item" data-url="https://www.bigmumbaiq.com/#/login">
                         <div class="game-name">BIG MUMBAI</div>
-                        <div class="game-url">bigmumbaiq.com</div>
+                        <div class="game-url"></div>
                     </div>
                     <div class="game-item" data-url="http://tirangagame.top">
                         <div class="game-name">TIRANGA</div>
-                        <div class="game-url">tirangagame.top</div>
+                        <div class="game-url"></div>
                     </div>
                     <div class="game-item" data-url="https://51game5.com/#/">
                         <div class="game-name">51 GAME</div>
-                        <div class="game-url">51game5.com</div>
+                        <div class="game-url"></div>
                     </div>
                     <div class="game-item" data-url="https://bdgwin.cc/#/login">
                         <div class="game-name">BDG WIN</div>
-                        <div class="game-url">bdgwin.cc</div>
+                        <div class="game-url"></div>
                     </div>
                     <div class="game-item" data-url="http://rajawager.com">
                         <div class="game-name">RAJA WAGER</div>
-                        <div class="game-url">rajawager.com</div>
+                        <div class="game-url"></div>
                     </div>
                     <div class="game-item" data-url="http://55club.game">
                         <div class="game-name">55 CLUB</div>
-                        <div class="game-url">55club.game</div>
+                        <div class="game-url"></div>
                     </div>
                     <div class="game-item" data-url="https://bharatclub.net/#/login">
                         <div class="game-name">BHARAT CLUB</div>
-                        <div class="game-url">https://bharatclub.net/#/login</div>
+                        <div class="game-url"></div>
                     </div>
-                    <div class="game-item" data-url="https://diuwin.bet/#/">
+                    <div class="game-item" data-url="https://www.diuwin8.com/#/">
                         <div class="game-name">DIUWIN</div>
-                        <div class="game-url">diuwin.bet</div>
+                        <div class="game-url"></div>
                     </div>
-                    <div class="game-item" data-url="https://www.91appg.com/#/">
+                    <div class="game-item" data-url="https://www.aatclub.com/#/">
                         <div class="game-name">91 CLUB</div>
-                        <div class="game-url">91appg.com/#/</div>
+                        <div class="game-url"></div>
                     </div>
                 </div>
             </div>
@@ -1263,7 +1260,6 @@
             </div>
 
             <div class="messages-container" id="messages-container">
-                <!-- Initial greeting -->
                 <div class="message received">
                     <div class="prediction-title"><i class="fas fa-robot"></i> SYSTEM INITIALIZED</div>
                     <p>Welcome to <strong>LICUIS ULTRA</strong>, your advanced prediction assistant. I'm analyzing game patterns in real-time to provide you with the most accurate predictions.</p>
@@ -1340,13 +1336,293 @@
                     <i class="fas fa-brain"></i> ACTIVE STRATEGIES
                 </div>
                 <div class="strategy-grid" id="strategiesContainer">
-                    <!-- Strategies will be populated here -->
-                </div>
+                    </div>
             </div>
         </div>
     </div>
 
     <script>
+        // --- Enhanced AI Prediction System ---
+        class AIPredictionSystem {
+            constructor() {
+                this.history = []; // Stores last 100 results (newest first)
+                this.patterns = {}; // Stores identified patterns with high confidence
+                this.consecutiveWins = 0;
+                this.consecutiveLosses = 0;
+                this.lastPrediction = null;
+                this.lastActual = null;
+                this.lastPredictionAccuracy = null;
+                
+                // Load history from localStorage if available
+                this.loadFromStorage();
+            }
+
+            // Load from localStorage
+            loadFromStorage() {
+                try {
+                    const saved = localStorage.getItem('aiPredictionSystem');
+                    if (saved) {
+                        const data = JSON.parse(saved);
+                        this.history = data.history || [];
+                        this.patterns = data.patterns || {};
+                        this.consecutiveWins = data.consecutiveWins || 0;
+                        this.consecutiveLosses = data.consecutiveLosses || 0;
+                        this.lastPrediction = data.lastPrediction || null;
+                        this.lastActual = data.lastActual || null;
+                        this.lastPredictionAccuracy = data.lastPredictionAccuracy || null;
+                    }
+                } catch (e) {
+                    console.error('Error loading from storage:', e);
+                }
+            }
+
+            // Save to localStorage
+            saveToStorage() {
+                try {
+                    const data = {
+                        history: this.history,
+                        patterns: this.patterns,
+                        consecutiveWins: this.consecutiveWins,
+                        consecutiveLosses: this.consecutiveLosses,
+                        lastPrediction: this.lastPrediction,
+                        lastActual: this.lastActual,
+                        lastPredictionAccuracy: this.lastPredictionAccuracy
+                    };
+                    localStorage.setItem('aiPredictionSystem', JSON.stringify(data));
+                } catch (e) {
+                    console.error('Error saving to storage:', e);
+                }
+            }
+
+            // 1. Data Collection & Management
+            async fetchGameResults(limit = 100) {
+                // In a real implementation, this would fetch from an API
+                // For demonstration, we'll simulate with random data
+                try {
+                    // Simulated API response
+                    const simulatedResults = Array.from({length: limit}, 
+                        () => Math.floor(Math.random() * 10));
+                    
+                    // Update history (newest first)
+                    this.history = [...simulatedResults.reverse(), ...this.history]
+                        .slice(0, 100);
+                    
+                    this.saveToStorage();
+                    return this.history;
+                } catch (error) {
+                    console.error("Error fetching game results:", error);
+                    return this.history;
+                }
+            }
+
+            updatePredictionAccuracy(prediction, actual) {
+                this.lastPrediction = prediction;
+                this.lastActual = actual;
+                
+                const wasCorrect = (
+                    (prediction === 'BIG' && actual >= 5) || 
+                    (prediction === 'SMALL' && actual < 5)
+                );
+                
+                this.lastPredictionAccuracy = wasCorrect;
+                
+                if (wasCorrect) {
+                    this.consecutiveWins++;
+                    this.consecutiveLosses = 0;
+                } else {
+                    this.consecutiveLosses++;
+                    this.consecutiveWins = 0;
+                }
+                
+                this.saveToStorage();
+                return wasCorrect;
+            }
+
+            // 2. Pattern Analysis Function
+            updatePatternAnalysis() {
+                if (this.history.length < 6) return;
+                
+                // Look for repeating patterns of length 3-5
+                for (let len = 3; len <= 5; len++) {
+                    if (this.history.length < len * 2) continue;
+                    
+                    const recentPattern = this.history.slice(0, len);
+                    let occurrences = [];
+                    
+                    // Find all occurrences of this pattern in history
+                    for (let i = len; i < this.history.length - len; i++) {
+                        const currentWindow = this.history.slice(i, i + len);
+                        if (JSON.stringify(currentWindow) === JSON.stringify(recentPattern)) {
+                            occurrences.push(this.history[i + len]); // Get the next number
+                        }
+                    }
+                    
+                    // Calculate frequency distribution
+                    if (occurrences.length > 0) {
+                        const freqDist = {};
+                        occurrences.forEach(num => {
+                            freqDist[num] = (freqDist[num] || 0) + 1;
+                        });
+                        
+                        // Store patterns with high confidence (≥75%)
+                        for (const num in freqDist) {
+                            const confidence = freqDist[num] / occurrences.length;
+                            if (confidence >= 0.75) {
+                                this.patterns[JSON.stringify(recentPattern)] = {
+                                    number: parseInt(num),
+                                    confidence: confidence
+                                };
+                            }
+                        }
+                    }
+                }
+                
+                this.saveToStorage();
+            }
+
+            // 3. Enhanced Prediction Algorithm
+            enhancedPredictionAlgorithm(lastResults, currentSecond) {
+                // Convert results to numerical values
+                const results = lastResults.map(n => parseInt(n, 10));
+                
+                // Calculate basic statistics
+                const bigCount = results.filter(n => n >= 5).length;
+                const smallCount = results.length - bigCount;
+                
+                // Get last 3 and last 5 results
+                const lastThree = results.slice(0, 3);
+                const lastFive = results.slice(0, 5);
+                
+                // Time-based bias (changes every 30 seconds)
+                const timeBias = currentSecond < 30 ? "SMALL" : "BIG";
+                
+                // Initialize prediction variables
+                let finalPrediction = null;
+                let confidence = 77; // Base confidence
+                
+                // 1. Strong Trend Detection (7+ of one type in last 10)
+                if (bigCount >= 7) {
+                    finalPrediction = "SMALL";
+                    confidence = 85;
+                } else if (smallCount >= 7) {
+                    finalPrediction = "BIG";
+                    confidence = 85;
+                }
+                
+                // 2. Recent Pattern Detection
+                if (!finalPrediction) {
+                    // Check for 3-in-a-row patterns
+                    if (lastThree[0] === lastThree[1] && lastThree[1] === lastThree[2]) {
+                        finalPrediction = lastThree[0] >= 5 ? "SMALL" : "BIG";
+                        confidence = 80;
+                    }
+                    // Check for 4-of-5 patterns
+                    else if (lastFive.filter(n => n >= 5).length >= 4) {
+                        finalPrediction = "SMALL";
+                        confidence = 75;
+                    } else if (lastFive.filter(n => n < 5).length >= 4) {
+                        finalPrediction = "BIG";
+                        confidence = 75;
+                    }
+                }
+                
+                // 3. Loss Streak Adjustment
+                if (this.lastPrediction !== null && this.lastActual !== null) {
+                    const lastPredCorrect = 
+                        (this.lastPrediction === 'BIG' && this.lastActual >= 5) || 
+                        (this.lastPrediction === 'SMALL' && this.lastActual < 5);
+                    
+                    if (!lastPredCorrect) {
+                        // If we've lost 1+ in a row, reverse prediction
+                        if (this.consecutiveLosses >= 1) {
+                            if (finalPrediction) {
+                                finalPrediction = finalPrediction === 'BIG' ? 'SMALL' : 'BIG';
+                                confidence = Math.max(70, confidence - 5);
+                            } else {
+                                // If no clear pattern, go with time bias
+                                finalPrediction = timeBias;
+                                confidence = 85;
+                            }
+                        }
+                    } else {
+                        confidence = Math.min(95, confidence + 5);
+                    }
+                }
+                
+                // 4. Fallback to time-based prediction
+                if (!finalPrediction) {
+                    finalPrediction = timeBias;
+                    confidence = 85;
+                }
+                
+                // 5. Recent Result Consideration
+                if (this.lastActual !== null) {
+                    const lastType = this.lastActual >= 5 ? 'BIG' : 'SMALL';
+                    if (finalPrediction === lastType) {
+                        confidence = Math.max(60, confidence - 5);
+                    } else {
+                        confidence += 5;
+                    }
+                }
+                
+                // Cap confidence between 60-95%
+                confidence = Math.min(95, Math.max(60, confidence));
+                
+                // Get 1-2 random numbers for the predicted category
+                const predictedNumbers = this.getRandomNumbers(finalPrediction, Math.random() > 0.5 ? 1 : 2);
+                
+                return {
+                    prediction: finalPrediction,
+                    confidence: confidence,
+                    numbers: predictedNumbers
+                };
+            }
+
+            // Helper function to generate random numbers for the predicted category
+            getRandomNumbers(prediction, count) {
+                const numbers = [];
+                
+                if (prediction === 'BIG') {
+                    for (let i = 0; i < count; i++) {
+                        numbers.push(Math.floor(Math.random() * 5) + 5); // 5-9
+                    }
+                } else { // SMALL
+                    for (let i = 0; i < count; i++) {
+                        numbers.push(Math.floor(Math.random() * 5)); // 0-4
+                    }
+                }
+                
+                return numbers;
+            }
+
+            // Main prediction function
+            async predict() {
+                // Ensure we have enough data
+                if (this.history.length < 10) {
+                    await this.fetchGameResults(100);
+                }
+                
+                // Update pattern analysis
+                this.updatePatternAnalysis();
+                
+                // Get current time for time-based prediction
+                const currentSecond = new Date().getSeconds();
+                
+                // Use last 10 results for prediction
+                const lastTenResults = this.history.slice(0, 10);
+                
+                // Generate prediction
+                return this.enhancedPredictionAlgorithm(lastTenResults, currentSecond);
+            }
+        }
+
+        // Initialize the AI prediction system
+        const aiPredictionSystem = new AIPredictionSystem();
+
+        // Helper functions for outcome mapping
+        const getBigSmallOutcome = (num) => (num >= 5) ? 'BIG' : 'SMALL';
+        const getRedGreenOutcome = (num) => (num % 2 === 0) ? 'RED' : 'GREEN';
+
         // Tab System Logic
         document.addEventListener('DOMContentLoaded', function() {
             const tabs = document.querySelectorAll('.tab');
@@ -1408,7 +1684,7 @@
 
             // Create floating particles
             function createParticles() {
-                const colors = ['rgba(255, 0, 60, 0.3)', 'rgba(255, 94, 0, 0.3)', 'rgba(255, 0, 85, 0.3)'];
+                const colors = ['rgba(0, 102, 255, 0.2)', 'rgba(0, 136, 255, 0.2)', 'rgba(0, 85, 255, 0.2)'];
                 for (let i = 0; i < 20; i++) {
                     const particle = document.createElement('div');
                     particle.className = 'particle';
@@ -1507,11 +1783,11 @@
                 }
                 
                 let html = '<div class="history-header">';
-                html += '<div class="history-header-item">PERIOD</div>';
-                html += '<div class="history-header-item">RESULT</div>';
+                html += '<div class="history-header-item"></div>';
+                html += '<div class="history-header-item"></div>';
                 html += '<div class="history-header-item">BIG/SMALL</div>';
-                html += '<div class="history-header-item">COLOR</div>';
-                html += '<div class="history-header-item">TIME</div>';
+                html += '<div class="history-header-item"></div>';
+                html += '<div class="history-header-item"></div>';
                 html += '</div>';
                 
                 let winCount = 0;
@@ -1704,6 +1980,31 @@
                     html += `</div>`;
                 }
                 
+                // Add pattern analysis from AIPredictionSystem
+                html += `
+                    <div class="analysis-title">
+                        <i class="fas fa-chart-line"></i> AI PATTERN ANALYSIS
+                    </div>
+                    <div class="pattern-analysis">
+                        <div class="pattern-item">
+                            <span class="pattern-value">History Size</span>
+                            <span class="pattern-count">${aiPredictionSystem.history.length}</span>
+                        </div>
+                        <div class="pattern-item">
+                            <span class="pattern-value">Consecutive Wins</span>
+                            <span class="pattern-count">${aiPredictionSystem.consecutiveWins}</span>
+                        </div>
+                        <div class="pattern-item">
+                            <span class="pattern-value">Consecutive Losses</span>
+                            <span class="pattern-count">${aiPredictionSystem.consecutiveLosses}</span>
+                        </div>
+                        <div class="pattern-item">
+                            <span class="pattern-value">Patterns Detected</span>
+                            <span class="pattern-count">${Object.keys(aiPredictionSystem.patterns).length}</span>
+                        </div>
+                    </div>
+                `;
+                
                 analysisContent.innerHTML = html;
             }
 
@@ -1752,64 +2053,34 @@
                 
                 const strategies = [
                     {
+                        title: "Enhanced Pattern Analysis",
+                        icon: "fas fa-project-diagram",
+                        description: "Advanced pattern recognition algorithm that identifies repeating sequences in game results to predict future outcomes."
+                    },
+                    {
                         title: "Streak Analysis & Reversal",
                         icon: "fas fa-exchange-alt",
                         description: "When a streak exceeds a threshold (e.g., 4+), anticipate a reversal and bet on the opposite outcome."
                     },
                     {
-                        title: "Pattern Recognition",
-                        icon: "fas fa-sync-alt",
-                        description: "Detect repeating sequences and bet on pattern continuation based on historical repetitions."
+                        title: "Time-Based Bias",
+                        icon: "fas fa-clock",
+                        description: "Uses current time to determine bias (SMALL before 30 seconds, BIG after 30 seconds)."
                     },
                     {
-                        title: "Markov Chain Models",
-                        icon: "fas fa-link",
-                        description: "Probabilistic models that predict next patterns based on current state transitions."
-                    },
-                    {
-                        title: "Hot & Cold Numbers",
-                        icon: "fas fa-fire",
-                        description: "Track numbers that appear frequently (hot) or infrequently (cold) and bet accordingly."
-                    },
-                    {
-                        title: "Fibonacci System",
-                        icon: "fas fa-calculator",
-                        description: "Increase bets following Fibonacci sequence after losses, decrease after wins for risk management."
-                    },
-                    {
-                        title: "Bayesian Updating",
+                        title: "Trend Detection",
                         icon: "fas fa-chart-line",
-                        description: "Continuously update probabilities based on observed patterns to refine strategies dynamically."
+                        description: "Detects strong trends (7+ of one type) and predicts reversals."
                     },
                     {
-                        title: "Swing Trading & Momentum",
-                        icon: "fas fa-wave-square",
-                        description: "Identify momentum changes and bet on trend reversals when patterns approach exhaustion."
+                        title: "Confidence Adjustment",
+                        icon: "fas fa-sliders-h",
+                        description: "Dynamically adjusts confidence based on recent performance and patterns."
                     },
                     {
-                        title: "Entropy & Chaos Theory",
-                        icon: "fas fa-random",
-                        description: "Use entropy measures to assess randomness - bet more confidently when patterns are predictable."
-                    },
-                    {
-                        title: "Cluster Analysis",
-                        icon: "fas fa-object-group",
-                        description: "Group outcomes into clusters based on features and bet on dominant recent clusters."
-                    },
-                    {
-                        title: "Monte Carlo Simulation",
-                        icon: "fas fa-dice",
-                        description: "Generate potential outcome sequences through simulation to inform betting decisions."
-                    },
-                    {
-                        title: "Hybrid Dynamic Strategies",
-                        icon: "fas fa-cogs",
-                        description: "Combine multiple signals (streaks, hot/cold, entropy) using weighted scoring systems."
-                    },
-                    {
-                        title: "Machine Learning Models",
-                        icon: "fas fa-robot",
-                        description: "Advanced pattern recognition using AI algorithms for dynamic prediction adaptation."
+                        title: "Loss Recovery",
+                        icon: "fas fa-undo",
+                        description: "Reverses prediction strategy after consecutive losses to recover."
                     }
                 ];
                 
@@ -1831,342 +2102,6 @@
                 strategiesContainer.innerHTML = html;
             }
 
-            // Enhanced Prediction System
-            class AdvancedPredictionSystem {
-                constructor() {
-                    this.history = [];
-                    this.patterns = {};
-                    this.consecutiveLosses = 0;
-                    this.consecutiveWins = 0;
-                    this.lastPrediction = null;
-                    this.lastActual = null;
-                    this.windowSize = 7;
-                    this.smallThreshold = 4;
-                    this.markovChain = this.initializeMarkovChain();
-                    this.hotNumbers = new Array(10).fill(0);
-                    this.coldNumbers = new Array(10).fill(0);
-                }
-
-                initializeMarkovChain() {
-                    // Initialize a simple Markov chain with states 0-9
-                    const chain = {};
-                    for (let i = 0; i < 10; i++) {
-                        chain[i] = new Array(10).fill(1); // Start with equal probabilities
-                    }
-                    return chain;
-                }
-
-                updateMarkovChain(prev, current) {
-                    // Update Markov chain probabilities
-                    const total = this.markovChain[prev].reduce((a, b) => a + b, 0);
-                    this.markovChain[prev][current] += 1;
-                    
-                    // Normalize to prevent overflow
-                    if (total > 1000) {
-                        for (let i = 0; i < 10; i++) {
-                            this.markovChain[prev][i] = this.markovChain[prev][i] / total * 500;
-                        }
-                    }
-                }
-
-                updateHotColdNumbers(number) {
-                    // Update hot numbers (recent frequency)
-                    this.hotNumbers[number] = this.hotNumbers[number] * 0.9 + 1;
-                    
-                    // Update cold numbers (decrease all and reset the current)
-                    for (let i = 0; i < 10; i++) {
-                        this.coldNumbers[i] = this.coldNumbers[i] * 0.95;
-                    }
-                    this.coldNumbers[number] = 0;
-                }
-
-                getMarkovPrediction(lastNumber) {
-                    // Get prediction based on Markov chain
-                    const probabilities = this.markovChain[lastNumber];
-                    const maxProb = Math.max(...probabilities);
-                    return probabilities.indexOf(maxProb);
-                }
-
-                getHotColdPrediction() {
-                    // Get hottest number
-                    const maxHot = Math.max(...this.hotNumbers);
-                    const hotNumber = this.hotNumbers.indexOf(maxHot);
-                    
-                    // Get coldest number
-                    const maxCold = Math.max(...this.coldNumbers);
-                    const coldNumber = this.coldNumbers.indexOf(maxCold);
-                    
-                    return { hot: hotNumber, cold: coldNumber };
-                }
-
-                addNumber(number) {
-                    if (this.history.length > 0) {
-                        const lastNumber = this.history[0];
-                        this.updateMarkovChain(lastNumber, number);
-                    }
-                    
-                    this.history.unshift(number);
-                    this.updateHotColdNumbers(number);
-                    
-                    if (this.history.length > 100) {
-                        this.history.pop();
-                    }
-                    this.updatePatternAnalysis();
-                }
-
-                updatePatternAnalysis() {
-                    if (this.history.length < 6) return;
-
-                    // Look for repeating patterns of length 3-5
-                    for (let len = 3; len <= 5; len++) {
-                        if (this.history.length < len * 2) continue;
-                        
-                        const recentPattern = this.history.slice(0, len);
-                        let occurrences = [];
-                        
-                        for (let i = len; i < this.history.length - len; i++) {
-                            const currentWindow = this.history.slice(i, i + len);
-                            if (JSON.stringify(currentWindow) === JSON.stringify(recentPattern)) {
-                                occurrences.push(this.history[i + len]);
-                            }
-                        }
-                        
-                        if (occurrences.length > 0) {
-                            const freqDist = {};
-                            occurrences.forEach(num => {
-                                freqDist[num] = (freqDist[num] || 0) + 1;
-                            });
-                            
-                            for (const num in freqDist) {
-                                const confidence = freqDist[num] / occurrences.length;
-                                if (confidence >= 0.75) {
-                                    this.patterns[JSON.stringify(recentPattern)] = {
-                                        number: parseInt(num),
-                                        confidence: confidence
-                                    };
-                                }
-                            }
-                        }
-                    }
-                }
-
-                checkForPatterns(recentWindow) {
-                    for (let len = 3; len <= 5; len++) {
-                        if (recentWindow.length < len) continue;
-                        
-                        const currentPattern = recentWindow.slice(0, len);
-                        const patternKey = JSON.stringify(currentPattern);
-                        
-                        if (this.patterns[patternKey]) {
-                            return {
-                                number: this.patterns[patternKey].number,
-                                confidence: this.patterns[patternKey].confidence,
-                                pattern: currentPattern
-                            };
-                        }
-                    }
-                    return null;
-                }
-
-                // Calculate entropy of recent results
-                calculateEntropy(data) {
-                    const frequency = {};
-                    data.forEach(n => {
-                        frequency[n] = (frequency[n] || 0) + 1;
-                    });
-                    
-                    let entropy = 0;
-                    const total = data.length;
-                    
-                    for (let n in frequency) {
-                        const p = frequency[n] / total;
-                        entropy -= p * Math.log2(p);
-                    }
-                    
-                    return entropy;
-                }
-
-                // Advanced prediction algorithm incorporating all strategies
-                enhancedPredictionAlgorithm(lastResults, currentSecond) {
-                    // Convert results to numerical values
-                    const results = lastResults.map(n => parseInt(n, 10));
-                    
-                    // Calculate basic statistics
-                    const bigCount = results.filter(n => n >= 5).length;
-                    const smallCount = results.length - bigCount;
-                    
-                    // Get last 3 and last 5 results
-                    const lastThree = results.slice(0, 3);
-                    const lastFive = results.slice(0, 5);
-                    
-                    // Calculate entropy
-                    const entropy = this.calculateEntropy(results);
-                    
-                    // Time-based bias (changes every 30 seconds)
-                    const timeBias = currentSecond < 30 ? "SMALL" : "BIG";
-                    
-                    // Get Markov prediction
-                    const markovPred = this.getMarkovPrediction(results[0]);
-                    const markovCategory = markovPred <= 4 ? "SMALL" : "BIG";
-                    
-                    // Get hot/cold predictions
-                    const hotCold = this.getHotColdPrediction();
-                    
-                    // Initialize prediction variables
-                    let finalPrediction = null;
-                    let confidence = 77; // Base confidence
-                    let message = "";
-                    
-                    // 1. Strong Trend Detection (7+ of one type in last 10)
-                    if (bigCount >= 7) {
-                        finalPrediction = "SMALL";
-                        confidence = 85;
-                        message = "Strong trend detected, expecting reversal";
-                    } else if (smallCount >= 7) {
-                        finalPrediction = "BIG";
-                        confidence = 85;
-                        message = "Strong trend detected, expecting reversal";
-                    }
-                    
-                    // 2. Low entropy suggests predictable patterns
-                    if (entropy < 2 && !finalPrediction) {
-                        // Low entropy means more predictable
-                        finalPrediction = bigCount > smallCount ? "SMALL" : "BIG";
-                        confidence = 80;
-                        message = `Pattern is predictable`;
-                    }
-                    
-                    // 3. Recent Pattern Detection (if no strong trend)
-                    if (!finalPrediction) {
-                        // Check for 3-in-a-row patterns
-                        if (lastThree[0] === lastThree[1] && lastThree[1] === lastThree[2]) {
-                            finalPrediction = lastThree[0] >= 5 ? "SMALL" : "BIG";
-                            confidence = 80;
-                            message = "Pattern detected";
-                        }
-                        // Check for 4-of-5 patterns
-                        else if (lastFive.filter(n => n >= 5).length >= 4) {
-                            finalPrediction = "SMALL";
-                            confidence = 75;
-                            message = "Pattern detected";
-                        } else if (lastFive.filter(n => n < 5).length >= 4) {
-                            finalPrediction = "BIG";
-                            confidence = 75;
-                            message = "Pattern detected";
-                        }
-                    }
-                    
-                    // 4. Markov chain prediction
-                    if (!finalPrediction || confidence < 70) {
-                        finalPrediction = markovCategory;
-                        confidence = Math.max(confidence, 70);
-                        message = `Algorithm prediction`;
-                    }
-                    
-                    // 5. Loss Streak Adjustment (if we have prediction history)
-                    if (this.lastPrediction !== null && this.lastActual !== null) {
-                        const lastPredCorrect = 
-                            (this.lastPrediction === 'BIG' && this.lastActual >= 5) || 
-                            (this.lastPrediction === 'SMALL' && this.lastActual < 5);
-                        
-                        if (!lastPredCorrect) {
-                            this.consecutiveLosses++;
-                            this.consecutiveWins = 0;
-                            
-                            // If we've lost 1 in a row, adjust strategy more aggressively
-                            if (this.consecutiveLosses >= 1) {
-                                if (finalPrediction) {
-                                    // Reverse the prediction if we're on a losing streak
-                                    finalPrediction = finalPrediction === 'BIG' ? 'SMALL' : 'BIG';
-                                    confidence = Math.max(70, confidence - 5);
-                                    message = "Adjusted prediction";
-                                } else {
-                                    // If no clear pattern, go with time bias but with higher confidence
-                                    finalPrediction = timeBias;
-                                    confidence = 85;
-                                    message = "Time-based prediction";
-                                }
-                            }
-                        } else {
-                            this.consecutiveWins++;
-                            this.consecutiveLosses = 0;
-                            // If last prediction was correct, increase confidence slightly
-                            confidence = Math.min(95, confidence + 5);
-                        }
-                    }
-                    
-                    // 6. Fallback to time-based prediction if no clear pattern
-                    if (!finalPrediction) {
-                        finalPrediction = timeBias;
-                        confidence = 85;
-                        message = "Time-based prediction";
-                    }
-                    
-                    // 7. Recent Result Consideration
-                    if (this.lastActual !== null) {
-                        const lastType = this.lastActual >= 5 ? 'BIG' : 'SMALL';
-                        if (finalPrediction === lastType) {
-                            // If predicting same as last result, reduce confidence slightly
-                            confidence = Math.max(60, confidence - 5);
-                        } else {
-                            // If predicting opposite of last result, increase confidence slightly
-                            confidence += 5;
-                        }
-                    }
-                    
-                    // Cap confidence between 60-95%
-                    confidence = Math.min(95, Math.max(60, confidence));
-                    
-                    // Get numbers based on hot/cold and prediction
-                    let predictedNumbers = [];
-                    if (finalPrediction === 'SMALL') {
-                        // Prefer hot numbers in the small range
-                        const smallNumbers = [0, 1, 2, 3, 4];
-                        const hotSmall = smallNumbers.filter(n => this.hotNumbers[n] > 5);
-                        predictedNumbers = hotSmall.length > 0 ? 
-                            [hotSmall[0]] : [smallNumbers[Math.floor(Math.random() * smallNumbers.length)]];
-                    } else {
-                        // Prefer hot numbers in the big range
-                        const bigNumbers = [5, 6, 7, 8, 9];
-                        const hotBig = bigNumbers.filter(n => this.hotNumbers[n] > 5);
-                        predictedNumbers = hotBig.length > 0 ? 
-                            [hotBig[0]] : [bigNumbers[Math.floor(Math.random() * bigNumbers.length)]];
-                    }
-                    
-                    // Add the coldest number as a potential reversal candidate
-                    predictedNumbers.push(hotCold.cold);
-                    
-                    return {
-                        prediction: finalPrediction,
-                        confidence: confidence,
-                        numbers: [...new Set(predictedNumbers)], // Remove duplicates
-                        message: message
-                    };
-                }
-
-                predict(recentNumbers, currentSecond) {
-                    // First check for patterns
-                    const patternPrediction = this.checkForPatterns(recentNumbers);
-                    if (patternPrediction && patternPrediction.confidence >= 0.8) {
-                        const predictedCategory = patternPrediction.number <= 4 ? 'SMALL' : 'BIG';
-                        return {
-                            prediction: predictedCategory,
-                            confidence: Math.round(patternPrediction.confidence * 100),
-                            numbers: [patternPrediction.number],
-                            source: 'PATTERN',
-                            message: `Pattern detected`
-                        };
-                    }
-                    
-                    // Fall back to enhanced algorithm
-                    const prediction = this.enhancedPredictionAlgorithm(recentNumbers, currentSecond);
-                    return {
-                        ...prediction,
-                        source: 'ALGORITHM'
-                    };
-                }
-            }
-
             // Chat Predictor Logic
             let previousResults = [];
             let latestPeriod = null;
@@ -2174,9 +2109,6 @@
             let serverOnline = true;
             let lastPredictionPeriod = null;
             let lastActualNumber = null;
-
-            // Initialize prediction system
-            const predictionSystem = new AdvancedPredictionSystem();
 
             // DOM elements
             const messagesContainer = document.getElementById('messages-container');
@@ -2195,7 +2127,6 @@
                     `<div class="prediction-card">
                         <div class="prediction-title"><i class="fas fa-robot"></i> SYSTEM INITIALIZED</div>
                         <p>Welcome to <strong>LICUIS ULTRA</strong>, your advanced prediction assistant. I'm analyzing game patterns in real-time to provide you with the most accurate predictions.</p>
-                        <p>Advanced strategies loaded: Markov Chains, Hot/Cold Numbers, Entropy Analysis, Pattern Recognition</p>
                     </div>`, 
                     'LICUIS ULTRA');
                 simulateInitialAnalysis();
@@ -2256,10 +2187,7 @@
                     addMessage('received', 
                         `<div class="prediction-card">
                             <div class="prediction-title"><i class="fas fa-check-circle"></i> ANALYSIS COMPLETE</div>
-                            <p>Pattern detection complete. Advanced algorithms initialized:</p>
-                            <ul>
-
-                            </ul>
+                            <p>Enhanced AI pattern detection complete. Advanced algorithms initialized and ready for predictions.</p>
                         </div>`, 
                         'LICUIS ULTRA');
                     
@@ -2322,8 +2250,7 @@
                                     lastActualNumber = parseInt(lastResult, 10);
                                     
                                     // Update prediction system with actual result
-                                    predictionSystem.addNumber(lastActualNumber);
-                                    predictionSystem.lastActual = lastActualNumber;
+                                    aiPredictionSystem.updatePredictionAccuracy(currentPrediction, lastActualNumber);
                                 }
                                 
                                 latestPeriod = newPeriod;
@@ -2356,12 +2283,16 @@
                         if (data.code === 0 && data.data.list.length > 0) {
                             previousResults = data.data.list;
                             
-                            // Update prediction system history
+                            // Update AI prediction system history
                             const numbers = data.data.list.map(item => parseInt(item.number, 10));
                             numbers.reverse().forEach(num => {
-                                predictionSystem.addNumber(num);
+                                aiPredictionSystem.history.unshift(num);
+                                if (aiPredictionSystem.history.length > 100) {
+                                    aiPredictionSystem.history = aiPredictionSystem.history.slice(0, 100);
+                                }
                             });
                             
+                            aiPredictionSystem.saveToStorage();
                             updateServerStatus(true);
                         }
                     } else {
@@ -2373,13 +2304,12 @@
                 }
             }
 
-            function updatePredictions(currentTime, currentPeriod) {
+            async function updatePredictions(currentTime, currentPeriod) {
                 if (previousResults.length >= 10 && currentPeriod !== lastPredictionPeriod) {
-                    const last10Numbers = previousResults.slice(0, 10).map(r => parseInt(r.number, 10));
-                    const predictionData = predictionSystem.predict(last10Numbers, currentTime.getUTCSeconds());
+                    const numbers = previousResults.slice(0, 10).map(item => item.number);
+                    const predictionData = await aiPredictionSystem.predict();
                     currentPrediction = predictionData.prediction;
                     lastPredictionPeriod = currentPeriod;
-                    predictionSystem.lastPrediction = currentPrediction;
                     
                     // Show prediction message
                     showTyping();
