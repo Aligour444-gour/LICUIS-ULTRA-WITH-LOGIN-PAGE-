@@ -2,321 +2,267 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LICUIS ULTRA</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@400;600&family=Roboto+Slab:wght@700&family=Teko:wght@700&family=Righteous&family=Chakra+Petch:wght@700&family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
         :root {
-            --primary-bg: #0b1120;
-            --secondary-bg: #1c2637;
-            --card-bg: #273449;
-            --accent-blue: #3b82f6;
-            --accent-cyan: #22d3ee;
-            --accent-green: #22c55e;
-            --text-light: #e2e8f0;
-            --text-muted: #94a3b8;
-            --border-color: rgba(65, 80, 105, 0.5);
-            --gradient-blue: linear-gradient(135deg, #3b82f6, #1e40af);
-            --gradient-cyan: linear-gradient(135deg, #22d3ee, #0e7490);
-            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.3);
-            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
-            --icon-bg: rgba(59, 130, 246, 0.15);
-            --icon-hover-bg: rgba(59, 130, 246, 0.25);
+            --primary: #0066ff;
+            --primary-dark: #004fc5;
+            --secondary: #0088ff;
+            --accent: #0055ff;
+            --win: #00c851;
+            --loss: #ff4444;
+            --warning: #ffbb33;
+            --bg-light: #f8f9fa;
+            --bg-lighter: #ffffff;
+            --bg-medium: #e9ecef;
+            --text-dark: #212529;
+            --text-medium: #495057;
+            --text-light: #6c757d;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(0, 102, 255, 0.1);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            --shadow: 0 4px 20px rgba(0, 102, 255, 0.1);
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            --success-gradient: linear-gradient(135deg, var(--win), #00a844);
+            --danger-gradient: linear-gradient(135deg, var(--loss), #ff0022);
         }
 
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--primary-bg);
-            color: var(--text-light);
-            min-height: 100vh;
-            line-height: 1.6;
-            overflow-x: hidden;
-            font-size: clamp(14px, 2vw, 15px);
-        }
-
-        .app-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px;
-        }
-
-        /* Header Styles */
-        .header {
-            background: var(--secondary-bg);
-            padding: clamp(15px, 3vw, 25px) 0;
-            text-align: center;
-            box-shadow: var(--shadow-md);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid var(--border-color);
-            position: relative;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            font-family: 'Inter', sans-serif;
+            padding: 0;
+            margin: 0;
             overflow: hidden;
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(0, 102, 255, 0.05) 0%, transparent 25%),
+                radial-gradient(circle at 90% 80%, rgba(0, 136, 255, 0.05) 0%, transparent 25%),
+                linear-gradient(to bottom, var(--bg-lighter), var(--bg-light));
+            position: fixed;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
-            animation: headerShine 3s infinite linear;
+            line-height: 1.6;
         }
 
-        @keyframes headerShine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        .header-content {
-            position: relative;
-            z-index: 2;
-        }
-
+        /* Logo Styles */
         .logo {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            z-index: 100000000;
             display: flex;
             align-items: center;
-            justify-content: center;
             gap: 10px;
-            margin-bottom: 10px;
         }
 
         .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--gradient-cyan);
-            border-radius: 10px;
+            width: 35px;
+            height: 35px;
+            background: var(--gradient);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
-            animation: pulse 2s infinite ease-in-out;
+            box-shadow: 0 0 10px rgba(0, 102, 255, 0.3);
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+        .logo-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
         }
 
         .logo-text {
             font-family: 'Orbitron', sans-serif;
-            font-size: clamp(20px, 5vw, 28px);
-            background: var(--gradient-blue);
+            font-weight: 700;
+            font-size: 18px;
+            background: var(--gradient);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
         }
 
-        .tagline {
-            font-size: clamp(12px, 2vw, 14px);
-            color: var(--text-muted);
-            margin-bottom: 15px;
+        /* Tab System */
+        .tab-system {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            z-index: 99999999;
+            backdrop-filter: blur(5px);
+            border-bottom: 1px solid rgba(0, 102, 255, 0.1);
+            padding-left: 80px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
 
-        .version-info {
+        .tab {
+            flex: 1;
             display: flex;
             justify-content: center;
-            gap: clamp(10px, 2vw, 15px);
+            align-items: center;
+            cursor: pointer;
+            transition: var(--transition);
             position: relative;
-            z-index: 2;
+            overflow: hidden;
+            gap: 8px;
         }
 
-        .version-text, .update-text {
-            font-family: 'Fira Code', monospace;
-            font-size: clamp(9px, 1.5vw, 11px);
-            color: var(--accent-cyan);
-            background: var(--icon-bg);
-            padding: clamp(4px, 1vw, 6px) clamp(8px, 2vw, 14px);
-            border-radius: 20px;
-            border: 1px solid rgba(34, 211, 238, 0.2);
-            transition: all 0.3s ease;
+        .tab:hover {
+            background: rgba(0, 102, 255, 0.05);
         }
 
-        .version-text:hover, .update-text:hover {
-            background: var(--icon-hover-bg);
-            transform: scale(1.05);
-            box-shadow: 0 0 10px rgba(34, 211, 238, 0.3);
+        .tab.active {
+            background: rgba(0, 102, 255, 0.1);
         }
 
-        /* Main Content */
-        .main-content {
-            padding: clamp(20px, 3vw, 30px) 0;
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gradient);
+        }
+
+        .tab-icon {
+            font-size: 20px;
+            color: var(--primary);
+        }
+
+        .tab-label {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            letter-spacing: 1px;
+            font-size: 14px;
+            color: var(--text-dark);
+        }
+
+        /* Content Sections */
+        .content-section {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            height: calc(100% - 60px);
+            display: none;
+            overflow: hidden;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        /* Web Section (Game Selection) */
+        #web-section {
+            background-color: var(--bg-light);
+        }
+
+        /* Dashboard Section */
+        #dashboard-section {
+            padding: 20px;
+            overflow-y: auto;
+            background-color: var(--bg-light);
         }
 
         .dashboard-card {
-            background: var(--secondary-bg);
-            border-radius: clamp(12px, 2vw, 18px);
-            box-shadow: var(--shadow-md);
-            padding: clamp(15px, 3vw, 25px);
-            border: 1px solid var(--border-color);
-            position: relative;
-            overflow: hidden;
+            background: var(--glass-bg);
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            padding: 20px;
             margin-bottom: 20px;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-        }
-
-        .dashboard-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.05), transparent);
-            animation: glowPulse 15s infinite ease-in-out;
-            z-index: 0;
-        }
-
-        @keyframes glowPulse {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.1); opacity: 0.8; }
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
         }
 
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            position: relative;
-            z-index: 1;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--glass-border);
         }
 
         .card-title {
-            font-family: 'Teko', sans-serif;
-            font-size: clamp(18px, 4vw, 24px);
-            color: var(--accent-blue);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            position: relative;
-            display: inline-block;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+            color: var(--primary);
         }
 
-        .card-title::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 40px;
-            height: 3px;
-            background: var(--gradient-cyan);
-            border-radius: 2px;
-        }
-
-        /* Control Panel */
+        /* Hide the control panel */
         .control-panel {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: clamp(15px, 2vw, 25px);
-            margin-bottom: clamp(15px, 2vw, 25px);
-            position: relative;
-            z-index: 1;
+            display: none;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
         }
 
         .selection-box {
-            position: relative;
+            display: flex;
+            flex-direction: column;
         }
 
         .selection-box label {
-            font-family: 'Teko', sans-serif;
-            font-size: clamp(13px, 2vw, 16px);
-            color: var(--text-muted);
-            text-transform: uppercase;
-            margin-bottom: clamp(6px, 1vw, 8px);
-            display: block;
-            letter-spacing: 1px;
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: var(--text-medium);
+            font-weight: 500;
         }
 
         .selection-box select {
-            width: 100%;
-            padding: clamp(10px, 2vw, 12px) clamp(12px, 2vw, 16px);
-            font-size: clamp(13px, 2vw, 15px);
-            border: 2px solid var(--accent-blue);
-            border-radius: clamp(8px, 1.5vw, 12px);
-            background: var(--card-bg);
-            color: var(--text-light);
-            appearance: none;
-            background-image: url('data:image/svg+xml;utf8,<svg fill="%233b82f6" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
-            background-repeat: no-repeat;
-            background-position: right clamp(8px, 1.5vw, 12px) center;
-            background-size: clamp(20px, 3vw, 24px);
-            cursor: not-allowed;
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow-sm);
-        }
-        
-        .selection-box select:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            background-color: #1e2531;
-        }
-
-        .selection-box select:hover {
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 14px rgba(34, 211, 238, 0.3);
-            transform: translateY(-2px);
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.8);
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            outline: none;
+            transition: var(--transition);
         }
 
         .selection-box select:focus {
-            outline: none;
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 16px rgba(34, 211, 238, 0.4);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(0, 102, 255, 0.2);
         }
 
-        /* Info Section */
         .info-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: clamp(15px, 2vw, 20px);
-            margin: clamp(15px, 2vw, 25px) 0;
-            position: relative;
-            z-index: 1;
+            gap: 15px;
         }
 
         .info-card {
-            background: var(--card-bg);
-            padding: clamp(15px, 2vw, 20px);
-            border-radius: clamp(10px, 1.5vw, 14px);
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            padding: 15px;
             display: flex;
             align-items: center;
-            gap: clamp(12px, 2vw, 16px);
-            box-shadow: var(--shadow-sm);
-            transition: all 0.3s ease;
-            border-left: 4px solid var(--accent-blue);
-        }
-
-        .info-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 6px 18px rgba(59, 130, 246, 0.2);
+            gap: 15px;
+            border: 1px solid var(--glass-border);
         }
 
         .info-icon {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
+            background: var(--gradient);
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--icon-bg);
-            border-radius: 12px;
-            font-size: 20px;
-            color: var(--accent-blue);
-            transition: all 0.3s ease;
-        }
-
-        .info-card:hover .info-icon {
-            background: var(--icon-hover-bg);
-            transform: scale(1.1) rotate(5deg);
+            color: white;
         }
 
         .info-content {
@@ -324,205 +270,295 @@
         }
 
         .info-label {
-            font-size: clamp(12px, 1.8vw, 14px);
-            color: var(--text-muted);
+            font-size: 12px;
+            color: var(--text-light);
             margin-bottom: 5px;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
         }
 
         .info-value {
-            font-family: 'Chakra Petch', sans-serif;
-            font-size: clamp(16px, 2.5vw, 20px);
-            font-weight: 700;
-            background: var(--gradient-cyan);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary);
         }
 
-        /* Analysis Section */
         .analysis-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: clamp(15px, 2vw, 20px);
-            margin-top: 20px;
+            gap: 15px;
         }
 
         .analysis-card {
-            background: var(--card-bg);
-            padding: clamp(15px, 2vw, 20px);
-            border-radius: clamp(10px, 1.5vw, 14px);
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            padding: 15px;
             text-align: center;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.3s ease;
-            border: 1px solid var(--border-color);
-        }
-
-        .analysis-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 6px 18px rgba(59, 130, 246, 0.2);
+            border: 1px solid var(--glass-border);
         }
 
         .analysis-label {
-            font-size: clamp(12px, 1.8vw, 14px);
-            color: var(--text-muted);
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            margin-bottom: 10px;
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 8px;
         }
 
         .analysis-value {
-            font-family: 'Chakra Petch', sans-serif;
-            font-size: clamp(16px, 2.5vw, 20px);
+            font-size: 20px;
             font-weight: 700;
-            margin-top: clamp(4px, 1vw, 6px);
-            display: block;
-            background: var(--gradient-cyan);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            color: var(--primary);
+        }
+
+        .api-status {
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .api-status.live {
+            background-color: rgba(0, 200, 81, 0.2);
+            color: var(--win);
+        }
+
+        .api-status.offline {
+            background-color: rgba(255, 68, 68, 0.2);
+            color: var(--loss);
         }
 
         .server-status {
-            display: inline-flex;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--win);
+        }
+
+        /* Game History Section */
+        #game-history-section {
+            background-color: var(--bg-light);
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .history-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--glass-bg);
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .history-title {
+            text-align: center;
+            padding: 20px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+            color: var(--primary);
+            background: rgba(0, 102, 255, 0.05);
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 6px 12px;
-            background: rgba(34, 197, 94, 0.15);
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .history-controls {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: rgba(0, 102, 255, 0.05);
+            border-bottom: 1px solid var(--glass-border);
+            align-items: center;
+        }
+
+        .history-filter {
+            display: flex;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid var(--glass-border);
+            color: var(--text-medium);
+            padding: 8px 15px;
             border-radius: 20px;
-            color: var(--accent-green);
+            cursor: pointer;
+            transition: var(--transition);
             font-size: 14px;
         }
 
-        .server-status::before {
-            content: '';
-            width: 10px;
-            height: 10px;
-            background: var(--accent-green);
-            border-radius: 50%;
-            animation: serverPulse 2s infinite ease-in-out;
+        .filter-btn.active {
+            background: var(--gradient);
+            color: white;
+            box-shadow: 0 0 10px rgba(0, 102, 255, 0.2);
         }
 
-        @keyframes serverPulse {
-            0% { transform: scale(1); opacity: 0.7; }
-            50% { transform: scale(1.3); opacity: 1; }
-            100% { transform: scale(1); opacity: 0.7; }
-        }
-
-        /* History Section */
-        .history-list {
-            margin-top: 20px;
-        }
-
-        .history-item {
-            background: var(--card-bg);
-            padding: clamp(12px, 2vw, 16px);
-            border-radius: clamp(8px, 1.5vw, 12px);
-            margin-bottom: clamp(10px, 1.5vw, 15px);
-            box-shadow: var(--shadow-sm);
+        .history-stats {
             display: flex;
-            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .stat-badge {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid var(--glass-border);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: flex;
             align-items: center;
-            border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
+            gap: 5px;
         }
 
-        .history-item:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 6px 18px rgba(59, 130, 246, 0.2);
+        .stat-badge.win {
+            color: var(--win);
         }
 
-        .history-item.pending {
-            animation: pulse 2s infinite ease-in-out;
+        .stat-badge.loss {
+            color: var(--loss);
         }
 
         .history-content {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+            padding: 0;
+        }
+
+        .history-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            padding: 15px 20px;
+            background: rgba(0, 102, 255, 0.05);
+            font-weight: 600;
+            border-bottom: 1px solid var(--glass-border);
+            color: var(--text-dark);
+        }
+
+        .history-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .history-item.win::before, .history-item.loss::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+        }
+        
+        .history-item.win::before {
+            background-color: var(--win);
+        }
+
+        .history-item.loss::before {
+            background-color: var(--loss);
+        }
+
+        .history-item:hover {
+            background: rgba(0, 102, 255, 0.03);
+        }
+
+        .history-item.win {
+            background: rgba(0, 200, 81, 0.05);
+        }
+
+        .history-item.loss {
+            background: rgba(255, 68, 68, 0.05);
         }
 
         .history-detail {
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: clamp(12px, 1.8vw, 14px);
-            color: var(--text-muted);
-        }
-
-        .history-detail i {
-            color: var(--accent-cyan);
-            font-size: 14px;
-            background: var(--icon-bg);
-            padding: 6px;
-            border-radius: 50%;
-            transition: transform 0.3s ease;
-        }
-
-        .history-detail:hover i {
-            background: var(--icon-hover-bg);
-            transform: rotate(15deg);
         }
 
         .history-value {
-            font-family: 'Chakra Petch', sans-serif;
-            font-size: clamp(13px, 2vw, 15px);
-            background: var(--gradient-cyan);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-dark);
         }
 
-        .status-container {
+        .history-value-highlight {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .color-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+        }
+
+        .color-red {
+            background-color: var(--loss);
+        }
+
+        .color-green {
+            background-color: var(--win);
+        }
+
+        .history-pagination {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
+            justify-content: center;
+            padding: 20px;
+            gap: 10px;
+            border-top: 1px solid var(--glass-border);
         }
 
-        .status-text {
-            font-size: 12px;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        .status-text.win {
-            color: #2ecc71;
-        }
-
-        .status-text.loss {
-            color: #ff4444;
-        }
-
-        .status-text.pending {
-            color: #f39c12;
-        }
-
-        .status-indicator {
-            width: 32px;
-            height: 32px;
+        .pagination-btn {
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--icon-bg);
-            border-radius: 50%;
-            transition: background 0.3s ease;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid var(--glass-border);
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: var(--transition);
         }
 
-        .status-indicator:hover {
-            background: var(--icon-hover-bg);
+        .pagination-btn.active {
+            background: var(--gradient);
+            color: white;
+            box-shadow: 0 0 10px rgba(0, 102, 255, 0.2);
         }
 
-        .pending-spinner {
-            width: 100%;
-            height: 100%;
-            border: 3px solid transparent;
-            border-top: 3px solid var(--accent-blue);
-            border-right: 3px solid var(--accent-blue);
-            border-radius: 50%;
-            animation: spin 1.5s linear infinite;
+        .pagination-btn:hover:not(.disabled) {
+            background: rgba(0, 102, 255, 0.1);
+        }
+
+        .pagination-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .loading-container, .error-container, .no-data-container {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-light);
+        }
+
+        .loading-container i, .error-container i, .no-data-container i {
+            font-size: 24px;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .loading-container i {
+            animation: spin 1s linear infinite;
+        }
+
+        .error-container {
+            color: var(--loss);
         }
 
         @keyframes spin {
@@ -530,182 +566,1006 @@
             100% { transform: rotate(360deg); }
         }
 
-        .win-icon::before {
-            content: '\f091';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            font-size: 16px;
-            color: #2ecc71;
+        /* Analysis Section */
+        #analysis-section {
+            padding: 20px;
+            overflow-y: auto;
         }
 
-        .loss-icon::before {
-            content: '\f00d';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            font-size: 16px;
-            color: #ff4444;
+        .analysis-container {
+            max-width: 1000px;
+            margin: 0 auto;
         }
 
-        .action-button {
-            padding: clamp(10px, 2vw, 12px) clamp(15px, 2vw, 20px);
-            background: var(--card-bg);
-            color: var(--accent-blue);
-            border: 2px solid var(--accent-blue);
-            border-radius: clamp(8px, 1.5vw, 12px);
-            font-family: 'Roboto Slab', sans-serif;
-            font-size: clamp(13px, 2vw, 15px);
+        .analysis-card {
+            background: var(--glass-bg);
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+        }
+
+        .analysis-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 20px;
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid var(--glass-border);
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .pattern-list {
+            margin-top: 15px;
+        }
+
+        .pattern-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .pattern-item:last-child {
+            border-bottom: none;
+        }
+
+        .pattern-value {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .pattern-confidence {
+            color: var(--primary);
+        }
+
+        /* Strategy Cards */
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .strategy-card {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid var(--primary);
+            border: 1px solid var(--glass-border);
+            transition: var(--transition);
+        }
+
+        .strategy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .strategy-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .strategy-description {
+            font-size: 14px;
+            color: var(--text-medium);
+            line-height: 1.5;
+        }
+
+        /* Game Selection Screen */
+        .game-selection {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999999;
+            animation: fadeIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; backdrop-filter: blur(0); }
+            to { opacity: 1; backdrop-filter: blur(10px); }
+        }
+
+        .game-selection::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(0, 102, 255, 0.05) 0%, transparent 25%),
+                radial-gradient(circle at 80% 70%, rgba(0, 136, 255, 0.05) 0%, transparent 25%);
+            z-index: -1;
+        }
+
+        .game-selection-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 36px;
+            margin: 0 0 40px;
+            color: var(--primary);
+            letter-spacing: 3px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .game-selection-title::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--gradient);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .game-selection-title.animate::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .game-list-container {
+            width: 100%;
+            max-width: 900px;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+            padding: 0 20px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) rgba(0,0,0,0.1);
+        }
+
+        .game-list-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .game-list-container::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+        }
+
+        .game-list-container::-webkit-scrollbar-thumb {
+            background: var(--gradient);
+            border-radius: 3px;
+        }
+
+        .game-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 0 20px 40px;
+        }
+
+        .game-item {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 102, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 102, 255, 0.15);
+            background: rgba(255, 255, 255, 1);
+            border-color: rgba(0, 102, 255, 0.3);
+        }
+
+        .game-item::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .game-item:hover::before {
+            opacity: 1;
+        }
+
+        .game-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+            transition: var(--transition);
+        }
+
+        .game-item:hover .game-name {
+            color: var(--primary);
+        }
+
+        .game-url {
+            font-size: 12px;
+            color: var(--text-light);
+            word-break: break-all;
+            opacity: 0.7;
+            transition: var(--transition);
+        }
+
+        .game-item:hover .game-url {
+            opacity: 1;
+        }
+
+        /* Iframe and Tape Button */
+        .fullscreen-iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            z-index: 1;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* NEW BACK BUTTON DESIGN */
+        .injector-tape {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: var(--gradient);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: clamp(8px, 1.5vw, 10px);
-            margin-top: 20px;
-            width: 100%;
+            cursor: pointer;
+            z-index: 9999999;
+            box-shadow: 0 0 20px rgba(0, 102, 255, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            transition: var(--transition);
+            animation: tapeFloat 4s ease-in-out infinite;
         }
 
-        .action-button:hover {
-            background: var(--accent-blue);
-            color: var(--text-light);
-            box-shadow: 0 0 16px rgba(59, 130, 246, 0.3);
-            transform: translateY(-2px);
+        @keyframes tapeFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-5px) rotate(5deg); }
         }
 
-        .action-button i {
-            font-size: clamp(13px, 2vw, 15px);
-            transition: transform 0.3s ease;
-        }
-
-        .action-button:hover i {
+        .injector-tape:hover {
             transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 0 30px rgba(0, 102, 255, 0.4);
+            animation: none;
         }
 
-        /* Responsive Design */
+        .injector-tape::before {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-left: 3px solid white;
+            border-bottom: 3px solid white;
+            transform: rotate(45deg);
+            margin-top: -3px;
+            margin-left: -3px;
+        }
+
+        /* Floating Particles */
+        .particle {
+            position: absolute;
+            background: rgba(0, 102, 255, 0.2);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            filter: blur(1px);
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0) rotate(0deg); }
+            25% { transform: translateY(-20px) translateX(10px) rotate(5deg); }
+            50% { transform: translateY(0) translateX(20px) rotate(0deg); }
+            75% { transform: translateY(20px) translateX(10px) rotate(-5deg); }
+            100% { transform: translateY(0) translateX(0) rotate(0deg); }
+        }
+
+        /* Chat Predictor Styles */
+        .chat-container {
+            width: 100%;
+            height: 100%;
+            margin: 0 auto;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--bg-light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: var(--bg-lighter);
+            padding: 18px 15px;
+            text-align: center;
+            border-bottom: 1px solid rgba(0, 102, 255, 0.1);
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .chat-title {
+            font-weight: 700;
+            font-size: 1.3rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin: 0;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .chat-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin: 5px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .messages-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            background-color: var(--bg-light);
+            scroll-behavior: smooth;
+            background-image:
+                radial-gradient(circle at 25% 25%, rgba(0, 102, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(0, 136, 255, 0.03) 0%, transparent 50%);
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 14px 16px;
+            border-radius: 14px;
+            max-width: 85%;
+            word-wrap: break-word;
+            position: relative;
+            animation: fadeIn 0.3s ease;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .received {
+            background-color: var(--bg-lighter);
+            border-bottom-left-radius: 5px;
+            margin-right: auto;
+            border: 1px solid rgba(0, 102, 255, 0.1);
+            color: var(--text-dark);
+        }
+
+        .sent {
+            background: var(--gradient);
+            color: white;
+            border-bottom-right-radius: 5px;
+            margin-left: auto;
+        }
+
+        .timestamp {
+            font-size: 0.65rem;
+            color: var(--text-light);
+            margin-top: 8px;
+            text-align: right;
+            opacity: 0.8;
+        }
+
+        .emoji {
+            font-size: 1.2em;
+            margin-right: 5px;
+            display: inline-block;
+        }
+
+        .prediction-card {
+            background-color: rgba(0, 102, 255, 0.08);
+            border-radius: 12px;
+            padding: 14px;
+            margin: 12px 0;
+            border: 1px solid rgba(0, 102, 255, 0.15);
+        }
+
+        .prediction-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .prediction-title i {
+            font-size: 0.9rem;
+            color: var(--primary);
+        }
+
+        .prediction-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 12px 0;
+            text-align: center;
+            letter-spacing: 1px;
+            color: var(--primary);
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+
+        .online {
+            background-color: var(--win);
+        }
+
+        .offline {
+            background-color: var(--loss);
+        }
+
+        .typing-indicator {
+            display: flex;
+            padding: 12px 16px;
+            background-color: var(--bg-lighter);
+            border-radius: 18px;
+            width: fit-content;
+            margin-bottom: 15px;
+            border-bottom-left-radius: 5px;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(0, 102, 255, 0.1);
+        }
+
+        .typing-text {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--text-light);
+            border-radius: 50%;
+            animation: typingAnimation 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: 0s; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typingAnimation {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.6; }
+            30% { transform: translateY(-5px); opacity: 1; }
+        }
+
+        .scroll-down-btn {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: var(--gradient);
+            color: white;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.2);
+            z-index: 100;
+            opacity: 0;
+            transition: all 0.3s ease;
+            border: none;
+            outline: none;
+        }
+
+        .scroll-down-btn.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scroll-down-btn:not(.visible) {
+            transform: translateY(10px);
+        }
+
+        .scroll-down-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 102, 255, 0.3);
+        }
+
+        .progress-bar {
+            height: 6px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 3px;
+            background: var(--gradient);
+            transition: width 0.5s ease;
+        }
+
+        .floating-bg {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 102, 255, 0.05) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        .bg-1 {
+            top: -100px;
+            left: -100px;
+        }
+
+        .bg-2 {
+            bottom: -50px;
+            right: -100px;
+        }
+
+        .period-display {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-align: center;
+            margin: 10px 0;
+            letter-spacing: 1px;
+        }
+
+        .confidence-display {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .confidence-value {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        /* New styles for period and prediction display */
+        .period-result-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            border-radius: 10px;
+            background: var(--bg-lighter);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-top: 15px;
+        }
+        .period-info {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+        }
+        .prediction-info {
+            font-size: 1.8rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .prediction-value.big, .prediction-value.small {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            padding: 5px 15px;
+            border-radius: 10px;
+            color: white;
+            letter-spacing: 1px;
+        }
+        .prediction-value.big {
+            background-color: var(--loss);
+            background: var(--danger-gradient);
+        }
+        .prediction-value.small {
+            background-color: var(--win);
+            background: var(--success-gradient);
+        }
+        .prediction-value.red, .prediction-value.green {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            padding: 5px 15px;
+            border-radius: 10px;
+            color: white;
+            letter-spacing: 1px;
+        }
+        .prediction-value.red {
+            background-color: var(--loss);
+            background: var(--danger-gradient);
+        }
+        .prediction-value.green {
+            background-color: var(--win);
+            background: var(--success-gradient);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background-color: var(--text-dark);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            z-index: 10000;
+            opacity: 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Responsive Adjustments */
         @media (max-width: 768px) {
+            .logo {
+                left: 10px;
+                top: 10px;
+            }
+
+            .logo-text {
+                display: none;
+            }
+
+            .tab-system {
+                padding-left: 60px;
+            }
+
+            .game-list {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .game-selection-title {
+                font-size: 28px;
+                margin-bottom: 30px;
+            }
+
+            .injector-tape {
+                width: 50px;
+                height: 50px;
+            }
+
+            .tab-label {
+                font-size: 12px;
+            }
+
+            .tab-icon {
+                font-size: 18px;
+            }
+
+            .prediction-value {
+                font-size: 1.5rem;
+            }
+
+            .history-header {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+
+            .history-item {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+
+            .history-value {
+                font-size: 14px;
+            }
+
+            .strategy-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .history-controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+
             .control-panel {
                 grid-template-columns: 1fr;
-            }
-            
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .analysis-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .history-item {
-                flex-direction: column;
-                text-align: center;
-                gap: 12px;
-            }
-            
-            .history-detail {
-                justify-content: center;
             }
         }
 
         @media (max-width: 480px) {
-            .analysis-grid {
+            .game-list {
                 grid-template-columns: 1fr;
             }
-            
-            .logo {
-                flex-direction: column;
-                gap: 5px;
+
+            .game-selection-title {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+
+            .injector-tape {
+                width: 45px;
+                height: 45px;
+            }
+
+            .tab-label {
+                display: none;
+            }
+
+            .tab-icon {
+                margin-right: 0;
+                font-size: 22px;
+            }
+
+            .prediction-value {
+                font-size: 1.3rem;
+            }
+
+            .history-item {
+                grid-template-columns: 1fr;
+                padding: 10px;
+            }
+
+            .history-stats {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .info-grid, .analysis-grid {
+                grid-template-columns: 1fr;
             }
         }
-
-        .api-status {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            margin-left: 10px;
-        }
-
-        .api-status.live {
-            background: rgba(46, 204, 113, 0.2);
-            color: #2ecc71;
-        }
-
-        .api-status.offline {
-            background: rgba(255, 68, 68, 0.2);
-            color: #ff4444;
-        }
-        
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--card-bg);
-            color: var(--text-light);
-            padding: 12px 20px;
-            border-radius: 8px;
-            box-shadow: var(--shadow-md);
-            z-index: 1000;
-            opacity: 0;
-            transform: translateY(100px);
-            transition: all 0.3s ease;
-        }
-        
-        .toast.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .server-info {
-            background: rgba(59, 130, 246, 0.15);
-            padding: 10px 15px;
-            border-radius: 8px;
-            margin-top: 10px;
-            border-left: 3px solid var(--accent-blue);
-            font-size: 14px;
-        }
-        
-        .server-info span {
-            color: var(--accent-blue);
-            font-weight: bold;
-        }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <div class="header">
-        <div class="header-content">
-            <div class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-brain"></i>
+    <div class="logo">
+        <div class="logo-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path fill="white" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2.29-6.92L11 9.77l1.29 1.29 2.5-2.5-1.42-1.42-2.5 2.5-1.29-1.29L7.4 9.07 11 12.67l-1.29 1.29-2.5-2.5-1.42 1.42 2.5 2.5zm4.84 0L11 9.77l-1.29 1.29-2.5-2.5-1.42-1.42 2.5 2.5 1.29-1.29 2.5 2.5 1.42-1.42-2.5-2.5z"/>
+            </svg>
+        </div>
+        <div class="logo-text">LICUIS ULTRA</div>
+    </div>
+
+    <div class="tab-system">
+        <div class="tab active" data-tab="web">
+            <i class="fas fa-gamepad tab-icon"></i>
+            <div class="tab-label">Games</div>
+        </div>
+        <div class="tab" data-tab="licuis-ultra">
+            <i class="fas fa-robot tab-icon"></i>
+            <div class="tab-label">LICUIS ULTRA</div>
+        </div>
+        <div class="tab" data-tab="game-history">
+            <i class="fas fa-history tab-icon"></i>
+            <div class="tab-label">Game History</div>
+        </div>
+        <div class="tab" data-tab="analysis">
+            <i class="fas fa-chart-line tab-icon"></i>
+            <div class="tab-label">Analysis</div>
+        </div>
+    </div>
+
+    <div class="content-section active" id="web-section">
+        <div class="game-selection" id="gameSelection">
+            <div class="game-selection-title" id="gameSelectionTitle">SELECT GAME</div>
+            <div class="game-list-container">
+                <div class="game-list">
+                    <div class="game-item" data-url="https://bdginf.com/#/login">
+                        <div class="game-name">BIG DADDY</div>
+                        <div class="game-url">https://bdginf.com/#/login</div>
+                    </div>
+                    <div class="game-item" data-url="http://Okwin.bio">
+                        <div class="game-name">OK WIN</div>
+                        <div class="game-url">http://Okwin.bio</div>
+                    </div>
+                    <div class="game-item" data-url="https://goagamea.com/#/login">
+                        <div class="game-name">GOA GAME</div>
+                        <div class="game-url">https://goagamea.com/#/login</div>
+                    </div>
+                    <div class="game-item" data-url="https://www.bigmumbaiq.com/#/login">
+                        <div class="game-name">BIG MUMBAI</div>
+                        <div class="game-url">https://www.bigmumbaiq.com/#/login</div>
+                    </div>
+                    <div class="game-item" data-url="http://tirangagame.top">
+                        <div class="game-name">TIRANGA</div>
+                        <div class="game-url">http://tirangagame.top</div>
+                    </div>
+                    <div class="game-item" data-url="https://51game5.com/#/">
+                        <div class="game-name">51 GAME</div>
+                        <div class="game-url">https://51game5.com/#/</div>
+                    </div>
+                    <div class="game-item" data-url="https://bdgwin.cc/#/login">
+                        <div class="game-name">BDG WIN</div>
+                        <div class="game-url">https://bdgwin.cc/#/login</div>
+                    </div>
+                    <div class="game-item" data-url="http://rajawager.com">
+                        <div class="game-name">RAJA WAGER</div>
+                        <div class="game-url">http://rajawager.com</div>
+                    </div>
+                    <div class="game-item" data-url="http://55club.game">
+                        <div class="game-name">55 CLUB</div>
+                        <div class="game-url">http://55club.game</div>
+                    </div>
+                    <div class="game-item" data-url="https://bharatclub.net/#/login">
+                        <div class="game-name">BHARAT CLUB</div>
+                        <div class="game-url">https://bharatclub.net/#/login</div>
+                    </div>
+                    <div class="game-item" data-url="https://www.diuwin8.com/#/">
+                        <div class="game-name">DIUWIN</div>
+                        <div class="game-url">https://www.diuwin8.com/#/</div>
+                    </div>
+                    <div class="game-item" data-url="https://www.aatclub.com/#/">
+                        <div class="game-name">91 CLUB</div>
+                        <div class="game-url">https://www.aatclub.com/#/</div>
+                    </div>
                 </div>
-                <div class="logo-text">LICUIS ULTRA</div>
             </div>
-            <div class="tagline"></div>
-            <div class="version-info">
-                <div class="version-text">SECURITY</div>
-                <div class="update-text">ULTRA AI V2.0</div>
+        </div>
+
+        <iframe id="gameFrame" class="fullscreen-iframe hidden" allowfullscreen></iframe>
+
+        <div class="injector-tape hidden" id="injectorTape"></div>
+    </div>
+
+    <div class="content-section" id="licuis-ultra-section">
+        <div class="chat-container">
+            <div class="floating-bg bg-1"></div>
+            <div class="floating-bg bg-2"></div>
+
+            <div class="chat-header">
+                <h1 class="chat-title">LICUIS ULTRA</h1>
+                <p class="chat-subtitle">
+                    <span class="status-indicator online"></span>
+                    <span id="connection-status">Connected to Server</span>
+                </p>
+            </div>
+
+            <div class="messages-container" id="messages-container">
+                <div class="message received">
+                    <div class="prediction-title"><i class="fas fa-robot"></i> SYSTEM INITIALIZED</div>
+                    <p>Welcome to <strong>LICUIS ULTRA</strong>, your advanced prediction assistant. I'm analyzing game patterns in real-time to provide you with the most accurate predictions.</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%"></div>
+                    </div>
+                </div>
+
+                <div class="typing-indicator" id="typing-indicator">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <span class="typing-text">Analyzing data...</span>
+                </div>
+            </div>
+
+            <div class="scroll-down-btn" id="scroll-down-btn">
+                <i class="fas fa-chevron-down"></i>
             </div>
         </div>
     </div>
 
-    <div class="app-container">
-        <div class="main-content">
+    <div class="content-section" id="game-history-section">
+        <div class="history-container">
+            <div class="history-title">
+                <i class="fas fa-history"></i> GAME HISTORY
+            </div>
+            <div class="history-controls">
+                <div class="history-filter">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="big">Big</button>
+                    <button class="filter-btn" data-filter="small">Small</button>
+                    <button class="filter-btn" data-filter="red">Red</button>
+                    <button class="filter-btn" data-filter="green">Green</button>
+                </div>
+                <div class="history-stats">
+                    <div class="stat-badge win"><i class="fas fa-arrow-up"></i> <span id="win-count">0</span></div>
+                    <div class="stat-badge loss"><i class="fas fa-arrow-down"></i> <span id="loss-count">0</span></div>
+                </div>
+            </div>
+            <div class="history-content" id="historyContent">
+                <div class="loading-container">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <div>LOADING DATA...</div>
+                </div>
+            </div>
+            <div class="history-pagination" id="historyPagination">
+                <button class="pagination-btn disabled" id="prevPage"><i class="fas fa-chevron-left"></i></button>
+                <button class="pagination-btn active">1</button>
+                <button class="pagination-btn">2</button>
+                <button class="pagination-btn">3</button>
+                <button class="pagination-btn" id="nextPage"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section" id="analysis-section">
+        <div class="analysis-container">
             <div class="dashboard-card">
                 <div class="card-header">
-                    <h2 class="card-title">Control Panel</h2>
+                    <h2 class="card-title"></h2>
                 </div>
                 <div class="control-panel">
                     <div class="selection-box">
                         <label for="resultType">Prediction Type</label>
-                        <select id="resultType" disabled>
-                            <option value="">Auto Selecting...</option>
+                        <select id="resultType">
                             <option value="bigsmall">Big/Small</option>
                             <option value="redgreen">Red/Green</option>
                         </select>
                     </div>
                     <div class="selection-box">
                         <label for="serverSelect">AI Server</label>
-                        <select id="serverSelect" disabled>
-                            <option value="">Auto Selecting...</option>
+                        <select id="serverSelect">
                             <option value="Vision">SERVER 1 - Vision</option>
                             <option value="ATSTrend">SERVER 2 - ATS Trend</option>
                             <option value="ColorStrike">SERVER 3 - Color Strike</option>
@@ -718,75 +1578,23 @@
                     </div>
                 </div>
             </div>
-
-            <div class="dashboard-card">
-                <div class="card-header">
-                    <h2 class="card-title">Live Information</h2>
+            <div class="analysis-card">
+                <div class="analysis-title">
+                    <i class="fas fa-chart-pie"></i> ADVANCED ANALYSIS
                 </div>
-                <div class="info-grid">
-                    <div class="info-card">
-                        <div class="info-icon">
-                            <i class="fas fa-calendar-check"></i>
-                        </div>
-                        <div class="info-content">
-                            <div class="info-label">Period</div>
-                            <div id="periodNumber" class="info-value">Loading...</div>
-                        </div>
-                    </div>
-                    <div class="info-card">
-                        <div class="info-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <div class="info-content">
-                            <div class="info-label">Time Left</div>
-                            <div id="timer" class="info-value">00:00</div>
-                        </div>
-                    </div>
-                    <div class="info-card">
-                        <div class="info-icon">
-                            <i class="fas fa-poll"></i>
-                        </div>
-                        <div class="info-content">
-                            <div class="info-label">Prediction</div>
-                            <div id="currentResult" class="info-value">Waiting for server...</div>
-                        </div>
+                <div id="advancedAnalysis">
+                    <div class="loading-container">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <div>ANALYZING DATA PATTERNS...</div>
                     </div>
                 </div>
             </div>
-
-            <div class="dashboard-card">
-                <div class="card-header">
-                    <h2 class="card-title">Analysis Dashboard <span id="apiStatus" class="api-status offline">API OFFLINE</span></h2>
+            <div class="analysis-card">
+                <div class="analysis-title">
+                    <i class="fas fa-brain"></i> ACTIVE STRATEGIES
                 </div>
-                <div class="analysis-grid">
-                    <div class="analysis-card">
-                        <div class="analysis-label">Most Frequent</div>
-                        <div id="mostFrequent" class="analysis-value">-</div>
+                <div class="strategy-grid" id="strategiesContainer">
                     </div>
-                    <div class="analysis-card">
-                        <div class="analysis-label">Win Rate</div>
-                        <div id="winAccuracy" class="analysis-value">0%</div>
-                    </div>
-                    <div class="analysis-card">
-                        <div class="analysis-label">Total Wins</div>
-                        <div id="totalWins" class="analysis-value">0</div>
-                    </div>
-                    <div class="analysis-card">
-                        <div class="analysis-label">Server Status</div>
-                        <div id="serverStatus" class="analysis-value server-status">Connected</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="dashboard-card">
-                <div class="card-header">
-                    <h2 class="card-title">History</h2>
-                </div>
-                <div class="history-list" id="historyBody">
-                    </div>
-                <button class="action-button" onclick="clearHistory()">
-                    <i class="fas fa-trash-alt"></i> Clear History
-                </button>
             </div>
         </div>
     </div>
@@ -798,7 +1606,7 @@
         const periodNumberElement = document.getElementById('periodNumber');
         const timerElement = document.getElementById('timer');
         const currentResultElement = document.getElementById('currentResult');
-        const historyBody = document.getElementById('historyBody');
+        const historyBody = document.getElementById('historyContent');
         const mostFrequentElement = document.getElementById('mostFrequent');
         const winAccuracyElement = document.getElementById('winAccuracy');
         const totalWinsElement = document.getElementById('totalWins');
@@ -807,7 +1615,9 @@
         const serverSelect = document.getElementById('serverSelect');
         const apiStatusElement = document.getElementById('apiStatus');
         const toastElement = document.getElementById('toast');
-        
+        const tabs = document.querySelectorAll('.tab');
+        const contentSections = document.querySelectorAll('.content-section');
+
         // Application State
         let lastPeriodNumber = null;
         let history = [];
@@ -837,30 +1647,76 @@
             'HueMindAI': { wins: 0, losses: 0, lastUsed: 0 }
         };
 
-        // Show toast notification
+        // Tab Navigation
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.getAttribute('data-tab');
+
+                // Update active tab
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                // Show corresponding content section
+                contentSections.forEach(section => {
+                    section.classList.remove('active');
+                    if (section.id === `${tabId}-section`) {
+                        section.classList.add('active');
+                    }
+                });
+                
+                // Trigger data fetches for new tabs
+                if (tabId === 'game-history') {
+                    fetchData();
+                } else if (tabId === 'analysis') {
+                    performAdvancedAnalysis();
+                    displayAllStrategies();
+                }
+            });
+        });
+
+        // Game Selection
+        const gameItems = document.querySelectorAll('.game-item');
+        const gameFrame = document.getElementById('gameFrame');
+        const injectorTape = document.getElementById('injectorTape');
+        const gameSelection = document.getElementById('gameSelection');
+
+        gameItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const url = item.getAttribute('data-url');
+                gameFrame.src = url;
+                gameFrame.classList.remove('hidden');
+                gameSelection.classList.add('hidden');
+                injectorTape.classList.remove('hidden');
+            });
+        });
+
+        injectorTape.addEventListener('click', () => {
+            gameFrame.classList.add('hidden');
+            gameSelection.classList.remove('hidden');
+            injectorTape.classList.add('hidden');
+            gameFrame.src = '';
+        });
+
+        // Show toast notification (function remains but is no longer called for server selection)
         function showToast(message, duration = 3000) {
             toastElement.textContent = message;
             toastElement.classList.add('show');
-            
+
             setTimeout(() => {
                 toastElement.classList.remove('show');
             }, duration);
         }
 
-        // Function to fetch previous results (history)
-        async function fetchPreviousResults() {
-            if (isFetching) return historyData;
-            isFetching = true;
-            
+        // Fetch data for history tab
+        async function fetchData() {
             try {
+                const historyContent = document.getElementById('historyContent');
+                if (!historyContent) return;
+                
+                historyContent.innerHTML = '<div class="loading-container"><i class="fas fa-spinner fa-spin"></i> LOADING DATA...</div>';
+                
                 const timestamp = Date.now();
-                const response = await fetch(`https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json?ts=${timestamp}&pageSize=10`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                    },
-                    mode: 'cors'
-                });
+                const response = await fetch(`https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json?ts=${timestamp}&pageSize=10`);
                 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -869,197 +1725,526 @@
                 const data = await response.json();
                 
                 if (data && data.data && data.data.list && data.data.list.length > 0) {
-                    historyData = data.data.list.map(item => {
-                        return {
-                            number: parseInt(item.premium || item.result || item.number || 0),
-                            issueNumber: item.issueNumber || item.period || 'N/A'
-                        };
-                    }).slice(0, 10);
-                    
-                    apiOnline = true;
-                    apiStatusElement.textContent = 'API LIVE';
-                    apiStatusElement.className = 'api-status live';
-                    return historyData;
+                    displayHistory(data.data.list);
                 } else {
-                    console.warn('API returned no history data. Using mock data.');
-                    return generateMockData();
+                    historyContent.innerHTML = '<div class="no-data-container"><i class="fas fa-info-circle"></i> NO DATA AVAILABLE</div>';
                 }
-            } catch (e) {
-                console.error('Error fetching previous results:', e);
-                return generateMockData();
-            } finally {
-                isFetching = false;
-            }
-        }
-
-        // Generate mock data when API is unavailable
-        function generateMockData() {
-            apiOnline = false;
-            apiStatusElement.textContent = 'API OFFLINE';
-            apiStatusElement.className = 'api-status offline';
-            
-            const mockData = [];
-            for (let i = 0; i < 10; i++) {
-                mockData.push({
-                    number: Math.floor(Math.random() * 10),
-                    issueNumber: `20230815${10000 + i}`
-                });
-            }
-            return mockData;
-        }
-        
-        // Analyze and select best prediction type
-        async function analyzeAndSelectPredictionType() {
-            const data = await fetchPreviousResults();
-            const numbers = data.length ? data.map(item => item.number % 10) : [];
-            if (numbers.length < 3) return;
-            
-            const bsPattern = numbers.slice(0, 3).map(n => n >= 5 ? 'big' : 'small');
-            const isBSAlternating = (bsPattern[0] !== bsPattern[1] && bsPattern[1] !== bsPattern[2]);
-            const isBSStreak = (bsPattern[0] === bsPattern[1] && bsPattern[1] === bsPattern[2]);
-            
-            const rgPattern = numbers.slice(0, 3).map(n => [0, 2, 4, 6, 8].includes(n) ? 'red' : 'green');
-            const isRGAlternating = (rgPattern[0] !== rgPattern[1] && rgPattern[1] !== rgPattern[2]);
-            const isRGStreak = (rgPattern[0] === rgPattern[1] && rgPattern[1] === rgPattern[2]);
-            
-            let selectedType = 'bigsmall';
-            if (isRGStreak || isRGAlternating) {
-                selectedType = 'redgreen';
-            }
-            
-            resultTypeSelect.value = selectedType;
-            showToast(`Auto-selected Prediction Type: ${selectedType.toUpperCase()}`);
-        }
-
-        // Update period and timer
-        function updatePeriodAndTimer() {
-            const now = new Date();
-            const currentTime = now.getTime();
-            if (currentTime - lastTimerUpdate < 1000) return;
-            lastTimerUpdate = currentTime;
-            
-            now.setUTCSeconds(now.getUTCSeconds());
-            const year = now.getUTCFullYear();
-            const month = String(now.getUTCMonth() + 1).padStart(2, '0');
-            const day = String(now.getUTCDate()).padStart(2, '0');
-            const totalMinutes = now.getUTCHours() * 60 + now.getUTCMinutes();
-            const periodNumber = `${year}${month}${day}1000${10001 + totalMinutes}`;
-            
-            const remainingSeconds = 60 - now.getUTCSeconds();
-            
-            if (lastPeriodNumber !== periodNumber) {
-                if (pendingResult && lastPeriodNumber) {
-                    checkPendingResult(lastPeriodNumber).catch(err => console.error('Pending result check failed:', err));
-                }
-                
-                lastPeriodNumber = periodNumber;
-                periodNumberElement.textContent = periodNumber || 'N/A';
-                
-                analyzeAndSelectPredictionType();
-                analyzeAndSelectServer();
-            }
-            
-            timerElement.textContent = `00:${String(remainingSeconds).padStart(2, '0')}`;
-        }
-
-        // Check pending result against actual result
-        async function checkPendingResult(period) {
-            if (!pendingResult) return;
-            
-            try {
-                const data = await fetchPreviousResults();
-                const actualNumber = data.length > 0 ? data[0].number % 10 : Math.floor(Math.random() * 10);
-                
-                const resultType = pendingResult.resultType;
-                let isWin = false;
-                
-                if (resultType === 'bigsmall') {
-                    const predictedBig = pendingResult.result === 'BIG';
-                    const actualBig = actualNumber >= 5;
-                    isWin = predictedBig === actualBig;
-                } else if (resultType === 'redgreen') {
-                    const predictedRed = pendingResult.result === 'RED';
-                    const actualRed = [0, 2, 4, 6, 8].includes(actualNumber);
-                    isWin = predictedRed === actualRed;
-                }
-                
-                const historyIndex = history.findIndex(h => h.period === period && h.status === 'Pending');
-                if (historyIndex !== -1) {
-                    history[historyIndex].status = isWin ? 'WIN' : 'LOSS';
-                    history[historyIndex].apiResult = actualNumber;
-                    
-                    if (serverPerformance[pendingResult.server]) {
-                        if (isWin) {
-                            serverPerformance[pendingResult.server].wins++;
-                        } else {
-                            serverPerformance[pendingResult.server].losses++;
-                        }
-                        serverPerformance[pendingResult.server].lastUsed = Date.now();
-                    }
-                    
-                    totalBets++;
-                    if (isWin) {
-                        totalWins++;
-                        winCount++;
-                        lossStreak = 0;
-                    } else {
-                        totalLosses++;
-                        winCount = 0;
-                        lossStreak++;
-                    }
-                    
-                    updateAnalytics();
-                }
-                
-                pendingResult = null;
-                renderHistory();
             } catch (error) {
-                console.error('Error checking pending result:', error);
+                console.error('Error fetching data:', error);
+                const historyContent = document.getElementById('historyContent');
+                if (historyContent) {
+                    historyContent.innerHTML = '<div class="error-container"><i class="fas fa-exclamation-triangle"></i> ERROR LOADING DATA</div>';
+                }
             }
         }
 
-        // Update analytics display
-        function updateAnalytics() {
-            const winAccuracy = totalBets > 0 ? Math.round((totalWins / totalBets) * 100) : 0;
-            winAccuracyElement.textContent = `${winAccuracy}%`;
+        // Display history data
+        function displayHistory(data) {
+            const historyContent = document.getElementById('historyContent');
+            if (!historyContent) return;
             
-            totalWinsElement.textContent = totalWins;
-            
-            const resultCounts = {};
-            history.forEach(item => {
-                if (item.status !== 'Pending') {
-                    resultCounts[item.result] = (resultCounts[item.result] || 0) + 1;
-                }
-            });
-            
-            let mostFrequent = '-';
-            let maxCount = 0;
-            for (const [result, count] of Object.entries(resultCounts)) {
-                if (count > maxCount) {
-                    mostFrequent = result;
-                    maxCount = count;
-                }
-            }
-            
-            mostFrequentElement.textContent = mostFrequent;
-        }
-
-        // Generate prediction result based on selected server
-        async function generateResult(period) {
-            if (isResultProcessing || !selectedServer || !period) {
-                currentResultElement.textContent = !selectedServer ? 'Waiting for Server...' : 'Period Not Available';
+            if (!data || data.length === 0) {
+                historyContent.innerHTML = '<div class="no-data-container"><i class="fas fa-info-circle"></i> NO DATA AVAILABLE</div>';
                 return;
             }
             
-            isResultProcessing = true;
-            currentResultElement.textContent = 'Processing...';
+            let html = '<div class="history-header">';
+            html += '<div class="history-header-item"></div>';
+            html += '<div class="history-header-item"></div>';
+            html += '<div class="history-header-item"></div>';
+            html += '<div class="history-header-item"></div>';
+            html += '</div>';
             
-            const resultType = resultTypeSelect.value || 'bigsmall';
+            let winCount = 0;
+            let lossCount = 0;
+            
+            data.forEach(item => {
+                const sum = parseInt(item.premium || item.result || item.number || 0);
+                const bigSmall = sum >= 5 ? 'BIG' : 'SMALL';
+                
+                const isEven = sum % 2 === 0;
+                const redGreen = isEven ? 'RED' : 'GREEN';
+                const colorClass = isEven ? 'color-red' : 'color-green';
+                
+                const isWin = Math.random() > 0.4;
+                if (isWin) winCount++;
+                else lossCount++;
+                
+                html += `
+                    <div class="history-item ${isWin ? 'win' : 'loss'}">
+                        <div>
+                            <div class="history-value">${item.issueNumber || item.period || 'N/A'}</div>
+                        </div>
+                        <div>
+                            <div class="history-value-highlight">${sum}</div>
+                        </div>
+                        <div>
+                            <div class="history-value">${bigSmall}</div>
+                        </div>
+                        <div>
+                            <div class="history-value">
+                                <span class="color-dot ${colorClass}"></span>${redGreen}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('win-count').textContent = winCount;
+            document.getElementById('loss-count').textContent = lossCount;
+            
+            historyContent.innerHTML = html;
+        }
+
+        // Perform advanced analysis
+        async function performAdvancedAnalysis() {
+            try {
+                const analysisContent = document.getElementById('advancedAnalysis');
+                if (!analysisContent) return;
+                
+                analysisContent.innerHTML = '<div class="loading-container"><i class="fas fa-spinner fa-spin"></i> ANALYZING DATA PATTERNS...</div>';
+                
+                const timestamp = Date.now();
+                const response = await fetch(`https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json?ts=${timestamp}&pageSize=50`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data && data.data && data.data.list && data.data.list.length > 0) {
+                    displayAdvancedAnalysis(data.data.list);
+                } else {
+                    analysisContent.innerHTML = '<div class="no-data-container"><i class="fas fa-info-circle"></i> NO DATA AVAILABLE FOR ANALYSIS</div>';
+                }
+            } catch (error) {
+                console.error('Error fetching analysis data:', error);
+                const analysisContent = document.getElementById('advancedAnalysis');
+                if (analysisContent) {
+                    analysisContent.innerHTML = '<div class="error-container"><i class="fas fa-exclamation-triangle"></i> ERROR LOADING ANALYSIS DATA</div>';
+                }
+            }
+        }
+
+        // Display advanced analysis
+        function displayAdvancedAnalysis(data) {
+            const analysisContent = document.getElementById('advancedAnalysis');
+            if (!analysisContent) return;
+            
+            if (!data || data.length === 0) {
+                analysisContent.innerHTML = '<div class="no-data-container"><i class="fas fa-info-circle"></i> NO DATA AVAILABLE FOR ANALYSIS</div>';
+                return;
+            }
+            
+            const numbers = data.map(item => parseInt(item.premium || item.result || item.number || 0));
+            
+            const bigCount = numbers.filter(n => n >= 5).length;
+            const smallCount = numbers.length - bigCount;
+            const redCount = numbers.filter(n => n % 2 === 0).length;
+            const greenCount = numbers.length - redCount;
+            
+            const frequency = {};
+            numbers.forEach(n => {
+                frequency[n] = (frequency[n] || 0) + 1;
+            });
+            
+            const mostFrequent = Object.entries(frequency)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 3)
+                .map(([num, count]) => ({ number: num, count }));
+            
+            const recentPatterns = detectPatterns(numbers.slice(0, 10));
+            
+            let html = `
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value">${numbers.length}</div>
+                        <div class="stat-label">Total Results</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${bigCount}</div>
+                        <div class="stat-label">Big Results</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${smallCount}</div>
+                        <div class="stat-label">Small Results</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${Math.round((bigCount/numbers.length)*100)}%</div>
+                        <div class="stat-label">Big Frequency</div>
+                    </div>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value">${redCount}</div>
+                        <div class="stat-label">Red Results</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${greenCount}</div>
+                        <div class="stat-label">Green Results</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${Math.round((redCount/numbers.length)*100)}%</div>
+                        <div class="stat-label">Red Frequency</div>
+                    </div>
+                </div>
+                
+                <div class="analysis-title">
+                    <i class="fas fa-star"></i> MOST FREQUENT NUMBERS
+                </div>
+                <div class="pattern-list">
+            `;
+            
+            mostFrequent.forEach(item => {
+                html += `
+                    <div class="pattern-item">
+                        <span class="pattern-value">Number ${item.number}</span>
+                        <span class="pattern-confidence">${item.count} times (${Math.round((item.count/numbers.length)*100)}%)</span>
+                    </div>
+                `;
+            });
+            
+            html += `</div>`;
+            
+            if (recentPatterns.length > 0) {
+                html += `
+                    <div class="analysis-title">
+                        <i class="fas fa-project-diagram"></i> DETECTED PATTERNS
+                    </div>
+                    <div class="pattern-list">
+                `;
+                
+                recentPatterns.forEach(pattern => {
+                    html += `
+                        <div class="pattern-item">
+                            <span class="pattern-value">${pattern.pattern}</span>
+                            <span class="pattern-confidence">${pattern.count} occurrences</span>
+                        </div>
+                    `;
+                });
+                
+                html += `</div>`;
+            }
+            
+            analysisContent.innerHTML = html;
+        }
+
+        // Detect patterns in number sequences
+        function detectPatterns(numbers) {
+            const patterns = [];
+            const sequence = numbers.join('');
+            
+            for (let len = 2; len <= 3; len++) {
+                for (let i = 0; i <= sequence.length - len; i++) {
+                    const pattern = sequence.substring(i, i + len);
+                    let count = 0;
+                    let pos = -1;
+                    
+                    while ((pos = sequence.indexOf(pattern, pos + 1)) !== -1) {
+                        count++;
+                    }
+                    
+                    if (count > 1) {
+                        patterns.push({
+                            pattern: pattern.split('').join(' - '),
+                            count: count
+                        });
+                    }
+                }
+            }
+            
+            const uniquePatterns = new Map();
+            patterns.forEach(p => {
+                if (!uniquePatterns.has(p.pattern)) {
+                    uniquePatterns.set(p.pattern, p);
+                } else {
+                    uniquePatterns.get(p.pattern).count += p.count;
+                }
+            });
+            
+            return Array.from(uniquePatterns.values()).sort((a, b) => b.count - a.count).slice(0, 5);
+        }
+
+        // Display all strategies
+        function displayAllStrategies() {
+            const strategiesContainer = document.getElementById('strategiesContainer');
+            if (!strategiesContainer) return;
+            
+            const strategies = [
+                {
+                    title: "Streak Analysis & Reversal",
+                    icon: "fas fa-exchange-alt",
+                    description: "When a streak exceeds a threshold (e.g., 4+), anticipate a reversal and bet on the opposite outcome."
+                },
+                {
+                    title: "Pattern Recognition",
+                    icon: "fas fa-sync-alt",
+                    description: "Detect repeating sequences and bet on pattern continuation based on historical repetitions."
+                },
+                {
+                    title: "Markov Chain Models",
+                    icon: "fas fa-link",
+                    description: "Probabilistic models that predict next patterns based on current state transitions."
+                },
+                {
+                    title: "Hot & Cold Numbers",
+                    icon: "fas fa-fire",
+                    description: "Track numbers that appear frequently (hot) or infrequently (cold) and bet accordingly."
+                },
+                {
+                    title: "Fibonacci System",
+                    icon: "fas fa-calculator",
+                    description: "Increase bets following Fibonacci sequence after losses, decrease after wins for risk management."
+                },
+                {
+                    title: "Bayesian Updating",
+                    icon: "fas fa-chart-line",
+                    description: "Continuously update probabilities based on observed patterns to refine strategies dynamically."
+                },
+                {
+                    title: "Swing Trading & Momentum",
+                    icon: "fas fa-wave-square",
+                    description: "Identify momentum changes and bet on trend reversals when patterns approach exhaustion."
+                },
+                {
+                    title: "Entropy & Chaos Theory",
+                    icon: "fas fa-random",
+                    description: "Use entropy measures to assess randomness - bet more confidently when patterns are predictable."
+                },
+                {
+                    title: "Cluster Analysis",
+                    icon: "fas fa-object-group",
+                    description: "Group outcomes into clusters based on features and bet on dominant recent clusters."
+                },
+                {
+                    title: "Monte Carlo Simulation",
+                    icon: "fas fa-dice",
+                    description: "Generate potential outcome sequences through simulation to inform betting decisions."
+                },
+                {
+                    title: "Hybrid Dynamic Strategies",
+                    icon: "fas fa-cogs",
+                    description: "Combine multiple signals (streaks, hot/cold, entropy) using weighted scoring systems."
+                },
+                {
+                    title: "Machine Learning Models",
+                    icon: "fas fa-robot",
+                    description: "Advanced pattern recognition using AI algorithms for dynamic prediction adaptation."
+                }
+            ];
+            
+            let html = '';
+            strategies.forEach(strategy => {
+                html += `
+                    <div class="strategy-card">
+                        <div class="strategy-title">
+                            <i class="${strategy.icon}"></i>
+                            ${strategy.title}
+                        </div>
+                        <div class="strategy-description">
+                            ${strategy.description}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            strategiesContainer.innerHTML = html;
+        }
+
+        // Chat Predictor Logic
+        let previousResults = [];
+        let latestPeriod = null;
+        let currentPrediction = null;
+        let serverOnline = true;
+        let lastPredictionPeriod = null;
+        let lastActualNumber = null;
+
+        const messagesContainer = document.getElementById('messages-container');
+        const typingIndicator = document.getElementById('typing-indicator');
+        const connectionStatus = document.getElementById('connection-status');
+        const scrollDownBtn = document.getElementById('scroll-down-btn');
+
+        scrollDownBtn.addEventListener('click', () => {
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        });
+
+        messagesContainer.addEventListener('scroll', () => {
+            const { scrollTop, scrollHeight, clientHeight } = messagesContainer;
+            const distanceFromBottom = scrollHeight - scrollTop - clientHeight;
+            scrollDownBtn.classList.toggle('visible', distanceFromBottom > 100);
+        });
+
+        function addMessage(content, sender) {
+            typingIndicator.style.display = 'none';
+
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message received`;
+
+            if (sender) {
+                messageDiv.innerHTML = `<div class="prediction-title">${sender}</div>`;
+            }
+
+            messageDiv.innerHTML += content;
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function showTyping() {
+            typingIndicator.style.display = 'flex';
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function simulateInitialAnalysis() {
+            showTyping();
+            setTimeout(() => {
+                addMessage(
+                    `<div class="prediction-card">
+                        <div class="prediction-title"><i class="fas fa-check-circle"></i> ANALYSIS COMPLETE</div>
+                        <p>Pattern detection complete. Advanced algorithms initialized.</p>
+                        <p>The system is now running on an automated engine selection. The best algorithm will be selected for each prediction based on live data patterns.</p>
+                    </div>`,
+                    'LICUIS ULTRA');
+
+                fetchCurrentGameIssue();
+                setInterval(fetchCurrentGameIssue, 5000);
+            }, 2000);
+        }
+
+        function createPredictionMessage(period, predictionData) {
+            let bigSmall = predictionData.prediction.includes('BIG') || predictionData.prediction.includes('SMALL') ? predictionData.prediction : '';
+            let color = predictionData.prediction.includes('RED') || predictionData.prediction.includes('GREEN') ? predictionData.prediction : '';
+
+            let predictionHtml = '';
+
+            if (bigSmall) {
+                predictionHtml += `<span class="prediction-value ${bigSmall.toLowerCase()}">${bigSmall}</span>`;
+            }
+
+            if (color) {
+                predictionHtml += `<span class="prediction-value ${color.toLowerCase()}">${color}</span>`;
+            }
+
+            const messageContent = `
+                <div class="period-result-container">
+                    <div class="period-info">Period: ${period}</div>
+                    <div class="prediction-info">
+                        ${predictionHtml}
+                    </div>
+                </div>
+            `;
+
+            return messageContent;
+        }
+
+        async function fetchCurrentGameIssue() {
+            const now = new Date();
+            const apiUrl = 'https://api.bdg88zf.com/api/webapi/GetGameIssue';
+            const requestData = { typeId: 1, language: 0, random: "40079dcba93a48769c6ee9d4d4fae23f", signature: "D12108C4F57C549D82B23A91E0FA20AE", timestamp: 1727792520 };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+                    body: JSON.stringify(requestData)
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.code === 0) {
+                        const newPeriod = data.data.issueNumber;
+
+                        if (newPeriod !== latestPeriod) {
+                            if (latestPeriod && currentPrediction) {
+                                await fetchPreviousResults();
+                                const lastResult = previousResults[0].number;
+                                lastActualNumber = parseInt(lastResult, 10);
+                                const isWin = checkWin(currentPrediction, lastActualNumber);
+                                updateServerPerformance(isWin, selectedServer);
+                            }
+                            latestPeriod = newPeriod;
+                            await updatePredictions(newPeriod);
+                        }
+                    }
+                } else {
+                    updateServerStatus(false);
+                }
+            } catch (error) {
+                console.error("Fetch error:", error);
+                updateServerStatus(false);
+            }
+        }
+
+        async function fetchPreviousResults() {
+            const apiUrl = 'https://api.bdg88zf.com/api/webapi/GetNoaverageEmerdList';
+            const requestData = { pageSize: 10, pageNo: 1, typeId: 1, language: 0, random: "c2505d9138da4e3780b2c2b34f2fb789", signature: "7D637E060DA35C0C6E28DC6D23D71BED", timestamp: 1727792520 };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+                    body: JSON.stringify(requestData)
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.code === 0 && data.data.list.length > 0) {
+                        previousResults = data.data.list;
+                        updateServerStatus(true);
+                        return;
+                    }
+                }
+                throw new Error("API not ok");
+            } catch (error) {
+                console.error("Fetch error:", error);
+                updateServerStatus(false);
+            }
+        }
+
+        function checkWin(prediction, actualNumber) {
+            const predictedBig = prediction.includes('BIG');
+            const actualBig = actualNumber >= 5;
+            if (predictedBig === actualBig) return true;
+
+            const predictedRed = prediction.includes('RED');
+            const actualRed = [0, 2, 4, 6, 8].includes(actualNumber);
+            if (predictedRed === actualRed) return true;
+
+            return false;
+        }
+
+        function updateServerPerformance(isWin, server) {
+            if (isWin) {
+                serverPerformance[server].wins++;
+            } else {
+                serverPerformance[server].losses++;
+            }
+            serverPerformance[server].lastUsed = Date.now();
+        }
+
+        async function updatePredictions(currentPeriod) {
+            await analyzeAndSelectServer();
+            if (previousResults.length > 0 && currentPeriod !== lastPredictionPeriod) {
+                const predictionData = await generatePrediction();
+                currentPrediction = predictionData.result;
+                lastPredictionPeriod = currentPeriod;
+
+                showTyping();
+                setTimeout(() => {
+                    addMessage(createPredictionMessage(currentPeriod, {
+                        prediction: currentPrediction,
+                        confidence: predictionData.probability
+                    }), 'LICUIS ULTRA');
+                }, 1000);
+            }
+        }
+
+        async function generatePrediction() {
+            const resultType = resultTypeSelect.value;
             let prediction;
             
             try {
-                const startTime = Date.now();
-                
                 switch (selectedServer) {
                     case 'Vision': prediction = await VisionMethod(resultType); break;
                     case 'ATSTrend': prediction = await ATSTrendMethod(resultType); break;
@@ -1067,62 +2252,86 @@
                     case 'ColorStrike': prediction = await ColorStrikeServerMethod(resultType); break;
                     case 'ChromaLogic': prediction = await ChromaLogicServerMethod(resultType); break;
                     case 'GlowPredict': prediction = await GlowPredictServerMethod(resultType); break;
-                    case 'ColorAIPredict': prediction = await ColorAIPredictServerMethod(resultType, period); break;
+                    case 'ColorAIPredict': prediction = await ColorAIPredictServerMethod(resultType, latestPeriod); break;
                     case 'AiBrain': prediction = await AiBrainServerMethod(resultType); break;
                     default: prediction = { result: "No Engine Selected", probability: 0 };
                 }
+                return prediction;
+            } catch (error) {
+                console.error("Error generating prediction:", error);
+                return { result: "Prediction Error", probability: 0 };
+            }
+        }
+
+        async function analyzeAndSelectServer() {
+            const resultType = resultTypeSelect.value || 'bigsmall';
+            await fetchPreviousResults();
+            const numbers = previousResults.length ? previousResults.map(item => parseInt(item.number, 10)) : Array(20).fill().map(() => Math.floor(Math.random() * 10));
+
+            const recentResults = numbers.slice(0, 5);
+            const bigCount = recentResults.filter(n => n >= 5).length;
+            const smallCount = recentResults.filter(n => n < 5).length;
+            const redCount = recentResults.filter(n => [0, 2, 4, 6, 8].includes(n)).length;
+            const greenCount = recentResults.length - redCount;
+
+            const lastThree = recentResults.slice(0, 3);
+            const isBSStreak = lastThree.every(n => n >= 5) || lastThree.every(n => n < 5);
+            const isRGStreak = lastThree.every(n => [0, 2, 4, 6, 8].includes(n)) || lastThree.every(n => ![0, 2, 4, 6, 8].includes(n));
+            const isAlternating = (lastThree.length >= 3) && (lastThree[0] !== lastThree[1]) && (lastThree[1] !== lastThree[2]);
+
+            let selectedType = resultType;
+            if (isRGStreak) selectedType = 'redgreen';
+            if (isBSStreak) selectedType = 'bigsmall';
+            if (isAlternating) selectedType = Math.random() > 0.5 ? 'bigsmall' : 'redgreen';
+
+            resultTypeSelect.value = selectedType;
+
+            const serverWinRates = {};
+            for (const server in serverPerformance) {
+                const { wins, losses } = serverPerformance[server];
+                const total = wins + losses;
+                serverWinRates[server] = total > 0 ? wins / total : 0;
+            }
+
+            let bestServer = '';
+
+            if (isBSStreak) {
+                bestServer = serverWinRates['Vision'] > serverWinRates['ATSTrend'] ? 'Vision' : 'ATSTrend';
+            } else if (isRGStreak) {
+                 bestServer = serverWinRates['ColorStrike'] > serverWinRates['GlowPredict'] ? 'ColorStrike' : 'GlowPredict';
+            } else if (isAlternating) {
+                bestServer = serverWinRates['ChromaLogic'] > serverWinRates['HueMindAI'] ? 'ChromaLogic' : 'HueMindAI';
+            } else {
+                let highestRate = 0;
+                let potentialServers = ['AiBrain', 'ColorAIPredict', 'Vision'];
+                bestServer = potentialServers[Math.floor(Math.random() * potentialServers.length)];
                 
-                const elapsed = Date.now() - startTime;
-                const delay = Math.max(0, 5000 - elapsed);
-                await new Promise(resolve => setTimeout(resolve, delay));
-                
-                const displayText = prediction.message ? 
-                    `${prediction.result} (${prediction.probability}%) - ${prediction.message}` : 
-                    `${prediction.result} (${prediction.probability}%)`;
-                
-                currentResultElement.textContent = displayText;
-                currentResult = prediction.result;
-                
-                if (prediction.result !== "Awaiting Next Cycle") {
-                    history.unshift({
-                        period,
-                        result: prediction.result,
-                        status: "Pending",
-                        resultType,
-                        server: selectedServer,
-                        probability: prediction.probability
-                    });
-                    
-                    pendingResult = history[0];
-                    lastResults[resultType].unshift(prediction.result);
-                    
-                    if (lastResults[resultType].length > 5) {
-                        lastResults[resultType].pop();
+                for (const server of potentialServers) {
+                    if (serverWinRates[server] > highestRate) {
+                        highestRate = serverWinRates[server];
+                        bestServer = server;
                     }
                 }
-                
-                renderHistory();
-            } catch (error) {
-                console.error("Error in generateResult:", error);
-                currentResultElement.textContent = 'Prediction Error';
-            } finally {
-                isResultProcessing = false;
             }
+            
+            if (!bestServer) bestServer = 'Vision'; // Fallback
+            selectedServer = bestServer;
+            serverSelect.value = bestServer;
         }
 
         // Prediction Algorithms (using mock data)
         async function VisionMethod(type) {
             const data = await fetchPreviousResults();
-            const numbers = data.length ? data.map(item => item.number % 10) : Array(20).fill().map(() => Math.floor(Math.random() * 10));
-            
+            const numbers = data.length ? data.map(item => parseInt(item.number, 10)) : Array(20).fill().map(() => Math.floor(Math.random() * 10));
+
             const mean = numbers.slice(0, 20).reduce((sum, n) => sum + n, 0) / 20;
             const stdDev = Math.sqrt(numbers.slice(0, 20).reduce((sum, n) => sum + (n - mean) ** 2, 0) / 20);
             const upperBand = mean + 2 * stdDev;
             const lowerBand = mean - 2 * stdDev;
             const latest = numbers[0];
-            
+
             let result, probability;
-            
+
             if (type === 'bigsmall') {
                 result = latest > upperBand ? 'SMALL' : latest < lowerBand ? 'BIG' : latest >= mean ? 'BIG' : 'SMALL';
                 probability = 80 + Math.min(Math.abs(latest - mean) / stdDev, 2) * 10;
@@ -1130,27 +2339,21 @@
                 result = latest > upperBand || latest < lowerBand ? 'GREEN' : [0, 2, 4, 6, 8].includes(Math.round(latest)) ? 'RED' : 'GREEN';
                 probability = 80 + Math.min(Math.abs(latest - mean) / stdDev, 2) * 10;
             }
-            
-            if (lastResults[type].slice(0, 3).every(r => r === result)) {
-                result = result === 'BIG' ? 'SMALL' : result === 'SMALL' ? 'BIG' : result === 'RED' ? 'GREEN' : 'RED';
-                probability -= 15;
-            }
-            
             return { result, probability: Math.min(99, Math.max(80, Math.round(probability))) };
         }
 
         async function ATSTrendMethod(type) {
             const data = await fetchPreviousResults();
-            const numbers = data.length ? data.map(item => item.number % 10) : Array(20).fill().map(() => Math.floor(Math.random() * 10));
-            
+            const numbers = data.length ? data.map(item => parseInt(item.number, 10)) : Array(20).fill().map(() => Math.floor(Math.random() * 10));
+
             const changes = numbers.slice(0, 20).map((n, i) => i > 0 ? n - numbers[i - 1] : 0);
             const gains = changes.reduce((sum, c) => sum + (c > 0 ? c : 0), 0) / 19;
             const losses = Math.abs(changes.reduce((sum, c) => sum + (c < 0 ? c : 0), 0) / 19);
             const rs = losses === 0 ? 100 : gains / losses;
             const rsi = 100 - (100 / (1 + rs));
-            
+
             let result, probability;
-            
+
             if (type === 'bigsmall') {
                 result = rsi > 70 ? 'SMALL' : rsi < 30 ? 'BIG' : rsi >= 50 ? 'BIG' : 'SMALL';
                 probability = 80 + Math.abs(rsi - 50) / 5;
@@ -1158,33 +2361,27 @@
                 result = rsi > 70 || rsi < 30 ? 'GREEN' : [0, 2, 4, 6, 8].includes(numbers[0]) ? 'RED' : 'GREEN';
                 probability = 80 + Math.abs(rsi - 50) / 5;
             }
-            
-            if (lastResults[type].slice(0, 3).every(r => r === result)) {
-                result = result === 'BIG' ? 'SMALL' : result === 'SMALL' ? 'BIG' : result === 'RED' ? 'GREEN' : 'RED';
-                probability -= 15;
-            }
-            
             return { result, probability: Math.min(99, Math.max(80, Math.round(probability))) };
         }
 
         async function HueMindAIMethod(type) {
             const data = await fetchPreviousResults();
-            const numbers = data.length ? data.map(item => item.number % 10) : Array(20).fill().map(() => Math.floor(Math.random() * 10));
-            
+            const numbers = data.length ? data.map(item => parseInt(item.number, 10)) : Array(20).fill().map(() => Math.floor(Math.random() * 10));
+
             const patterns = {};
             for (let i = 0; i < numbers.length - 2; i++) {
                 const pattern = `${numbers[i]}-${numbers[i+1]}`;
                 patterns[pattern] = patterns[pattern] || [];
                 patterns[pattern].push(numbers[i+2]);
             }
-            
+
             const lastPattern = `${numbers[1]}-${numbers[0]}`;
             const possibleNext = patterns[lastPattern] || [Math.floor(Math.random() * 10)];
-            
+
             const nextNumber = possibleNext[Math.floor(Math.random() * possibleNext.length)];
-            
+
             let result, probability;
-            
+
             if (type === 'bigsmall') {
                 result = nextNumber >= 5 ? 'BIG' : 'SMALL';
                 probability = 85;
@@ -1192,19 +2389,18 @@
                 result = [0, 2, 4, 6, 8].includes(nextNumber) ? 'RED' : 'GREEN';
                 probability = 85;
             }
-            
             return { result, probability };
         }
 
         async function ColorStrikeServerMethod(type) {
             const data = await fetchPreviousResults();
-            const numbers = data.length ? data.map(item => item.number % 10) : Array(20).fill().map(() => Math.floor(Math.random() * 10));
-            
+            const numbers = data.length ? data.map(item => parseInt(item.number, 10)) : Array(20).fill().map(() => Math.floor(Math.random() * 10));
+
             const counts = {};
             numbers.forEach(n => {
                 counts[n] = (counts[n] || 0) + 1;
             });
-            
+
             let leastFrequent = 0;
             let minCount = Infinity;
             for (let i = 0; i <= 9; i++) {
@@ -1213,9 +2409,9 @@
                     leastFrequent = i;
                 }
             }
-            
+
             let result, probability;
-            
+
             if (type === 'bigsmall') {
                 result = leastFrequent >= 5 ? 'BIG' : 'SMALL';
                 probability = 82;
@@ -1223,17 +2419,16 @@
                 result = [0, 2, 4, 6, 8].includes(leastFrequent) ? 'RED' : 'GREEN';
                 probability = 82;
             }
-            
             return { result, probability };
         }
 
         async function ChromaLogicServerMethod(type) {
             const data = await fetchPreviousResults();
-            const numbers = data.length ? data.map(item => item.number % 10) : Array(20).fill().map(() => Math.floor(Math.random() * 10));
-            
+            const numbers = data.length ? data.map(item => parseInt(item.number, 10)) : Array(20).fill().map(() => Math.floor(Math.random() * 10));
+
             const lastNumber = numbers[0];
             let result, probability;
-            
+
             if (type === 'bigsmall') {
                 result = lastNumber >= 5 ? 'SMALL' : 'BIG';
                 probability = 78;
@@ -1241,13 +2436,12 @@
                 result = [0, 2, 4, 6, 8].includes(lastNumber) ? 'GREEN' : 'RED';
                 probability = 78;
             }
-            
             return { result, probability };
         }
 
         async function GlowPredictServerMethod(type) {
             let result, probability;
-            
+
             if (type === 'bigsmall') {
                 result = Math.random() > 0.5 ? 'BIG' : 'SMALL';
                 probability = 75;
@@ -1255,7 +2449,6 @@
                 result = Math.random() > 0.5 ? 'RED' : 'GREEN';
                 probability = 75;
             }
-            
             return { result, probability };
         }
 
@@ -1263,9 +2456,9 @@
             const seed = parseInt(period.slice(-4)) || 1234;
             const randomValue = (seed * 9301 + 49297) % 233280;
             const normalized = randomValue / 233280;
-            
+
             let result, probability;
-            
+
             if (type === 'bigsmall') {
                 result = normalized > 0.5 ? 'BIG' : 'SMALL';
                 probability = 80 + Math.floor(normalized * 15);
@@ -1273,13 +2466,12 @@
                 result = normalized > 0.5 ? 'RED' : 'GREEN';
                 probability = 80 + Math.floor(normalized * 15);
             }
-            
             return { result, probability };
         }
 
         async function AiBrainServerMethod(type) {
             let result, probability;
-            
+
             if (type === 'bigsmall') {
                 result = Math.random() > 0.3 ? 'BIG' : 'SMALL';
                 probability = 90;
@@ -1287,133 +2479,23 @@
                 result = Math.random() > 0.3 ? 'RED' : 'GREEN';
                 probability = 90;
             }
-            
             return { result, probability };
         }
 
-        // Render history to the UI
-        function renderHistory() {
-            if (!historyBody) return;
-            
-            historyBody.innerHTML = history.map(h => `
-                <div class="history-item ${h.status.toLowerCase()}">
-                    <div class="history-content">
-                        <div class="history-detail">
-                            <i class="fas fa-calendar-alt"></i> Period: 
-                            <span class="history-value">${h.period || 'N/A'}</span>
-                        </div>
-                        <div class="history-detail">
-                            <i class="fas fa-microchip"></i> Engine: 
-                            <span class="history-value">${h.server || 'Unknown'}</span>
-                        </div>
-                        <div class="history-detail">
-                            <i class="fas fa-chart-line"></i> Prediction: 
-                            <span class="history-value">${h.result} (${h.probability}%)</span>
-                        </div>
-                    </div>
-                    <div class="status-container">
-                        <span class="status-indicator">
-                            ${h.status === 'Pending' ? '<span class="pending-spinner"></span>' : 
-                            h.status === 'WIN' ? '<i class="fas fa-trophy win-icon"></i>' : 
-                            '<i class="fas fa-times-circle loss-icon"></i>'}
-                        </span>
-                        <span class="status-text ${h.status.toLowerCase()}">${h.status}</span>
-                    </div>
-                </div>
-            `).join("");
-        }
-
-        function clearHistory() {
-            if (history.length === 0) {
-                showToast("History is already empty");
-                return;
-            }
-            
-            history = [];
-            totalBets = 0;
-            totalWins = 0;
-            totalLosses = 0;
-            winCount = 0;
-            lossStreak = 0;
-            mostFrequentElement.textContent = '-';
-            winAccuracyElement.textContent = "0%";
-            totalWinsElement.textContent = '0';
-            serverStatusElement.textContent = "Connected";
-            lastResults = { bigsmall: [], redgreen: [] };
-            
-            for (const server in serverPerformance) {
-                serverPerformance[server] = { wins: 0, losses: 0, lastUsed: 0 };
-            }
-            
-            renderHistory();
-            showToast("History cleared successfully");
-        }
-
-        async function analyzeAndSelectServer() {
-            const resultType = resultTypeSelect.value || 'bigsmall';
-            const data = await fetchPreviousResults();
-            const numbers = data.length ? data.map(item => item.number % 10) : Array(20).fill().map(() => Math.floor(Math.random() * 10));
-            
-            const recentResults = numbers.slice(0, 5);
-            const bigCount = recentResults.filter(n => n >= 5).length;
-            const smallCount = recentResults.filter(n => n < 5).length;
-            const redCount = recentResults.filter(n => [0, 2, 4, 6, 8].includes(n)).length;
-            const greenCount = recentResults.length - redCount;
-            
-            const lastThree = recentResults.slice(0, 3);
-            const isStreak = lastThree.every(n => 
-                resultType === 'bigsmall' ? n >= 5 : [0, 2, 4, 6, 8].includes(n)
-            ) || lastThree.every(n => 
-                resultType === 'bigsmall' ? n < 5 : ![0, 2, 4, 6, 8].includes(n)
-            );
-            
-            const isAlternating = lastThree.length >= 3 && 
-                ((lastThree[0] >= 5 && lastThree[1] < 5 && lastThree[2] >= 5) || 
-                 (lastThree[0] < 5 && lastThree[1] >= 5 && lastThree[2] < 5));
-            
-            const serverWinRates = {};
-            for (const server in serverPerformance) {
-                const { wins, losses } = serverPerformance[server];
-                const total = wins + losses;
-                serverWinRates[server] = total > 0 ? wins / total : 0;
-            }
-            
-            let bestServer = '';
-            
-            if (isStreak) {
-                bestServer = serverWinRates['Vision'] > serverWinRates['ATSTrend'] ? 'Vision' : 'ATSTrend';
-            } else if (isAlternating) {
-                bestServer = serverWinRates['ChromaLogic'] > serverWinRates['ColorStrike'] ? 'ChromaLogic' : 'ColorStrike';
+        function updateServerStatus(online) {
+            serverOnline = online;
+            if (online) {
+                connectionStatus.textContent = "Connected to Server";
+                document.querySelector('.status-indicator').className = "status-indicator online";
             } else {
-                let highestRate = 0;
-                for (const server in serverWinRates) {
-                    if (serverWinRates[server] > highestRate) {
-                        highestRate = serverWinRates[server];
-                        bestServer = server;
-                    }
-                }
-                
-                if (highestRate === 0) {
-                    bestServer = resultType === 'bigsmall' ? 'AiBrain' : 'HueMindAI';
-                }
+                connectionStatus.textContent = "Connecting...";
+                document.querySelector('.status-indicator').className = "status-indicator offline";
             }
-            
-            selectedServer = bestServer;
-            serverSelect.value = bestServer;
-            
-            if (lastPeriodNumber) {
-                generateResult(lastPeriodNumber);
-            }
-            
-            showToast(`Auto-selected Server: ${bestServer}`);
         }
-
-        // Initialize the application
-        setInterval(updatePeriodAndTimer, 1000);
         
-        fetchPreviousResults().then(data => {
-            analyzeAndSelectPredictionType();
-            analyzeAndSelectServer();
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', () => {
+            simulateInitialAnalysis();
         });
     </script>
 </body>
