@@ -1571,10 +1571,16 @@
                 // Get 1-2 random numbers for the predicted category
                 const predictedNumbers = this.getRandomNumbers(finalPrediction, Math.random() > 0.5 ? 1 : 2);
                 
+                // --- CUSTOM CODE: ALWAYS REVERSE THE PREDICTION ---
+                const reversedPrediction = finalPrediction === 'BIG' ? 'SMALL' : 'BIG';
+                
+                // Get numbers for the reversed prediction
+                const reversedNumbers = this.getRandomNumbers(reversedPrediction, predictedNumbers.length);
+                
                 return {
-                    prediction: finalPrediction,
+                    prediction: reversedPrediction,
                     confidence: confidence,
-                    numbers: predictedNumbers
+                    numbers: reversedNumbers
                 };
             }
 
@@ -2035,15 +2041,15 @@
                 }
                 
                 // Remove duplicates and sort by count
-                const uniquePatterns = [];
-                patterns.forEach(p => {
-                    const existing = uniquePatterns.find(up => up.pattern === p.pattern);
-                    if (!existing) {
-                        uniquePatterns.push(p);
-                    }
-                });
+                const uniquePatterns = new Set(patterns.map(p => p.pattern));
                 
-                return uniquePatterns.sort((a, b) => b.count - a.count).slice(0, 5);
+                return Array.from(uniquePatterns).map(pattern => {
+                    const originalPattern = patterns.find(p => p.pattern === pattern);
+                    return {
+                        pattern: originalPattern.pattern,
+                        count: originalPattern.count
+                    };
+                }).sort((a, b) => b.count - a.count).slice(0, 5);
             }
 
             // Display all strategies
