@@ -267,7 +267,7 @@
 
         .history-header {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
             padding: 15px 20px;
             background: rgba(0, 102, 255, 0.05);
             font-weight: 600;
@@ -277,7 +277,7 @@
 
         .history-item {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
             padding: 15px 20px;
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
             transition: var(--transition);
@@ -995,7 +995,7 @@
         }
 
         .confidence-display {
-            display: flex;
+            display: none;
             justify-content: space-between;
             margin-top: 5px;
             font-size: 0.75rem;
@@ -1218,7 +1218,7 @@
             <div class="tab-label">History</div>
         </div>
         <div class="tab" data-tab="analysis">
-            <div class="tab-icon" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDA2NmZmIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBvbHlnb24gcG9pbnRzPSIxMiAyIDIyIDguNSAyMiAxNS41IDEyIDIyIDIgMTUuNSAyIDguNSAxMiAyIj48L3BvbHlnb24+PGxpbmUgeDE9IjEyIiB5MT0iMjIiIHgyPSIxMiIgeTI9IjE1Ij48L2xpbmU+PHBvbHlsaW5lIHBvaW50cz0iMiA5IDIyIDkiPjwvcG9seWxpbmU+PHBvbHlsaW5lIHBoaW50cz0iMiAxNSAxMiAxNSAxMiAyMiI+PC9wb2x5bGluZT48L3N2Zz4=')"></div>
+            <div class="tab-icon" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDA2NmZmIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBvbHlnb24gcG9pbnRzPSIxMiAyIDIyIDguNSAyMiAxNS41IDEyIDIyIDIgMTUuNSAyIDguNSAxMiAyIj48L3BvbHlnb24+PGxpbmUgeDE9IjEyIiB5MT0iMjIiIHgyPSIxMiIgeTI9IjE1Ij48L2xpbmU+PHBvbHlsaW5lIHBoaW50cz0iMiA5IDIyIDkiPjwvcG9seWxpbmU+PHBvbHlsaW5lIHBoaW50cz0iMiAxNSAxMiAxNSAxMiAyMiI+PC9wb2x5bGluZT48L3N2Zz4=')"></div>
             <div class="tab-label">Analysis</div>
         </div>
     </div>
@@ -1848,11 +1848,10 @@
                 }
                 
                 let html = '<div class="history-header">';
-                html += '<div class="history-header-item">Period</div>';
-                html += '<div class="history-header-item">Result</div>';
-                html += '<div class="history-header-item">Big/Small</div>';
-                html += '<div class="history-header-item">Color</div>';
-                html += '<div class="history-header-item">Time</div>';
+                html += '<div class="history-header-item"></div>';
+                html += '<div class="history-header-item"></div>';
+                html += '<div class="history-header-item"></div>';
+                html += '<div class="history-header-item"></div>';
                 html += '</div>';
                 
                 let winCount = 0;
@@ -1894,9 +1893,6 @@
                                 <div class="history-value">
                                     <span class="color-dot ${colorClass}"></span>${redGreen}
                                 </div>
-                            </div>
-                            <div>
-                                <div class="history-value">${timeStr}</div>
                             </div>
                         </div>
                     `;
