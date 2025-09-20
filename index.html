@@ -1206,7 +1206,7 @@
 
     <div class="tab-system">
         <div class="tab active" data-tab="web">
-            <div class="tab-icon" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDA2NmZmIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTEyIDJjNS41MjMgMCAxMC00LjQ3NyAxMC0xMFMxNy41MjMgMiAxMiAyIDIgNi40NzcgMiAxMnM0LjQ3NyAxMCAxMCAxMHpNMiAxMmgyMCI+PC9wYXRoPjxwYXRoIGQ9Ik0xMiAyYTE1LjMgMTUuMyAwIDAgMSA0IDEwIDE1LjMgMTUuMyAwIDAgMS00IDEwIDE1LjMgMTUuMyAwIDAgMSA0LTEwIDE1LjMgMTUuMyAwIDAgMSA0LTEweiI+PC9wYXRoPjwvc3ZnPg==')"></div>
+            <div class="tab-icon" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDA2NmZmIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTEyIDJjNS41MjMgMCAxMC00LjQ3NyAxMC0xMFMxNy41MjMgMiAxMiAyIDIgNi40NzcgMiAxMnM0LjQ3NyAxMCAxMCAxMHZNMiAxMmgyMCI+PC9wYXRoPjxwYXRoIGQ9Ik0xMiAyYTE1LjMgMTUuMyAwIDAgMSA0IDEwIDE1LjMgMTUuMyAwIDAgMS00IDEwIDE1LjMgMTUuMyAwIDAgMSA0LTEwIDE1LjMgMTUuMyAwIDAgMSA0LTEweiI+PC9wYXRoPjwvc3ZnPg==')"></div>
             <div class="tab-label">Games</div>
         </div>
         <div class="tab" data-tab="predictor">
@@ -1382,11 +1382,11 @@
     </div>
 
     <script>
-        // --- Enhanced AI Prediction System ---
+        // --- Enhanced AI Prediction System with Weighted Voting ---
         class AIPredictionSystem {
             constructor() {
-                this.history = []; // Stores last 100 results (newest first)
-                this.patterns = {}; // Stores identified patterns with high confidence
+                this.history = [];
+                this.patterns = {};
                 this.consecutiveWins = 0;
                 this.consecutiveLosses = 0;
                 this.lastPrediction = null;
@@ -1395,11 +1395,26 @@
                 
                 // Layer 3: Dynamic Weights for Layer 1 sub-models
                 this.weights = {
-                    wma: { weight: 0.4, wins: 0, losses: 0 },
-                    microPatterns: { weight: 0.4, wins: 0, losses: 0 },
-                    momentum: { weight: 0.2, wins: 0, losses: 0 },
+                    wma: { weight: 0.4, wins: 0, losses: 0, accuracy: 0 },
+                    microPatterns: { weight: 0.4, wins: 0, losses: 0, accuracy: 0 },
+                    momentum: { weight: 0.2, wins: 0, losses: 0, accuracy: 0 },
                 };
-
+                
+                // Strategy performance tracking
+                this.strategyPerformance = {
+                    trendFollowing: { wins: 0, losses: 0, streak: 0, accuracy: 0.5 },
+                    reversal: { wins: 0, losses: 0, streak: 0, accuracy: 0.5 },
+                    patternRecognition: { wins: 0, losses: 0, streak: 0, accuracy: 0.5 },
+                    statistical: { wins: 0, losses: 0, streak: 0, accuracy: 0.5 },
+                    momentum: { wins: 0, losses: 0, streak: 0, accuracy: 0.5 },
+                    randomWalk: { wins: 0, losses: 0, streak: 0, accuracy: 0.5 }
+                };
+                
+                // Safe mode and trap detection
+                this.safeMode = false;
+                this.consecutiveSkips = 0;
+                this.lastStrategiesUsed = [];
+                
                 // Load history and state from localStorage if available
                 this.loadFromStorage();
             }
@@ -1416,7 +1431,11 @@
                         this.lastPrediction = data.lastPrediction || null;
                         this.lastActual = data.lastActual || null;
                         this.lastPredictionAccuracy = data.lastPredictionAccuracy || null;
-                        this.weights = data.weights || this.weights; // Load saved weights
+                        this.weights = data.weights || this.weights;
+                        this.strategyPerformance = data.strategyPerformance || this.strategyPerformance;
+                        this.safeMode = data.safeMode || false;
+                        this.consecutiveSkips = data.consecutiveSkips || 0;
+                        this.lastStrategiesUsed = data.lastStrategiesUsed || [];
                     }
                 } catch (e) {
                     console.error('Error loading from storage:', e);
@@ -1433,18 +1452,20 @@
                         lastPrediction: this.lastPrediction,
                         lastActual: this.lastActual,
                         lastPredictionAccuracy: this.lastPredictionAccuracy,
-                        weights: this.weights
+                        weights: this.weights,
+                        strategyPerformance: this.strategyPerformance,
+                        safeMode: this.safeMode,
+                        consecutiveSkips: this.consecutiveSkips,
+                        lastStrategiesUsed: this.lastStrategiesUsed
                     };
                     localStorage.setItem('aiPredictionSystem', JSON.stringify(data));
                 } catch (e) {
                     console.error('Error saving to storage:', e);
                 }
             }
-
+            
             // Data Collection & Management (Kept as is)
             async fetchGameResults(limit = 100) {
-                // In a real implementation, this would fetch from an API
-                // For demonstration, we'll simulate with random data
                 try {
                     const simulatedResults = Array.from({length: limit}, 
                         () => Math.floor(Math.random() * 10));
@@ -1460,215 +1481,299 @@
                 }
             }
 
+            // --- NEW: Weighted Voting System with Multiple Logics ---
+            getAllLogicPredictions(results) {
+                const historicalResults = results.map(n => parseInt(n, 10));
+                
+                const sum = (arr) => arr.reduce((a, b) => a + b, 0);
+
+                // Logic 1: Trend Following
+                const trendPrediction = this.trendFollowingLogic(historicalResults);
+                
+                // Logic 2: Reversal Logic
+                const reversalPrediction = this.reversalLogic(historicalResults);
+                
+                // Logic 3: Pattern Recognition
+                const patternPrediction = this.patternRecognitionLogic(historicalResults);
+                
+                // Logic 4: Statistical Logic
+                const statisticalPrediction = this.statisticalLogic(historicalResults);
+                
+                // Logic 5: Momentum Logic
+                const momentumPrediction = this.momentumLogic(historicalResults);
+                
+                // Logic 6: Random Walk (baseline)
+                const randomPrediction = this.randomWalkLogic(historicalResults);
+                
+                return {
+                    trendFollowing: trendPrediction,
+                    reversal: reversalPrediction,
+                    patternRecognition: patternPrediction,
+                    statistical: statisticalPrediction,
+                    momentum: momentumPrediction,
+                    randomWalk: randomPrediction
+                };
+            }
+            
+            // Individual logic implementations
+            trendFollowingLogic(history) {
+                if (history.length < 5) return { prediction: null, confidence: 0 };
+                
+                const recent = history.slice(0, 5);
+                const trend = recent.reduce((sum, x) => sum + (x > 4.5 ? 1 : -1), 0);
+                const confidence = Math.min(0.9, Math.abs(trend) / 5 * 0.8 + 0.1);
+                return { 
+                    prediction: trend > 0 ? 'BIG' : 'SMALL', 
+                    confidence: confidence 
+                };
+            }
+            
+            reversalLogic(history) {
+                if (history.length < 10) return { prediction: null, confidence: 0 };
+                
+                const recent = history.slice(0, 10);
+                const avgMove = recent.reduce((sum, val) => sum + Math.abs(val - 4.5), 0) / recent.length;
+                const lastMove = recent[0] > 4.5 ? 1 : -1;
+                
+                if (Math.abs(recent[0] - 4.5) > avgMove * 1.5) {
+                    const confidence = Math.min(0.85, Math.abs(recent[0] - 4.5) / (avgMove * 2));
+                    return { 
+                        prediction: lastMove > 0 ? 'SMALL' : 'BIG', 
+                        confidence: confidence 
+                    };
+                }
+                
+                return { prediction: null, confidence: 0.4 };
+            }
+            
+            patternRecognitionLogic(history) {
+                if (history.length < 8) return { prediction: null, confidence: 0 };
+                
+                const window = history.slice(0, 8);
+                const patternHash = window.join(',');
+                
+                if (this.patterns[patternHash]) {
+                    return { 
+                        prediction: this.patterns[patternHash], 
+                        confidence: 0.75 
+                    };
+                }
+                
+                return { prediction: null, confidence: 0.4 };
+            }
+            
+            statisticalLogic(history) {
+                if (history.length < 20) return { prediction: null, confidence: 0 };
+                
+                const data = history;
+                const mean = data.reduce((a, b) => a + b, 0) / data.length;
+                const std = Math.sqrt(data.reduce((sq, n) => sq + Math.pow(n - mean, 2), 0) / data.length);
+                
+                if (std === 0) return { prediction: null, confidence: 0.5 };
+                
+                const zScore = (data[0] - mean) / std;
+                const confidence = Math.min(0.8, Math.abs(zScore) * 0.3);
+                
+                if (zScore > 1) return { prediction: 'SMALL', confidence };
+                if (zScore < -1) return { prediction: 'BIG', confidence };
+                
+                return { prediction: null, confidence: 0.4 };
+            }
+            
+            momentumLogic(history) {
+                if (history.length < 15) return { prediction: null, confidence: 0 };
+                
+                const roc = (history[0] / history[14] - 1) * 100;
+                
+                if (Math.abs(roc) > 5) {
+                    const confidence = Math.min(0.85, Math.abs(roc) / 10);
+                    return { 
+                        prediction: roc > 0 ? 'BIG' : 'SMALL', 
+                        confidence: confidence 
+                    };
+                }
+                
+                return { prediction: null, confidence: 0.4 };
+            }
+            
+            randomWalkLogic() {
+                return { 
+                    prediction: Math.random() > 0.5 ? 'BIG' : 'SMALL', 
+                    confidence: 0.5 
+                };
+            }
+            
+            // --- NEW: Combined Prediction with Weighted Voting ---
+            getCombinedPrediction(results) {
+                const predictions = this.getAllLogicPredictions(results);
+                const votes = { BIG: 0, SMALL: 0 };
+                let totalWeight = 0;
+                let activeStrategies = [];
+                
+                for (const [strategy, data] of Object.entries(predictions)) {
+                    if (data.prediction && data.confidence > 0.5) {
+                        const weight = this.strategyPerformance[strategy].accuracy * data.confidence;
+                        votes[data.prediction] += weight;
+                        totalWeight += weight;
+                        activeStrategies.push(strategy);
+                    }
+                }
+                
+                this.lastStrategiesUsed = activeStrategies;
+                
+                const trapDetected = this.detectTrap(votes, totalWeight);
+                
+                if (trapDetected || totalWeight === 0) {
+                    return { 
+                        prediction: null, 
+                        confidence: 0, 
+                        trap: trapDetected,
+                        strategies: activeStrategies
+                    };
+                }
+                
+                const bigRatio = votes.BIG / totalWeight;
+                const smallRatio = votes.SMALL / totalWeight;
+                const winningPrediction = bigRatio > smallRatio ? 'BIG' : 'SMALL';
+                const confidence = Math.max(bigRatio, smallRatio) * 100;
+                
+                return { 
+                    prediction: winningPrediction, 
+                    confidence: confidence,
+                    trap: false,
+                    strategies: activeStrategies
+                };
+            }
+            
+            // --- NEW: Trap Detection ---
+            detectTrap(votes, totalWeight) {
+                if (totalWeight === 0) return true;
+                
+                const bigRatio = votes.BIG / totalWeight;
+                const smallRatio = votes.SMALL / totalWeight;
+                
+                const agreement = Math.max(bigRatio, smallRatio);
+                return agreement < 0.6;
+            }
+            
+            // --- NEW: Update Strategy Performance ---
+            updateStrategyPerformance(actualOutcome) {
+                for (const strategy of this.lastStrategiesUsed) {
+                    const perf = this.strategyPerformance[strategy];
+                    const wasCorrect = this.getPredictionFromStrategy(strategy) === actualOutcome;
+                    
+                    if (wasCorrect) {
+                        perf.wins++;
+                        perf.streak = Math.max(0, perf.streak) + 1;
+                    } else {
+                        perf.losses++;
+                        perf.streak = Math.min(0, perf.streak) - 1;
+                    }
+                    
+                    const total = perf.wins + perf.losses;
+                    perf.accuracy = total > 0 ? perf.wins / total : 0.5;
+                }
+                
+                if (this.consecutiveLosses >= 2) {
+                    this.safeMode = true;
+                } else if (this.consecutiveWins >= 2) {
+                    this.safeMode = false;
+                }
+            }
+            
+            getPredictionFromStrategy(strategyName) {
+                // This is a placeholder. A real implementation would need to store
+                // the individual predictions from each strategy.
+                if (this.lastPrediction && this.lastPrediction.predictions) {
+                    return this.lastPrediction.predictions[strategyName];
+                }
+                return null;
+            }
+            
+            // --- MODIFIED: Main Prediction Method ---
+            async predict() {
+                if (this.history.length < 25) {
+                    await this.fetchGameResults(100);
+                }
+                
+                const combinedPrediction = this.getCombinedPrediction(this.history);
+                
+                if (this.shouldSkipRound(combinedPrediction)) {
+                    this.consecutiveSkips++;
+                    return { prediction: null, confidence: 0, skipped: true, reason: this.getSkipReason(combinedPrediction) };
+                }
+                
+                this.consecutiveSkips = 0;
+                
+                const oppositePrediction = combinedPrediction.prediction === 'BIG' ? 'SMALL' : 'BIG';
+                const predictedNumbers = this.getRandomNumbers(oppositePrediction, Math.random() > 0.5 ? 1 : 2);
+                
+                this.lastPrediction = {
+                    prediction: oppositePrediction,
+                    source: 'combined',
+                    strategies: combinedPrediction.strategies
+                };
+                
+                return {
+                    prediction: oppositePrediction,
+                    confidence: combinedPrediction.confidence,
+                    numbers: predictedNumbers,
+                    skipped: false,
+                    strategies: combinedPrediction.strategies
+                };
+            }
+            
+            // --- NEW: Skip Round Logic ---
+            shouldSkipRound(prediction) {
+                if (this.safeMode && prediction.confidence < 65) {
+                    return true;
+                }
+                
+                if (prediction.trap) {
+                    return true;
+                }
+                
+                if (prediction.confidence < 55) {
+                    return true;
+                }
+                
+                if (this.consecutiveSkips >= 3) {
+                    return false;
+                }
+                
+                return false;
+            }
+            
+            getSkipReason(prediction) {
+                if (prediction.trap) return "Trap detected - unstable market conditions";
+                if (this.safeMode && prediction.confidence < 65) return "Safe mode active - insufficient confidence";
+                if (prediction.confidence < 55) return "Confidence below threshold";
+                return "Unknown reason";
+            }
+            
+            // --- MODIFIED: Update Prediction Accuracy ---
             updatePredictionAccuracy(prediction, actual) {
                 const wasCorrect = (
                     (prediction === 'BIG' && actual >= 5) || 
                     (prediction === 'SMALL' && actual < 5)
                 );
                 
-                // Layer 3: Log strategy performance and adjust weights
-                if (this.lastPrediction) {
-                    const lastResultIsBig = actual >= 5;
-                    const lastPredictionIsBig = this.lastPrediction.prediction.includes('BIG');
-                    
-                    // REVERSED LOGIC: Win becomes a loss, Loss becomes a win
-                    if (lastPredictionIsBig === lastResultIsBig) {
-                        this.consecutiveLosses++;
-                        this.consecutiveWins = 0;
-                        this.weights[this.lastPrediction.source].losses++;
-                    } else {
-                        this.consecutiveWins++;
-                        this.consecutiveLosses = 0;
-                        this.weights[this.lastPrediction.source].wins++;
-                    }
+                this.updateStrategyPerformance(actual >= 5 ? 'BIG' : 'SMALL');
+                
+                if (wasCorrect) {
+                    this.consecutiveWins++;
+                    this.consecutiveLosses = 0;
+                } else {
+                    this.consecutiveLosses++;
+                    this.consecutiveWins = 0;
                 }
                 
-                // Layer 3: Dynamic Weight Adjustment (REVERSED)
-                for (const key in this.weights) {
-                    const total = this.weights[key].wins + this.weights[key].losses;
-                    if (total > 0) {
-                        // Calculate "reverse accuracy" - how often it was wrong
-                        const reverseAccuracy = this.weights[key].losses / total;
-                        // Reinforce strategies that are consistently wrong
-                        this.weights[key].weight = (this.weights[key].weight * 0.9) + (reverseAccuracy * 0.1);
-                        // Normalize weights to 1
-                        const totalWeight = Object.values(this.weights).reduce((sum, w) => sum + w.weight, 0);
-                        for (const k in this.weights) {
-                            this.weights[k].weight /= totalWeight;
-                        }
-                    }
-                }
-                
-                this.lastPrediction = { prediction: prediction, source: 'combined' };
-                this.lastActual = actual;
-                this.lastPredictionAccuracy = !wasCorrect; // The outcome is the opposite of the prediction
+                this.lastPredictionAccuracy = wasCorrect;
                 this.saveToStorage();
                 
-                return this.lastPredictionAccuracy;
+                return wasCorrect;
             }
 
-            // Layer 1: Pattern Analysis & Trend Identification
-            layer1_predict(results) {
-                const historicalResults = results.map(n => parseInt(n, 10));
-                
-                // A. Weighted Moving Average (WMA) Trend
-                const shortTerm = historicalResults.slice(0, 7);
-                const longTerm = historicalResults.slice(0, 25);
-                
-                const shortWMA = shortTerm.map((n, i) => n * (7 - i)).reduce((a, b) => a + b, 0) / (7 * 8 / 2);
-                const longWMA = longTerm.map((n, i) => n * (25 - i)).reduce((a, b) => a + b, 0) / (25 * 26 / 2);
-                
-                const wmaPrediction = longWMA >= shortWMA ? (shortWMA > 5 ? 'BIG' : 'SMALL') : (longWMA > 5 ? 'BIG' : 'SMALL');
-                let wmaConfidence = Math.abs(longWMA - shortWMA) / 2;
-                
-                // B. Micro-Pattern Recognition
-                let microPatternPrediction = null;
-                let microPatternConfidence = 0;
-                const lastTen = historicalResults.slice(0, 10).map(n => n >= 5 ? 'B' : 'S');
-                const lastThree = lastTen.slice(0, 3).join('');
-                
-                if (lastThree === 'BSB' || lastThree === 'SBS') {
-                    microPatternPrediction = lastThree[0] === 'B' ? 'SMALL' : 'BIG';
-                    microPatternConfidence = 80;
-                } else if (lastThree === 'BBB' || lastThree === 'SSS') {
-                    microPatternPrediction = lastThree[0] === 'B' ? 'SMALL' : 'BIG';
-                    microPatternConfidence = 85;
-                }
-                
-                // C. Momentum Oscillator
-                const bigCount = historicalResults.slice(0, 10).filter(n => n >= 5).length;
-                const smallCount = 10 - bigCount;
-                const momentum = (bigCount / 10) * 100;
-                let momentumPrediction = null;
-                let momentumConfidence = 0;
-                
-                if (momentum > 70) {
-                    momentumPrediction = 'SMALL'; // Reversal due to overextension
-                    momentumConfidence = 70;
-                } else if (momentum < 30) {
-                    momentumPrediction = 'BIG'; // Reversal
-                    momentumConfidence = 70;
-                }
-                
-                // Output of Layer 1
-                const predictions = [
-                    { prediction: wmaPrediction, confidence: wmaConfidence, source: 'wma' },
-                    { prediction: microPatternPrediction, confidence: microPatternConfidence, source: 'microPatterns' },
-                    { prediction: momentumPrediction, confidence: momentumConfidence, source: 'momentum' }
-                ].filter(p => p.prediction);
-                
-                let combinedConfidence = 0;
-                let finalPrediction = 'BIG';
-                
-                if (predictions.length > 0) {
-                    const bigConfidence = predictions.filter(p => p.prediction === 'BIG').reduce((sum, p) => sum + p.confidence * this.weights[p.source].weight, 0);
-                    const smallConfidence = predictions.filter(p => p.prediction === 'SMALL').reduce((sum, p) => sum + p.confidence * this.weights[p.source].weight, 0);
-                    
-                    finalPrediction = bigConfidence > smallConfidence ? 'BIG' : 'SMALL';
-                    combinedConfidence = Math.max(bigConfidence, smallConfidence);
-                } else {
-                    combinedConfidence = 50;
-                }
-                
-                return {
-                    suggested: finalPrediction,
-                    confidence: combinedConfidence,
-                    wma: wmaConfidence,
-                    microPatterns: microPatternConfidence,
-                    momentum: momentumConfidence,
-                };
-            }
-            
-            // Layer 2: Trap Detection & Anomaly Sensing
-            layer2_veto(results) {
-                const historicalResults = results.map(n => parseInt(n, 10));
-                let safetyScore = 'GREEN';
-                let reason = 'Normal conditions.';
-
-                // A. Volatility Spike Detection
-                if (historicalResults.length > 5) {
-                    const variance = historicalResults.slice(0, 5).reduce((sum, n) => sum + (n - 4.5) ** 2, 0) / 5;
-                    if (variance > 8) { // Arbitrary threshold for high volatility
-                        safetyScore = 'YELLOW';
-                        reason = 'High volatility detected.';
-                    }
-                }
-
-                // B. Entropy Measurement
-                const entropy = this.calculateEntropy(historicalResults.slice(0, 10));
-                if (entropy > 0.95) { // High entropy means randomness
-                    safetyScore = 'RED';
-                    reason = 'High entropy (randomness) detected. Assume no pattern exists.';
-                }
-
-                // C. Counter-Trend Clustering
-                const isContrarian = (this.consecutiveLosses > 2 && this.lastPredictionAccuracy === false);
-                if (isContrarian) {
-                    safetyScore = 'YELLOW';
-                    reason = 'Contrarian signal detected after losses. Proceed with caution.';
-                }
-                
-                return { score: safetyScore, reason: reason };
-            }
-
-            // Helper for Entropy calculation
-            calculateEntropy(arr) {
-                const counts = {};
-                arr.forEach(val => counts[val] = (counts[val] || 0) + 1);
-                const probabilities = Object.values(counts).map(count => count / arr.length);
-                return -probabilities.reduce((sum, p) => sum + p * Math.log2(p), 0) / Math.log2(arr.length);
-            }
-
-            // Layer 3 & 4: Main Prediction Orchestration
-            async predict() {
-                if (this.history.length < 25) {
-                    await this.fetchGameResults(100);
-                }
-                
-                const layer1Output = this.layer1_predict(this.history);
-                const layer2Output = this.layer2_veto(this.history);
-                
-                const baseConfidence = layer1Output.confidence;
-                
-                let confidenceThreshold = 55;
-                let prediction = layer1Output.suggested;
-                let finalConfidence = baseConfidence;
-                let source = 'combined';
-
-                // Layer 3: Streak Response Protocol
-                if (this.consecutiveLosses === 1) {
-                    confidenceThreshold = 65; // Cautious Mode
-                } else if (this.consecutiveLosses >= 2) {
-                    confidenceThreshold = 85; // Sure Shot Mode
-                    const allModelsAgree = (layer1Output.wma > 0 && layer1Output.microPatterns > 0 && layer1Output.wma >= 50 && layer1Output.microPatterns >= 50);
-                    if (!allModelsAgree) {
-                        // The previous skipping logic is removed
-                    }
-                }
-                
-                // Force a prediction that is the opposite of the algorithm's actual prediction
-                const oppositePrediction = prediction === 'BIG' ? 'SMALL' : 'BIG';
-                
-                // Final Confidence with REVERSED logic
-                finalConfidence = Math.min(99, finalConfidence + (this.consecutiveWins * 5));
-                
-                // Store the prediction source for Layer 3 logging
-                this.lastPrediction = {
-                    prediction: oppositePrediction,
-                    source: 'combined'
-                };
-                
-                const predictedNumbers = this.getRandomNumbers(oppositePrediction, Math.random() > 0.5 ? 1 : 2);
-                
-                return {
-                    prediction: oppositePrediction,
-                    confidence: finalConfidence,
-                    numbers: predictedNumbers,
-                    skipped: false
-                };
-            }
-
-            // Helper function to generate random numbers for the predicted category
             getRandomNumbers(prediction, count) {
                 const numbers = new Set();
                 const min = prediction === 'BIG' ? 5 : 0;
@@ -2259,8 +2364,16 @@
                 const confidencePercentage = Math.round(predictionData.confidence);
                 const confidenceWidth = `${confidencePercentage}%`;
 
-                // The skipping condition is completely removed from this function as well
-                
+                if (predictionData.skipped) {
+                    return `
+                        <div class="prediction-card">
+                            <div class="prediction-title"><i class="fas fa-eye-slash"></i> SKIPPING ROUND</div>
+                            <p class="skip-message">Skipping period <strong>${latestPeriod}</strong></p>
+                            <p class="skip-reason">Reason: <span>${predictionData.reason}</span></p>
+                        </div>
+                    `;
+                }
+
                 const numbersHTML = `
                     <div class="predicted-numbers">
                         ${predictionData.numbers.map(num => `
@@ -2351,10 +2464,18 @@
                         const lastActualNumber = parseInt(lastResult.number, 10);
                         
                         // If we had a prediction for the last period, update accuracy
-                        if (currentPrediction && currentPrediction.period === lastResult.issueNumber) {
+                        if (currentPrediction && currentPrediction.period && currentPrediction.period === lastResult.issueNumber) {
                              const predictionType = currentPrediction.prediction;
-                             aiPredictionSystem.updatePredictionAccuracy(predictionType, lastActualNumber);
+                             const wasCorrect = aiPredictionSystem.updatePredictionAccuracy(predictionType, lastActualNumber);
+                             
                              addMessage('received', `Last round result for period <strong>${lastResult.issueNumber}</strong>: <strong>${lastActualNumber} (${getBigSmallOutcome(lastActualNumber)})</strong>`, 'SYSTEM');
+                             
+                             const outcomeText = wasCorrect ? 
+                                 `<div class="prediction-title" style="color: var(--win);"><i class="fas fa-trophy"></i> CORRECT PREDICTION</div>` :
+                                 `<div class="prediction-title" style="color: var(--loss);"><i class="fas fa-times"></i> INCORRECT PREDICTION</div>`;
+                             addMessage('received', outcomeText, 'AI EVALUATION');
+                        } else if (currentPrediction && currentPrediction.skipped) {
+
                         }
 
                         // Update AI prediction system history
@@ -2367,6 +2488,7 @@
                         setTimeout(async () => {
                             const predictionData = await aiPredictionSystem.predict();
                             currentPrediction = { ...predictionData, period: latestPeriod };
+                            
                             addMessage('received', createPredictionMessage(currentPrediction), 'LICUIS ULTRA');
                             typingIndicator.style.display = 'none';
                         }, 1000);
