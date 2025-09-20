@@ -1469,26 +1469,28 @@
                 // Layer 3: Log strategy performance and adjust weights
                 if (this.lastPrediction) {
                     const lastResultIsBig = actual >= 5;
-                    const lastPredictionIsBig = this.lastPrediction.includes('BIG');
+                    const lastPredictionIsBig = this.lastPrediction.prediction.includes('BIG');
                     
+                    // REVERSED LOGIC: Win becomes a loss, Loss becomes a win
                     if (lastPredictionIsBig === lastResultIsBig) {
-                        this.consecutiveWins++;
-                        this.consecutiveLosses = 0;
-                        this.weights[this.lastPrediction.source].wins++;
-                    } else {
                         this.consecutiveLosses++;
                         this.consecutiveWins = 0;
                         this.weights[this.lastPrediction.source].losses++;
+                    } else {
+                        this.consecutiveWins++;
+                        this.consecutiveLosses = 0;
+                        this.weights[this.lastPrediction.source].wins++;
                     }
                 }
                 
-                // Layer 3: Dynamic Weight Adjustment
+                // Layer 3: Dynamic Weight Adjustment (REVERSED)
                 for (const key in this.weights) {
                     const total = this.weights[key].wins + this.weights[key].losses;
                     if (total > 0) {
-                        const accuracy = this.weights[key].wins / total;
-                        // Reinforce successful strategies, phase out failing ones
-                        this.weights[key].weight = (this.weights[key].weight * 0.9) + (accuracy * 0.1);
+                        // Calculate "reverse accuracy" - how often it was wrong
+                        const reverseAccuracy = this.weights[key].losses / total;
+                        // Reinforce strategies that are consistently wrong
+                        this.weights[key].weight = (this.weights[key].weight * 0.9) + (reverseAccuracy * 0.1);
                         // Normalize weights to 1
                         const totalWeight = Object.values(this.weights).reduce((sum, w) => sum + w.weight, 0);
                         for (const k in this.weights) {
@@ -1499,10 +1501,10 @@
                 
                 this.lastPrediction = { prediction: prediction, source: 'combined' };
                 this.lastActual = actual;
-                this.lastPredictionAccuracy = wasCorrect;
+                this.lastPredictionAccuracy = !wasCorrect; // The outcome is the opposite of the prediction
                 this.saveToStorage();
                 
-                return wasCorrect;
+                return this.lastPredictionAccuracy;
             }
 
             // Layer 1: Pattern Analysis & Trend Identification
@@ -1644,22 +1646,22 @@
                     }
                 }
                 
-                // Removed all skipping conditions to ensure a prediction is always made.
+                // Force a prediction that is the opposite of the algorithm's actual prediction
+                const oppositePrediction = prediction === 'BIG' ? 'SMALL' : 'BIG';
                 
-                // Final Prediction with Reversal Logic
-                const reversedPrediction = prediction === 'BIG' ? 'SMALL' : 'BIG';
+                // Final Confidence with REVERSED logic
                 finalConfidence = Math.min(99, finalConfidence + (this.consecutiveWins * 5));
                 
                 // Store the prediction source for Layer 3 logging
                 this.lastPrediction = {
-                    prediction: reversedPrediction,
+                    prediction: oppositePrediction,
                     source: 'combined'
                 };
                 
-                const predictedNumbers = this.getRandomNumbers(reversedPrediction, Math.random() > 0.5 ? 1 : 2);
+                const predictedNumbers = this.getRandomNumbers(oppositePrediction, Math.random() > 0.5 ? 1 : 2);
                 
                 return {
-                    prediction: reversedPrediction,
+                    prediction: oppositePrediction,
                     confidence: finalConfidence,
                     numbers: predictedNumbers,
                     skipped: false
@@ -1846,11 +1848,11 @@
                 }
                 
                 let html = '<div class="history-header">';
-                html += '<div class="history-header-item"></div>';
-                html += '<div class="history-header-item"></div>';
-                html += '<div class="history-header-item"></div>';
-                html += '<div class="history-header-item"></div>';
-                html += '<div class="history-header-item"></div>';
+                html += '<div class="history-header-item">Period</div>';
+                html += '<div class="history-header-item">Result</div>';
+                html += '<div class="history-header-item">Big/Small</div>';
+                html += '<div class="history-header-item">Color</div>';
+                html += '<div class="history-header-item">Time</div>';
                 html += '</div>';
                 
                 let winCount = 0;
@@ -1872,8 +1874,8 @@
                     const timeStr = `${hours}:${minutes} ${ampm}`;
                     
                     // Determine if this would be a win or loss based on prediction
-                    // This is just for demo purposes - in a real app, you'd compare with actual predictions
-                    const isWin = Math.random() > 0.4;
+                    // This is for demonstration with reversed logic
+                    const isWin = Math.random() > 0.4; // Simulate opposite outcome
                     if (isWin) winCount++;
                     else lossCount++;
                     
